@@ -1,3 +1,5 @@
+import { Player } from "./classes/player.js";
+
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
@@ -7,6 +9,7 @@ class Game {
   constructor(width, height) {
     this.width = width;
     this.height = height;
+    this.player = new Player(this);
   }
   update() {}
   draw() {}
