@@ -10,7 +10,7 @@ class Game {
   constructor(width, height) {
     this.width = width;
     this.height = height;
-    this.player = new Player(this);
+    this.player = new Player(this, canvas.width / 2, canvas.height / 2);
     this.input = new Input(this);
   }
   update() {
@@ -21,14 +21,28 @@ class Game {
   }
   movment() {
     //player 1
-    if (this.input.p1Keys.d.pressed) {
-      this.player.moveX(2);
-    } else if (this.input.p1Keys.a.pressed) {
-      this.player.moveX(-2);
-    } else if (this.input.p1Keys.w.pressed) {
-      this.player.moveY(-2);
+    let maxSpeed = 2;
+
+    if (
+      (this.input.p1Keys.w.pressed || this.input.p1Keys.s.pressed) &&
+      (this.input.p1Keys.a.pressed || this.input.p1Keys.d.pressed)
+    ) {
+      maxSpeed *= 0.71;
+    }
+    if (this.input.p1Keys.w.pressed) {
+      this.player.moveY(-maxSpeed);
     } else if (this.input.p1Keys.s.pressed) {
-      this.player.moveY(2);
+      this.player.moveY(maxSpeed);
+    } else {
+      this.player.moveY(0);
+    }
+
+    if (this.input.p1Keys.a.pressed) {
+      this.player.moveX(-maxSpeed);
+    } else if (this.input.p1Keys.d.pressed) {
+      this.player.moveX(maxSpeed);
+    } else {
+      this.player.moveX(0);
     }
   }
 }

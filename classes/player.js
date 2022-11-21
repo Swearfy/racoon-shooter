@@ -1,19 +1,23 @@
 export class Player {
-  constructor(game) {
+  constructor(game, x, y) {
     this.game = game;
-    this.x = 50;
-    // this.game.width / 2 - 15;
-    this.y = 50;
+    this.x = x;
+    this.y = y;
+    this.speedX = 0;
+    this.speedY = 0;
   }
-  update() {}
+  update() {
+    this.x += this.speedX;
+    this.y += this.speedY;
+  }
   draw(ctx) {
     ctx.fillStyle = "black";
     ctx.fillRect(this.x, this.y, 30, 30);
   }
-  moveX(dir) {
-    this.x += dir;
+  moveX(x) {
+    this.speedX = x;
   }
-  moveY(dir) {
-    this.y += dir;
+  moveY(y) {
+    this.speedY = y;
   }
 }
