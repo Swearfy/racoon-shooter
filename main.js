@@ -49,24 +49,14 @@ class Game {
 
 const game = new Game(canvas.width, canvas.height);
 
-var then = Date.now();
-var now;
 function animate() {
-  now = Date.now();
-  var difference = now - then;
-  var fps = 144;
-  if (difference > 1000 / fps) {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = "wheat";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.fillStyle = "wheat";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    game.update();
-    game.movment();
-    game.draw(ctx);
-    then = now;
-  }
-
-  requestAnimationFrame(animate);
+  game.movment();
+  game.update();
+  game.draw(ctx);
 }
 
-animate();
+setInterval(animate, 1000 / 60);
