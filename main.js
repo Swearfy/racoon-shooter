@@ -6,6 +6,7 @@ const ctx = canvas.getContext("2d");
 
 canvas.width = 700;
 canvas.height = 700;
+let previouseTime = null;
 class Game {
   constructor(width, height) {
     this.width = width;
@@ -13,8 +14,8 @@ class Game {
     this.player = new Player(this, canvas.width / 2, canvas.height / 2);
     this.input = new Input(this);
   }
-  update() {
-    this.player.update();
+  update(frameTimeDelta) {
+    this.player.update(frameTimeDelta);
   }
   draw(ctx) {
     this.player.draw(ctx);
@@ -49,7 +50,17 @@ class Game {
 
 const game = new Game(canvas.width, canvas.height);
 
-function animate() {
+function animate(currentTime) {
+  if (previouseTime === currentTime) {
+    previouseTime = current;
+    requestAnimationFrame(animate);
+    return;
+  }
+
+  const frameTimeDelta = currentTime - previouseTime;
+  previouseTime = currentTime;
+  console.log(frameTimeDelta);
+
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = "wheat";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -57,6 +68,8 @@ function animate() {
   game.movment();
   game.update();
   game.draw(ctx);
+
+  requestAnimationFrame(animate);
 }
 
-setInterval(animate, 1000 / 60);
+requestAnimationFrame(animate);
