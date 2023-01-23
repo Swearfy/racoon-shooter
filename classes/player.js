@@ -6,9 +6,9 @@ export class Player {
     this.speedX = 0;
     this.speedY = 0;
   }
-  update(frameTimeDelta) {
-    this.x += this.speedX * frameTimeDelta;
-    this.y += this.speedY * frameTimeDelta;
+  update(gameSpeed, frameTimeDelta) {
+    this.x += this.speedX * gameSpeed * frameTimeDelta;
+    this.y += this.speedY * gameSpeed * frameTimeDelta;
   }
   draw(ctx) {
     ctx.fillStyle = "black";

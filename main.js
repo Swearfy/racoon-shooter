@@ -7,6 +7,8 @@ const ctx = canvas.getContext("2d");
 canvas.width = 700;
 canvas.height = 700;
 let previouseTime = null;
+const gameSpeed = 0.2;
+
 class Game {
   constructor(width, height) {
     this.width = width;
@@ -14,8 +16,8 @@ class Game {
     this.player = new Player(this, canvas.width / 2, canvas.height / 2);
     this.input = new Input(this);
   }
-  update(frameTimeDelta) {
-    this.player.update(frameTimeDelta);
+  update(gameSpeed, frameTimeDelta) {
+    this.player.update(gameSpeed, frameTimeDelta);
   }
   draw(ctx) {
     this.player.draw(ctx);
@@ -65,7 +67,7 @@ function animate(currentTime) {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   game.movment();
-  game.update(frameTimeDelta);
+  game.update(gameSpeed, frameTimeDelta);
   game.draw(ctx);
 
   requestAnimationFrame(animate);
