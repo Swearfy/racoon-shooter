@@ -59,14 +59,13 @@ function animate(currentTime) {
 
   const frameTimeDelta = currentTime - previouseTime;
   previouseTime = currentTime;
-  console.log(frameTimeDelta);
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   ctx.fillStyle = "wheat";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   game.movment();
-  game.update();
+  game.update(frameTimeDelta);
   game.draw(ctx);
 
   requestAnimationFrame(animate);
