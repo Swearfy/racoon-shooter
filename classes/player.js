@@ -36,7 +36,6 @@ export class Player {
     } else {
       this.speedX = 0;
     }
-    console.log(this.maxSpeed);
   }
   draw(ctx) {
     ctx.fillStyle = "black";
