@@ -26,7 +26,7 @@ const game = new Game(canvas.width, canvas.height);
 
 function animate(currentTime) {
   if (previouseTime === currentTime) {
-    previouseTime = current;
+    previouseTime = currentTime;
     requestAnimationFrame(animate);
     return;
   }
