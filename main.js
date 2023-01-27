@@ -4,8 +4,8 @@ import { Player } from "./classes/player.js";
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
-canvas.width = 700;
-canvas.height = 700;
+canvas.width = 900;
+canvas.height = 900;
 let previouseTime = null;
 const gameSpeed = 0.2;
 
