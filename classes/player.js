@@ -1,12 +1,18 @@
 import { Input } from "./input.js";
+
+const player = new Image();
+player.src = "/img/ratonstepleftscalefix.png";
+
 export class Player {
-  constructor(game, x, y) {
+  constructor(game) {
     this.game = game;
-    this.x = x;
-    this.y = y;
+    this.x = (game.width - 80) / 2;
+    this.y = (game.height + 80) / 2;
     this.speedX = 0;
     this.speedY = 0;
     this.maxSpeed = 0;
+    this.width = 160;
+    this.height = 160;
     this.input = new Input(this.game);
   }
   update(gameSpeed, frameTimeDelta) {
@@ -38,7 +44,6 @@ export class Player {
     }
   }
   draw(ctx) {
-    ctx.fillStyle = "black";
-    ctx.fillRect(this.x, this.y, 30, 30);
+    ctx.drawImage(player, this.x, this.y);
   }
 }

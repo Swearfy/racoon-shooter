@@ -13,7 +13,7 @@ class Game {
   constructor(width, height) {
     this.width = width;
     this.height = height;
-    this.player = new Player(this, canvas.width / 2, canvas.height / 2);
+    this.player = new Player(this);
     this.map = new Map();
     this.currentLevel = 1;
   }
