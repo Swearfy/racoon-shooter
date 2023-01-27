@@ -16,16 +16,16 @@ const p1Keys = {
 
 //player 2 keys
 const p2Keys = {
-  w: {
+  y: {
     pressed: false,
   },
-  s: {
+  h: {
     pressed: false,
   },
-  a: {
+  g: {
     pressed: false,
   },
-  d: {
+  j: {
     pressed: false,
   },
 };
@@ -34,6 +34,7 @@ export class Input {
   constructor(game) {
     this.game = game;
     this.p1Keys = p1Keys;
+    this.p2Keys = p2Keys;
 
     document.addEventListener("keydown", (e) => {
       switch (e.key) {
@@ -49,6 +50,20 @@ export class Input {
           break;
         case "d":
           this.p1Keys.d.pressed = true;
+          break;
+
+        //player 2
+        case "y":
+          this.p2Keys.y.pressed = true;
+          break;
+        case "h":
+          this.p2Keys.h.pressed = true;
+          break;
+        case "g":
+          this.p2Keys.g.pressed = true;
+          break;
+        case "j":
+          this.p2Keys.j.pressed = true;
           break;
       }
     });
@@ -67,6 +82,20 @@ export class Input {
           break;
         case "d":
           this.p1Keys.d.pressed = false;
+          break;
+
+        //player 2
+        case "y":
+          this.p2Keys.y.pressed = false;
+          break;
+        case "h":
+          this.p2Keys.h.pressed = false;
+          break;
+        case "g":
+          this.p2Keys.g.pressed = false;
+          break;
+        case "j":
+          this.p2Keys.j.pressed = false;
           break;
       }
     });
