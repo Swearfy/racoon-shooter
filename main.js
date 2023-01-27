@@ -8,6 +8,7 @@ canvas.width = 900;
 canvas.height = 900;
 let previouseTime = null;
 const gameSpeed = 0.2;
+
 const level1 = new MapSprite({
   position: {
     x: 0,
