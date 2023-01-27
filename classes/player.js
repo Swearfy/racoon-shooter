@@ -6,13 +6,13 @@ player.src = "/img/ratonstepleftscalefix.png";
 export class Player {
   constructor(game) {
     this.game = game;
-    this.x = (game.width - 80) / 2;
-    this.y = (game.height + 80) / 2;
+    this.x = game.width / 2;
+    this.y = game.height / 2;
     this.speedX = 0;
     this.speedY = 0;
     this.maxSpeed = 0;
-    this.width = 160;
-    this.height = 160;
+    this.width = 120;
+    this.height = 170;
     this.input = new Input(this.game);
   }
   update(gameSpeed, frameTimeDelta) {
@@ -44,6 +44,12 @@ export class Player {
     }
   }
   draw(ctx) {
-    ctx.drawImage(player, this.x, this.y);
+    ctx.drawImage(player, this.x - 60, this.y - 80);
+    ctx.beginPath();
+    ctx.fillStyle = "rgba(0, 255, 0, 0.5)";
+    ctx.arc(this.x, this.y, 45, 0, Math.PI * 2, false);
+    // ctx.fillRect(this.x - 40, this.y - 40, 70, 100);
+    ctx.fi = 0;
+    ctx.fill();
   }
 }
