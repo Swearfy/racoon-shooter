@@ -1,3 +1,4 @@
+import { Map } from "./classes/maps.js";
 import { Player } from "./classes/player.js";
 
 const canvas = document.querySelector("canvas");
@@ -13,11 +14,15 @@ class Game {
     this.width = width;
     this.height = height;
     this.player = new Player(this, canvas.width / 2, canvas.height / 2);
+    this.map = new Map();
+    this.currentLevel = 1;
   }
   update(gameSpeed, frameTimeDelta) {
+    this.map.update(this.currentLevel);
     this.player.update(gameSpeed, frameTimeDelta);
   }
   draw(ctx) {
+    this.map.draw(ctx);
     this.player.draw(ctx);
   }
 }
