@@ -14,15 +14,15 @@ class Game {
     this.width = width;
     this.height = height;
     this.player = new Player(this);
+    this.currentLevel = 2;
     this.map = new Map();
-    this.currentLevel = 1;
   }
   update(gameSpeed, frameTimeDelta) {
     this.map.update(this.currentLevel);
     this.player.update(gameSpeed, frameTimeDelta);
   }
   draw(ctx) {
-    this.map.draw(ctx);
+    this.map.draw(ctx, this.currentLevel);
     this.player.draw(ctx);
   }
 }
