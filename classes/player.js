@@ -28,9 +28,11 @@ export class Player {
     }
 
     if (this.input.p1Keys.w.pressed) {
-      this.speedY = -this.maxSpeed;
+      // this.speedY = -this.maxSpeed;
+      this.game.currentLevel = 1;
     } else if (this.input.p1Keys.s.pressed) {
-      this.speedY = this.maxSpeed;
+      // this.speedY = this.maxSpeed;
+      this.game.currentLevel = 2;
     } else {
       this.speedY = 0;
     }
