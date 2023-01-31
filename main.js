@@ -29,6 +29,7 @@ class Game {
 
 const game = new Game(canvas.width, canvas.height);
 
+//game loop function using delta time to calculate frame time
 function animate(currentTime) {
   if (previouseTime === currentTime) {
     previouseTime = currentTime;
@@ -40,6 +41,7 @@ function animate(currentTime) {
   previouseTime = currentTime;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  //placeholder color
   ctx.fillStyle = "wheat";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
