@@ -13,6 +13,7 @@ export class Player {
     this.maxSpeed = 0;
     this.width = 120;
     this.height = 170;
+    this.radius = 30;
     this.input = new Input(this.game);
   }
   update(gameSpeed, frameTimeDelta) {
@@ -28,10 +29,10 @@ export class Player {
     }
 
     if (this.input.p1Keys.w.pressed) {
-      // this.speedY = -this.maxSpeed;
+      this.speedY = -this.maxSpeed;
       this.game.currentLevel = 1;
     } else if (this.input.p1Keys.s.pressed) {
-      // this.speedY = this.maxSpeed;
+      this.speedY = this.maxSpeed;
       this.game.currentLevel = 2;
     } else {
       this.speedY = 0;
@@ -44,6 +45,16 @@ export class Player {
     } else {
       this.speedX = 0;
     }
+
+    //out of bounds check on x axies
+    if (this.x - this.radius < 0) this.x += this.radius - this.x;
+    if (this.x > this.game.width - this.radius)
+      this.x = this.game.width - this.radius;
+
+    //out of bounds check on y axies
+    if (this.y - this.radius < 0) this.y += this.radius - this.y;
+    if (this.y > this.game.height - this.radius)
+      this.y = this.game.height - this.radius;
   }
   draw(ctx) {
     ctx.drawImage(player, this.x - 60, this.y - 80);
