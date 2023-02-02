@@ -6,7 +6,7 @@ const map2 = new Image();
 map2.src = "/img/ratonstepleftscalefix.png";
 
 // map image and tile map object
-const levels = {
+export const levels = {
   1: {
     image: map1,
     tileMap: Level1Collision,
