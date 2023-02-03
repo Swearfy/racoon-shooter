@@ -17,7 +17,6 @@ export class Player {
     this.hitboxHeight = 100;
     this.speedX = 0;
     this.speedY = 0;
-    this.radius = 30;
 
     this.maxSpeed = 0;
     this.input = new Input(this.game);
