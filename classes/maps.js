@@ -17,8 +17,21 @@ export const levels = {
   },
 };
 
+class redBLock {
+  constructor({ position }) {
+    this.position = position;
+    this.width = 30;
+    this.height = 30;
+  }
+  draw(ctx) {
+    ctx.fillStyle = "red";
+    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+  }
+}
+
 export class Map {
-  constructor() {
+  constructor(game) {
+    this.game = game;
     this.position = {
       x: 0,
       y: 0,
@@ -30,6 +43,7 @@ export class Map {
   draw(ctx, currentLevel) {
     ctx.drawImage(levels[currentLevel].image, 0, 0);
 
+    const tileBlock = [];
     // draw collision based on tile map from mapCollisionData.js or object above
     for (let row = 0; row < levels[currentLevel].tileMap.length; row++) {
       for (
@@ -39,14 +53,19 @@ export class Map {
       ) {
         let tile = levels[currentLevel].tileMap[row][column];
         if (tile === 901) {
-          this.#drawCollision(ctx, column, row);
+          tileBlock.push(
+            new redBLock({
+              position: {
+                x: column * 30,
+                y: row * 30,
+              },
+            })
+          );
         }
       }
     }
-  }
-  #drawCollision(ctx, columm, row) {
-    //private function to draw red rectangles on to the canvas to use for collision
-    ctx.fillStyle = "red";
-    ctx.fillRect(columm * 30, row * 30, 30, 30);
+    tileBlock.forEach((tile) => {
+      tile.draw(ctx);
+    });
   }
 }
