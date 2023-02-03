@@ -12,6 +12,18 @@ const p1Keys = {
   d: {
     pressed: false,
   },
+  ArrowUp: {
+    pressed: false,
+  },
+  ArrowDown: {
+    pressed: false,
+  },
+  ArrowLeft: {
+    pressed: false,
+  },
+  ArrowRight: {
+    pressed: false,
+  },
 };
 
 //player 2 keys
@@ -51,6 +63,18 @@ export class Input {
         case "d":
           this.p1Keys.d.pressed = true;
           break;
+        case "ArrowUp":
+          this.p1Keys.ArrowUp.pressed = true;
+          break;
+        case "ArrowDown":
+          this.p1Keys.ArrowDown.pressed = true;
+          break;
+        case "ArrowLeft":
+          this.p1Keys.ArrowLeft.pressed = true;
+          break;
+        case "ArrowRight":
+          this.p1Keys.ArrowRight.pressed = true;
+          break;
 
         //player 2
         case "y":
@@ -82,6 +106,18 @@ export class Input {
           break;
         case "d":
           this.p1Keys.d.pressed = false;
+          break;
+        case "ArrowUp":
+          this.p1Keys.ArrowUp.pressed = false;
+          break;
+        case "ArrowDown":
+          this.p1Keys.ArrowDown.pressed = false;
+          break;
+        case "ArrowLeft":
+          this.p1Keys.ArrowLeft.pressed = false;
+          break;
+        case "ArrowRight":
+          this.p1Keys.ArrowRight.pressed = false;
           break;
 
         //player 2
