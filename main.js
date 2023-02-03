@@ -1,3 +1,4 @@
+import { BulletController } from "./classes/BulletController.js";
 import { Map } from "./classes/maps.js";
 import { Player } from "./classes/player.js";
 
@@ -13,15 +14,17 @@ class Game {
   constructor(width, height) {
     this.width = width;
     this.height = height;
-    this.player = new Player(this);
     this.currentLevel = 2;
-    this.map = new Map();
+    this.bulletController = new BulletController(this);
+    this.player = new Player(this, 500, 600, this.bulletController);
+    this.map = new Map(this);
   }
   update(gameSpeed, frameTimeDelta) {
     this.map.update(this.currentLevel);
-    this.player.update(gameSpeed, frameTimeDelta);
+    this.player.update(gameSpeed, frameTimeDelta, this.currentLevel);
   }
   draw(ctx) {
+    this.bulletController.draw(ctx);
     this.map.draw(ctx, this.currentLevel);
     this.player.draw(ctx);
   }
