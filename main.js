@@ -1,4 +1,4 @@
-import { BulletController } from "./classes/BulletController.js";
+import { BulletController } from "./classes/bulletController.js";
 import { Map } from "./classes/maps.js";
 import { Player } from "./classes/player.js";
 

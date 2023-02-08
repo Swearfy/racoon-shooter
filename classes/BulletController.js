@@ -1,4 +1,4 @@
-import { Bullet } from "./Bullet.js";
+import { Bullet } from "./bullet.js";
 export class BulletController {
   bullets = [];
   timerTilnext = 0;
