@@ -14,7 +14,7 @@ class Game {
   constructor(width, height) {
     this.width = width;
     this.height = height;
-    this.currentLevel = 2;
+    this.currentLevel = 1;
     this.bulletController = new BulletController(this);
     this.player = new Player(this, 500, 600, this.bulletController);
     this.map = new Map(this);
@@ -24,9 +24,9 @@ class Game {
     this.player.update(gameSpeed, frameTimeDelta, this.currentLevel);
   }
   draw(ctx) {
-    this.bulletController.draw(ctx);
     this.map.draw(ctx, this.currentLevel);
     this.player.draw(ctx);
+    this.bulletController.draw(ctx);
   }
 }
 
