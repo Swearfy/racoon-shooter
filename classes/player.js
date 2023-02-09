@@ -63,7 +63,7 @@ export class Player {
     if (this.hitboxY < 0) this.y = 0 - 40;
     if (this.hitboxY > this.game.height - this.hitboxHeight)
       this.y = this.game.height - this.hitboxHeight - 40;
-    this.shot();
+    this.shot(gameSpeed, frameTimeDelta);
   }
   draw(ctx) {
     ctx.drawImage(player, this.x, this.y, this.width, this.height);
@@ -76,7 +76,7 @@ export class Player {
     );
     ctx.fill();
   }
-  shot() {
+  shot(gameSpeed, frameTimeDelta) {
     const delay = 30;
     const dmg = 1;
     const maxSpeed = 5;
@@ -87,8 +87,8 @@ export class Player {
       this.input.p1Keys.ArrowUp.pressed &&
       this.input.p1Keys.ArrowLeft.pressed
     ) {
-      const speedX = -maxSpeedAngle;
-      const speedY = -maxSpeedAngle;
+      const speedX = -maxSpeedAngle * gameSpeed * frameTimeDelta;
+      const speedY = -maxSpeedAngle * gameSpeed * frameTimeDelta;
       this.bulletController.shoot(bulletX, bulletY, speedX, speedY, dmg, delay);
     }
 
@@ -96,8 +96,8 @@ export class Player {
       this.input.p1Keys.ArrowUp.pressed &&
       this.input.p1Keys.ArrowRight.pressed
     ) {
-      const speedX = maxSpeedAngle;
-      const speedY = -maxSpeedAngle;
+      const speedX = maxSpeedAngle * gameSpeed * frameTimeDelta;
+      const speedY = -maxSpeedAngle * gameSpeed * frameTimeDelta;
       this.bulletController.shoot(bulletX, bulletY, speedX, speedY, dmg, delay);
     }
 
@@ -105,8 +105,8 @@ export class Player {
       this.input.p1Keys.ArrowDown.pressed &&
       this.input.p1Keys.ArrowLeft.pressed
     ) {
-      const speedX = -maxSpeedAngle;
-      const speedY = maxSpeedAngle;
+      const speedX = -maxSpeedAngle * gameSpeed * frameTimeDelta;
+      const speedY = maxSpeedAngle * gameSpeed * frameTimeDelta;
       this.bulletController.shoot(bulletX, bulletY, speedX, speedY, dmg, delay);
     }
 
@@ -114,8 +114,8 @@ export class Player {
       this.input.p1Keys.ArrowDown.pressed &&
       this.input.p1Keys.ArrowRight.pressed
     ) {
-      const speedX = maxSpeedAngle;
-      const speedY = maxSpeedAngle;
+      const speedX = maxSpeedAngle * gameSpeed * frameTimeDelta;
+      const speedY = maxSpeedAngle * gameSpeed * frameTimeDelta;
       this.bulletController.shoot(bulletX, bulletY, speedX, speedY, dmg, delay);
     }
 
@@ -123,31 +123,31 @@ export class Player {
       this.input.p1Keys.ArrowUp.pressed &&
       this.input.p1Keys.ArrowLeft.pressed
     ) {
-      const speedX = -maxSpeedAngle;
-      const speedY = -maxSpeedAngle;
+      const speedX = -maxSpeedAngle * gameSpeed * frameTimeDelta;
+      const speedY = -maxSpeedAngle * gameSpeed * frameTimeDelta;
       this.bulletController.shoot(bulletX, bulletY, speedX, speedY, dmg, delay);
     }
 
     if (this.input.p1Keys.ArrowUp.pressed) {
       const speedX = 0;
-      const speedY = -maxSpeed;
+      const speedY = -maxSpeed * gameSpeed * frameTimeDelta;
       this.bulletController.shoot(bulletX, bulletY, speedX, speedY, dmg, delay);
     }
 
     if (this.input.p1Keys.ArrowDown.pressed) {
       const speedX = 0;
-      const speedY = maxSpeed;
+      const speedY = maxSpeed * gameSpeed * frameTimeDelta;
       this.bulletController.shoot(bulletX, bulletY, speedX, speedY, dmg, delay);
     }
 
     if (this.input.p1Keys.ArrowLeft.pressed) {
-      const speedX = -maxSpeed;
+      const speedX = -maxSpeed * gameSpeed * frameTimeDelta;
       const speedY = 0;
       this.bulletController.shoot(bulletX, bulletY, speedX, speedY, dmg, delay);
     }
 
     if (this.input.p1Keys.ArrowRight.pressed) {
-      const speedX = maxSpeed;
+      const speedX = maxSpeed * gameSpeed * frameTimeDelta;
       const speedY = 0;
       this.bulletController.shoot(bulletX, bulletY, speedX, speedY, dmg, delay);
     }
