@@ -26,6 +26,9 @@ class redBLock {
   draw(ctx) {
     ctx.fillStyle = "red";
     ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
+
+    ctx.strokeStyle = "yellow";
+    ctx.strokeRect(this.position.x, this.position.y, this.width, this.height);
   }
 }
 
