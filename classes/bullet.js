@@ -16,7 +16,7 @@ export class Bullet {
   }
   draw(ctx) {
     ctx.fillStyle = this.color;
-    this.update();
     ctx.fillRect(this.x, this.y, this.width, this.height);
+    this.update();
   }
 }
