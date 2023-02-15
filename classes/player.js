@@ -1,6 +1,6 @@
 import { Input } from "./input.js";
 const player = new Image();
-player.src = "/img/ratonstepleftscalefix.png";
+player.src = "../img/ratonstepleftscalefix.png";
 
 export class Player {
   constructor(game, x, y, bulletController) {
