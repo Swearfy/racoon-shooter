@@ -1,18 +1,18 @@
 import { Level1Collision, Level2Collision } from "../mapCollisionData.js";
 // to do : image import find better way
-const map1 = new Image();
-map1.src = "../img/map1resolutionfix.png";
-const map2 = new Image();
-map2.src = "../img/ratonstepleftscalefix.png";
+// const map1 = new Image();
+// map1.src = "../img/map1resolutionfix.png";
+// const map2 = new Image();
+// map2.src = "../img/ratonstepleftscalefix.png";
 
 // map image and tile map object
 export const levels = {
   1: {
-    image: map1,
+    image: level1,
     tileMap: Level1Collision,
   },
   2: {
-    image: map2,
+    image: level2,
     tileMap: Level2Collision,
   },
 };

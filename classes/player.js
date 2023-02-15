@@ -1,10 +1,11 @@
 import { Input } from "./input.js";
-const player = new Image();
-player.src = "../img/ratonstepleftscalefix.png";
+// const player = new Image();
+// player.src = "../img/ratonstepleftscalefix.png";
 
 export class Player {
   constructor(game, x, y, bulletController) {
     this.game = game;
+    this.player = racon;
     this.spriteWidth = 120;
     this.spriteHeight = 170;
     this.width = 120;
@@ -66,7 +67,7 @@ export class Player {
     this.shot(fps);
   }
   draw(ctx) {
-    ctx.drawImage(player, this.x, this.y, this.width, this.height);
+    ctx.drawImage(this.player, this.x, this.y, this.width, this.height);
     ctx.fillStyle = "rgba(0, 255, 0, 0.5)";
     ctx.fillRect(
       this.hitboxX,
