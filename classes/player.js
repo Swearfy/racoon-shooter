@@ -1,6 +1,4 @@
 import { Input } from "./input.js";
-// const player = new Image();
-// player.src = "../img/ratonstepleftscalefix.png";
 
 export class Player {
   constructor(game, x, y, bulletController) {
@@ -78,7 +76,7 @@ export class Player {
     ctx.fill();
   }
   shot(fps) {
-    const delay = 30;
+    const delay = 50 * fps;
     const dmg = 1;
     const maxSpeed = 5 * fps;
     const maxSpeedAngle = maxSpeed * 0.71;
