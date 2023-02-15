@@ -19,9 +19,9 @@ class Game {
     this.player = new Player(this, 500, 600, this.bulletController);
     this.map = new Map(this);
   }
-  update(gameSpeed, frameTimeDelta) {
+  update(fps) {
     this.map.update(this.currentLevel);
-    this.player.update(gameSpeed, frameTimeDelta, this.currentLevel);
+    this.player.update(fps, this.currentLevel);
   }
   draw(ctx) {
     this.map.draw(ctx, this.currentLevel);
@@ -48,7 +48,8 @@ function animate(currentTime) {
   ctx.fillStyle = "wheat";
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  game.update(gameSpeed, frameTimeDelta);
+  let fps = gameSpeed * frameTimeDelta;
+  game.update(fps);
   game.draw(ctx);
 
   requestAnimationFrame(animate);
