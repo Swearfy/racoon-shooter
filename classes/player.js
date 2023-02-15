@@ -5,7 +5,7 @@ import { Input } from "./input.js";
 export class Player {
   constructor(game, x, y, bulletController) {
     this.game = game;
-    this.player = racon;
+    this.player = document.getElementById("racon");
     this.spriteWidth = 120;
     this.spriteHeight = 170;
     this.width = 120;

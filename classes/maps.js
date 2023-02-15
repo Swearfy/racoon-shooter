@@ -8,11 +8,11 @@ import { Level1Collision, Level2Collision } from "../mapCollisionData.js";
 // map image and tile map object
 export const levels = {
   1: {
-    image: level1,
+    image: document.getElementById("level1"),
     tileMap: Level1Collision,
   },
   2: {
-    image: level2,
+    image: document.getElementById("racon"),
     tileMap: Level2Collision,
   },
 };
