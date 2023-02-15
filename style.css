@@ -1,14 +1,19 @@
-canvas{
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    position: absolute;
+canvas {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
 }
 
-body{
-    background-color: black;
+body {
+  background-color: black;
 }
 
-h1,span{
-    color: white;;
+h1,
+span {
+  color: white;
+}
+
+img {
+  display: none;
 }
