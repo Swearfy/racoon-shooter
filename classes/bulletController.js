@@ -6,11 +6,10 @@ export class BulletController {
   constructor(game) {
     this.game = game;
   }
-  shoot(x, y, speedX, speedY, dmg, delay) {
+  shoot(position, velocity, dmg, delay) {
     if (this.timerTilnext <= 0) {
-      this.bullets.push(new Bullet(x, y, speedX, speedY, dmg));
+      this.bullets.push(new Bullet(position, velocity, dmg));
       this.timerTilnext = delay;
-      console.log(this.bullets);
     }
   }
   draw(ctx) {
@@ -19,10 +18,10 @@ export class BulletController {
     }
     this.bullets.forEach((bullet) => {
       if (
-        bullet.y <= -bullet.height ||
-        bullet.y >= this.game.height ||
-        bullet.x <= -bullet.width ||
-        bullet.x >= this.game.width
+        bullet.position.y <= -bullet.height ||
+        bullet.position.y >= this.game.height ||
+        bullet.position.x <= -bullet.width ||
+        bullet.position.x >= this.game.width
       ) {
         const index = this.bullets.indexOf(bullet);
         this.bullets.splice(index, 1);

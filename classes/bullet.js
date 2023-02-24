@@ -1,9 +1,13 @@
 export class Bullet {
-  constructor(x, y, speedX, speedY, dmg) {
-    this.x = x;
-    this.y = y;
-    this.speedX = speedX;
-    this.speedY = speedY;
+  constructor(position, velocity, dmg) {
+    this.position = {
+      x: position.x,
+      y: position.y,
+    };
+    this.velocity = {
+      x: velocity.x,
+      y: velocity.y,
+    };
     this.dmg = dmg;
 
     this.width = 10;
@@ -11,12 +15,12 @@ export class Bullet {
     this.color = "black";
   }
   update() {
-    this.x += this.speedX;
-    this.y += this.speedY;
+    this.position.x += this.velocity.x;
+    this.position.y += this.velocity.y;
   }
   draw(ctx) {
     ctx.fillStyle = this.color;
-    ctx.fillRect(this.x, this.y, this.width, this.height);
+    ctx.fillRect(this.position.x, this.position.y, this.width, this.height);
     this.update();
   }
 }
