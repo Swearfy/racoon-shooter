@@ -6,9 +6,9 @@ export class BulletController {
   constructor(game) {
     this.game = game;
   }
-  shoot(position, velocity, dmg, delay) {
+  shoot(x, y, velocityX, velocityY, dmg, delay) {
     if (this.timerTilnext <= 0) {
-      this.bullets.push(new Bullet(position, velocity, dmg));
+      this.bullets.push(new Bullet(x, y, velocityX, velocityY, dmg));
       this.timerTilnext = delay;
     }
   }

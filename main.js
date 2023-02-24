@@ -86,7 +86,8 @@ class Game {
     if (this.input.p1Keys.t && this.input.p1Keys.f) {
       this.bulletController.shoot(
         bulletPosition,
-        { x: -maxSpeedAngle, y: -maxSpeedAngle },
+        -maxSpeedAngle,
+        -maxSpeedAngle,
         dmg,
         delay
       );
@@ -95,7 +96,8 @@ class Game {
     if (this.input.p1Keys.t && this.input.p1Keys.h) {
       this.bulletController.shoot(
         bulletPosition,
-        { x: maxSpeedAngle, y: -maxSpeedAngle },
+        maxSpeedAngle,
+        -maxSpeedAngle,
         dmg,
         delay
       );
@@ -104,7 +106,8 @@ class Game {
     if (this.input.p1Keys.g && this.input.p1Keys.f) {
       this.bulletController.shoot(
         bulletPosition,
-        { x: -maxSpeedAngle, y: maxSpeedAngle },
+        -maxSpeedAngle,
+        maxSpeedAngle,
         dmg,
         delay
       );
@@ -113,46 +116,27 @@ class Game {
     if (this.input.p1Keys.g && this.input.p1Keys.h) {
       this.bulletController.shoot(
         bulletPosition,
-        { x: maxSpeedAngle, y: maxSpeedAngle },
+        maxSpeedAngle,
+        maxSpeedAngle,
         dmg,
         delay
       );
     }
 
     if (this.input.p1Keys.t) {
-      this.bulletController.shoot(
-        bulletPosition,
-        { x: 0, y: -maxSpeed },
-        dmg,
-        delay
-      );
+      this.bulletController.shoot(bulletPosition, 0, -maxSpeed, dmg, delay);
     }
 
     if (this.input.p1Keys.g) {
-      this.bulletController.shoot(
-        bulletPosition,
-        { x: 0, y: maxSpeed },
-        dmg,
-        delay
-      );
+      this.bulletController.shoot(bulletPosition, 0, maxSpeed, dmg, delay);
     }
 
     if (this.input.p1Keys.f) {
-      this.bulletController.shoot(
-        bulletPosition,
-        { x: -maxSpeed, y: 0 },
-        dmg,
-        delay
-      );
+      this.bulletController.shoot(bulletPosition, -maxSpeed, 0, dmg, delay);
     }
 
     if (this.input.p1Keys.h) {
-      this.bulletController.shoot(
-        bulletPosition,
-        { x: maxSpeed, y: 0 },
-        dmg,
-        delay
-      );
+      this.bulletController.shoot(bulletPosition, maxSpeed, 0, dmg, delay);
     }
   }
 }
