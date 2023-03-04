@@ -18,13 +18,14 @@ export class BulletController {
     }
     this.bullets.forEach((bullet) => {
       if (
-        bullet.position.y <= -bullet.height ||
-        bullet.position.y >= this.game.height ||
-        bullet.position.x <= -bullet.width ||
-        bullet.position.x >= this.game.width
+        bullet.y <= -bullet.height ||
+        bullet.y >= this.game.height ||
+        bullet.x <= -bullet.width ||
+        bullet.x >= this.game.width
       ) {
         const index = this.bullets.indexOf(bullet);
         this.bullets.splice(index, 1);
+        return;
       }
       bullet.draw(ctx);
     });
