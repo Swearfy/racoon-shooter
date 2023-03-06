@@ -8,7 +8,7 @@ const ctx = canvas.getContext("2d");
 
 canvas.width = 900;
 canvas.height = 900;
-let timeBefore = null;
+let previouseTime = null;
 const gameSpeed = 0.2;
 
 class Game {
@@ -147,17 +147,15 @@ class Game {
 const game = new Game(canvas.width, canvas.height);
 
 //game loop function using delta time to calculate frame time
-function animate(timeNow) {
-  if (timeBefore === timeNow) {
-    timeBefore = timeNow;
+function animate(currentTime) {
+  if (previouseTime === currentTime) {
+    previouseTime = currentTime;
     requestAnimationFrame(animate);
     return;
   }
-
-  const deltaTime = timeNow - timeBefore;
-  timeBefore = timeNow;
-
-  let fps = gameSpeed * (deltaTime / 1000);
+  const frameTimeDelta = currentTime - previouseTime;
+  previouseTime = currentTime;
+  let fps = gameSpeed * frameTimeDelta;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   //placeholder color
