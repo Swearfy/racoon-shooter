@@ -13,11 +13,13 @@ export class Player {
 
     this.collide = false;
   }
-  update(fps) {
+  update(fps, input) {
     this.x += this.velocityX * fps;
     this.y += this.velocityY * fps;
     this.collisionY();
     this.collisionX();
+    this.move(input);
+    this.shot(input);
 
     //out of bounds check on x axies
     if (this.x < 0) {
@@ -48,20 +50,40 @@ export class Player {
       }
     });
   }
-  move(x, y) {
+  move(input) {
+    let up = input[Object.keys(input)[0]];
+    let down = input[Object.keys(input)[1]];
+    let left = input[Object.keys(input)[2]];
+    let right = input[Object.keys(input)[3]];
+    let x;
+    let y;
+
+    left ? (x = -2) : right ? (x = 2) : (x = 0),
+      up ? (y = -2) : down ? (y = 2) : (y = 0);
+
     this.velocityX = x;
     this.velocityY = y;
   }
-  shot(velocityX, velocityY, dmg) {
-    this.bullets.push(
-      new Bullet(
-        this.x + this.width / 2,
-        this.y + this.height / 2.3,
-        velocityX,
-        velocityY,
-        dmg
-      )
-    );
+  shot(input) {
+    let shootup = input[Object.keys(input)[4]];
+    let shootdown = input[Object.keys(input)[5]];
+    let shootleft = input[Object.keys(input)[6]];
+    let shootright = input[Object.keys(input)[7]];
+
+    let velX = shootleft ? -2 : shootright ? 2 : 0;
+    let velY = shootup ? -2 : shootdown ? 2 : 0;
+
+    if (velX != 0 || velY != 0) {
+      this.bullets.push(
+        new Bullet(
+          this.x + this.width / 2,
+          this.y + this.height / 2.3,
+          velX,
+          velY,
+          1
+        )
+      );
+    }
   }
   collisionX() {
     for (let i = 0; i < this.game.Level.blocks.length; i++) {
