@@ -48,10 +48,8 @@ export class Player {
       }
     });
   }
-  moveX(x) {
+  move(x, y) {
     this.velocityX = x;
-  }
-  moveY(y) {
     this.velocityY = y;
   }
   shot(velocityX, velocityY, dmg) {
