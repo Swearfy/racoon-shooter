@@ -1,3 +1,4 @@
+import { Bullet } from "./bullet.js";
 export class Player {
   constructor(game, x, y) {
     this.game = game;
@@ -8,6 +9,7 @@ export class Player {
     this.y = y;
     this.velocityX = 0;
     this.velocityY = 0;
+    this.bullets = [];
 
     this.collide = false;
   }
@@ -32,12 +34,36 @@ export class Player {
     if (this.y > this.game.height - this.height) {
       this.y = this.game.height - this.height;
     }
+
+    this.bullets.forEach((bullet) => {
+      if (
+        bullet.y <= -bullet.height ||
+        bullet.y >= this.game.height ||
+        bullet.x <= -bullet.width ||
+        bullet.x >= this.game.width
+      ) {
+        const index = this.bullets.indexOf(bullet);
+        this.bullets.splice(index, 1);
+        return;
+      }
+    });
   }
   moveX(x) {
     this.velocityX = x;
   }
   moveY(y) {
     this.velocityY = y;
+  }
+  shot(velocityX, velocityY, dmg) {
+    this.bullets.push(
+      new Bullet(
+        this.x + this.width / 2,
+        this.y + this.height / 2.3,
+        velocityX,
+        velocityY,
+        dmg
+      )
+    );
   }
   collisionX() {
     for (let i = 0; i < this.game.Level.blocks.length; i++) {
@@ -75,6 +101,9 @@ export class Player {
   }
 
   draw(ctx) {
+    this.bullets.forEach((bullet) => {
+      bullet.draw(ctx);
+    });
     ctx.drawImage(this.player, this.x, this.y, this.width, this.height);
     ctx.fillStyle = "rgba(0, 255, 0, 0.5)";
     ctx.strokeRect(this.x, this.y, this.width, this.height);

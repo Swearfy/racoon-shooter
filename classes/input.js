@@ -24,7 +24,6 @@ export class Input {
       this.p1Keys[e.key] = true;
       this.p2Keys[e.key] = true;
     });
-
     document.addEventListener("keyup", (e) => {
       this.p1Keys[e.key] = false;
       this.p2Keys[e.key] = false;

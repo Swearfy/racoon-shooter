@@ -1,4 +1,3 @@
-import { BulletController } from "./classes/bulletController.js";
 import { Input } from "./classes/input.js";
 import { Level } from "./classes/level1.js";
 import { Player } from "./classes/player.js";
@@ -15,24 +14,24 @@ class Game {
   constructor(width, height) {
     this.width = width;
     this.height = height;
-    this.bulletController = new BulletController(this);
 
     this.player = new Player(this, 500, 600);
+    this.player2 = new Player(this, 500, 300);
     this.input = new Input(this);
     this.Level = new Level(this);
   }
   update(fps) {
     this.Level.update();
     this.player.update(fps, this.currentLevel);
-    this.movement();
-    this.shot(fps);
-    console.log(this.player.velocityX, this.player.velocityY);
+    this.controlls(this.input.p1Keys, this.player);
+    this.player2.update(fps, this.currentLevel);
+    this.controlls(this.input.p2Keys, this.player2);
   }
 
   draw(ctx) {
     this.Level.draw(ctx);
     this.player.draw(ctx);
-    this.bulletController.draw(ctx);
+    this.player2.draw(ctx);
   }
   checkCollision(obj1, obj2) {
     if (
@@ -45,101 +44,61 @@ class Game {
     }
     return true;
   }
-  movement() {
-    //PLAYER 1
+  controlls(input, player) {
+    //player movment
     // corner movement balance to not be faster then x or y axies
     // if (
-    //   (this.input.p1Keys.w || this.input.p1Keys.s) &&
-    //   (this.input.p1Keys.a || this.input.p1Keys.d)
+    //   (inputs.w || inputs.s) &&
+    //   (inputs.a || inputs.d)
     // ) {
-    //   this.player.maxSpeed = this.player.maxSpeed * 0.71;
+    //   player.maxSpeed = player.maxSpeed * 0.71;
     // }
 
-    if (this.input.p1Keys.w == true) {
-      this.player.moveY(-2);
-    } else if (this.input.p1Keys.s == true) {
-      this.player.moveY(2);
+    if (input[Object.keys(input)[0]] == true) {
+      player.moveY(-2);
+    } else if (input[Object.keys(input)[1]] == true) {
+      player.moveY(2);
     } else {
-      this.player.moveY(0);
+      player.moveY(0);
     }
 
-    if (this.input.p1Keys.a == true) {
-      this.player.moveX(-2);
-    } else if (this.input.p1Keys.d == true) {
-      this.player.moveX(2);
+    if (input[Object.keys(input)[2]] == true) {
+      player.moveX(-2);
+    } else if (input[Object.keys(input)[3]] == true) {
+      player.moveX(2);
     } else {
-      this.player.moveX(0);
-    }
-  }
-  shot(fps) {
-    const delay = 50 * fps;
-    const dmg = 1;
-    const maxSpeed = 5 * fps;
-    const maxSpeedAngle = maxSpeed * 0.71;
-
-    //PLAYER 1
-
-    let x = this.player.x + this.player.width / 2;
-    let y = this.player.y + this.player.height / 2.3;
-
-    if (this.input.p1Keys.t && this.input.p1Keys.f) {
-      this.bulletController.shoot(
-        x,
-        y,
-        -maxSpeedAngle,
-        -maxSpeedAngle,
-        dmg,
-        delay
-      );
+      player.moveX(0);
     }
 
-    if (this.input.p1Keys.t && this.input.p1Keys.h) {
-      this.bulletController.shoot(
-        x,
-        y,
-        maxSpeedAngle,
-        -maxSpeedAngle,
-        dmg,
-        delay
-      );
-    }
-
-    if (this.input.p1Keys.g && this.input.p1Keys.f) {
-      this.bulletController.shoot(
-        x,
-        y,
-        -maxSpeedAngle,
-        maxSpeedAngle,
-        dmg,
-        delay
-      );
-    }
-
-    if (this.input.p1Keys.g && this.input.p1Keys.h) {
-      this.bulletController.shoot(
-        x,
-        y,
-        maxSpeedAngle,
-        maxSpeedAngle,
-        dmg,
-        delay
-      );
-    }
-
-    if (this.input.p1Keys.t) {
-      this.bulletController.shoot(x, y, 0, -maxSpeed, dmg, delay);
-    }
-
-    if (this.input.p1Keys.g) {
-      this.bulletController.shoot(x, y, 0, maxSpeed, dmg, delay);
-    }
-
-    if (this.input.p1Keys.f) {
-      this.bulletController.shoot(x, y, -maxSpeed, 0, dmg, delay);
-    }
-
-    if (this.input.p1Keys.h) {
-      this.bulletController.shoot(x, y, maxSpeed, 0, dmg, delay);
+    // player shooting
+    if (
+      input[Object.keys(input)[4]] == true &&
+      input[Object.keys(input)[6]] == true
+    ) {
+      player.shot(-2, -2, 1);
+    } else if (
+      input[Object.keys(input)[4]] == true &&
+      input[Object.keys(input)[7]] == true
+    ) {
+      player.shot(2, -2, 1);
+    } else if (
+      input[Object.keys(input)[5]] == true &&
+      input[Object.keys(input)[6]] == true
+    ) {
+      player.shot(-2, 2, 1);
+    } else if (
+      input[Object.keys(input)[5]] == true &&
+      input[Object.keys(input)[7]] == true
+    ) {
+      player.shot(2, 2, 1);
+    } else if (input[Object.keys(input)[4]] == true) {
+      player.shot(0, -2, 1);
+    } else if (input[Object.keys(input)[5]] == true) {
+      player.shot(0, 2, 1);
+    } else if (input[Object.keys(input)[6]] == true) {
+      player.shot(-2, 0, 1);
+    } else if (input[Object.keys(input)[7]] == true) {
+      player.shot(2, 0, 1);
     }
   }
 }
