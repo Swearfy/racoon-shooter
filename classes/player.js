@@ -13,11 +13,17 @@ export class Player {
 
     this.collide = false;
   }
+  get left() {
+    return this.x;
+  }
+  get right() {
+    return this.x + this.width;
+  }
   update(fps, input) {
     this.x += this.velocityX * fps;
     this.y += this.velocityY * fps;
-    this.collisionY();
     this.collisionX();
+    this.collisionY();
     this.move(input);
     this.shot(input);
 
