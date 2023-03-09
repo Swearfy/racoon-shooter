@@ -14,10 +14,16 @@ export class Player {
     this.collide = false;
   }
   get left() {
-    return this.x;
+    return this.y + this.height;
+  }
+  get top() {
+    return this.x + this.width;
   }
   get right() {
-    return this.x + this.width;
+    return this.top + this.height;
+  }
+  get bottom() {
+    return this.left + this.width;
   }
   update(fps, input) {
     this.x += this.velocityX * fps;
