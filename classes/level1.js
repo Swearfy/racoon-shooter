@@ -3,8 +3,7 @@ export class Level {
     this.game = game;
     this.x = 0;
     this.y = 0;
-    this.image = new Image();
-    this.image.src = "/img/map1resolutionfix.png";
+    this.image = document.getElementById("level1");
     this.blocks = [];
 
     for (var row = 0; row < level.length; row++) {
