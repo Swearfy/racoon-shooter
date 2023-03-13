@@ -1,52 +1,86 @@
 export class Input {
   constructor() {
-    this.p1Keys = {
-      w: false,
-      s: false,
-      a: false,
-      d: false,
-      t: false,
-      g: false,
-      f: false,
-      h: false,
+    this.player1Keys = {
+      up: { key: "w", pressed: false },
+      down: { key: "s", pressed: false },
+      left: { key: "a", pressed: false },
+      right: { key: "d", pressed: false },
+      shootUp: { key: "ArrowUp", pressed: false },
+      shootDown: { key: "ArrowDown", pressed: false },
+      shootLeft: { key: "ArrowLeft", pressed: false },
+      shootRight: { key: "ArrowRight", pressed: false },
     };
-    this.p2Keys = {
-      i: false,
-      k: false,
-      j: false,
-      l: false,
-      ArrowUp: false,
-      ArrowDown: false,
-      ArrowLeft: false,
-      ArrowRight: false,
+    this.player2Keys = {
+      up: { key: "w", pressed: false },
+      down: { key: "s", pressed: false },
+      left: { key: "a", pressed: false },
+      right: { key: "d", pressed: false },
+      shootUp: { key: "ArrowUp", pressed: false },
+      shootDown: { key: "ArrowDown", pressed: false },
+      shootLeft: { key: "ArrowLeft", pressed: false },
+      shootRight: { key: "ArrowRight", pressed: false },
     };
+  }
+  inputControl(keys) {
     document.addEventListener("keydown", (e) => {
-      this.p1Keys[e.key] = true;
-      this.p2Keys[e.key] = true;
+      switch (e.key) {
+        case keys.up.key:
+          keys.up.pressed = true;
+          break;
+        case keys.down.key:
+          keys.down.pressed = true;
+          break;
+        case keys.left.key:
+          keys.left.pressed = true;
+          break;
+        case keys.right.key:
+          keys.right.pressed = true;
+          break;
+        case keys.shootUp.key:
+          keys.shootUp.pressed = true;
+          break;
+        case keys.shootDown.key:
+          keys.shootDown.pressed = true;
+          break;
+        case keys.shootLeft.key:
+          keys.shootLeft.pressed = true;
+          break;
+        case keys.shootRight.key:
+          keys.shootRight.pressed = true;
+          break;
+        default:
+          break;
+      }
     });
     document.addEventListener("keyup", (e) => {
-      this.p1Keys[e.key] = false;
-      this.p2Keys[e.key] = false;
+      switch (e.key) {
+        case keys.up.key:
+          keys.up.pressed = false;
+          break;
+        case keys.down.key:
+          keys.down.pressed = false;
+          break;
+        case keys.left.key:
+          keys.left.pressed = false;
+          break;
+        case keys.right.key:
+          keys.right.pressed = false;
+          break;
+        case keys.shootUp.key:
+          keys.shootUp.pressed = false;
+          break;
+        case keys.shootDown.key:
+          keys.shootDown.pressed = false;
+          break;
+        case keys.shootLeft.key:
+          keys.shootLeft.pressed = false;
+          break;
+        case keys.shootRight.key:
+          keys.shootRight.pressed = false;
+          break;
+        default:
+          break;
+      }
     });
   }
 }
-
-// const player1Keys = { up: "ArrowUp", down: "ArrowDown", left: "ArrowLeft", right: "ArrowRight" };
-// const player2Keys = { up: "w", down: "s", left: "a", right: "d" };
-
-// // Define player objects with initial positions and velocities
-// const player1 = { x: 0, y: 0, vx: 0, vy: 0 };
-// const player2 = { x: 10, y: 10, vx: 0, vy: 0 };
-
-// // Define function to handle key presses
-// function handleKeyPress(event, playerKeys, player) {
-//   if (event.key === playerKeys.up) {
-//     player.vy = -1;
-//   } else if (event.key === playerKeys.down) {
-//     player.vy = 1;
-//   } else if (event.key === playerKeys.left) {
-//     player.vx = -1;
-//   } else if (event.key === playerKeys.right) {
-//     player.vx = 1;
-//   }
-// }
