@@ -20,9 +20,9 @@ class Game {
     this.input = new Input();
     this.Level = new Level(this);
     this.bullets = [];
+    this.input.inputControl(this.input.player1Keys);
   }
   update(fps) {
-    this.input.inputControl(this.input.player1Keys);
     this.Level.update();
     this.player.update(fps);
     this.playerMovment(this.player, this.input.player1Keys);
