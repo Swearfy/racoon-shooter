@@ -2,8 +2,8 @@ export class Player {
   constructor(game, x, y) {
     this.game = game;
     this.player = document.getElementById("racon");
-    this.width = 120;
-    this.height = 170;
+    this.width = 60;
+    this.height = 60;
     this.x = x;
     this.y = y;
     this.velocityX = 0;

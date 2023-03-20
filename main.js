@@ -23,10 +23,10 @@ class Game {
     this.input.inputControl(this.input.player1Keys);
   }
   update(fps) {
-    this.Level.update();
     this.player.update(fps);
     this.playerMovment(this.player, this.input.player1Keys);
     this.playerShooting(this.player, this.input.player1Keys);
+    this.Level.update(this.player);
 
     this.bullets.forEach((bullet) => {
       if (
@@ -52,7 +52,6 @@ class Game {
   playerMovment(player, keys) {
     let x = keys.left.pressed ? -2 : keys.right.pressed ? 2 : 0;
     let y = keys.up.pressed ? -2 : keys.down.pressed ? 2 : 0;
-    console.log(x, y);
     player.move(x, y);
   }
   playerShooting(player, keys) {
