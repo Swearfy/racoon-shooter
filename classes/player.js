@@ -1,13 +1,14 @@
 export class Player {
-  constructor(game, x, y) {
+  constructor(game, x, y, level) {
     this.game = game;
     this.player = document.getElementById("racon");
-    this.width = 60;
-    this.height = 60;
+    this.width = 120;
+    this.height = 170;
     this.x = x;
     this.y = y;
     this.velocityX = 0;
     this.velocityY = 0;
+    this.level = level;
   }
   get left() {
     return this.y + this.height;
@@ -29,7 +30,10 @@ export class Player {
   }
   update(fps) {
     this.x += this.velocityX * fps;
+    this.level.checkX(this);
+
     this.y += this.velocityY * fps;
+    this.level.checkY(this);
 
     //out of bounds check on x axies
     if (this.x < 0) {

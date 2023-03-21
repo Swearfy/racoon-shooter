@@ -1,6 +1,6 @@
 import { Bullet } from "./classes/bullet.js";
 import { Input } from "./classes/input.js";
-import { Level } from "./classes/level1.js";
+import { Level } from "./classes/level.js";
 import { Player } from "./classes/player.js";
 
 const canvas = document.querySelector("canvas");
@@ -16,9 +16,9 @@ class Game {
     this.width = width;
     this.height = height;
 
-    this.player = new Player(this, 500, 600);
+    this.level = new Level(this);
+    this.player = new Player(this, 500, 600, this.level);
     this.input = new Input();
-    this.Level = new Level(this);
     this.bullets = [];
     this.input.inputControl(this.input.player1Keys);
   }
@@ -26,7 +26,7 @@ class Game {
     this.player.update(fps);
     this.playerMovment(this.player, this.input.player1Keys);
     this.playerShooting(this.player, this.input.player1Keys);
-    this.Level.update(this.player);
+    this.level.update(this.player);
 
     this.bullets.forEach((bullet) => {
       if (
@@ -41,8 +41,8 @@ class Game {
       }
     });
   }
-  draw(ctx) {
-    this.Level.draw(ctx);
+  draw(ctx, player) {
+    this.level.draw(ctx, player);
     this.player.draw(ctx);
 
     this.bullets.forEach((bullet) => {
@@ -52,6 +52,7 @@ class Game {
   playerMovment(player, keys) {
     let x = keys.left.pressed ? -2 : keys.right.pressed ? 2 : 0;
     let y = keys.up.pressed ? -2 : keys.down.pressed ? 2 : 0;
+
     player.move(x, y);
   }
   playerShooting(player, keys) {
@@ -101,7 +102,7 @@ function animate(currentTime) {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   game.update(fps);
-  game.draw(ctx);
+  game.draw(ctx, game.player);
   requestAnimationFrame(animate);
 }
 
