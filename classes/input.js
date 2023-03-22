@@ -20,7 +20,79 @@ export class Input {
       shootLeft: { key: "l", pressed: false },
       shootRight: { key: "j", pressed: false },
     };
+    this.controllerIndex = null;
+
+    window.addEventListener("gamepadconnected", (e) => {
+      this.controllerIndex = e.gamepad.index;
+      console.log("conected");
+    });
+    window.addEventListener("gamepaddisconnected", (e) => {
+      this.controllerIndex = null;
+      console.log("discon");
+    });
   }
+
+  controllerInput(keys) {
+    if (this.controllerIndex !== null) {
+      const gamepad = navigator.getGamepads()[this.controllerIndex];
+
+      const stickDeadZone = 0.4;
+      const axisX = gamepad.axes[0];
+      const axisY = gamepad.axes[1];
+
+      const shootAxisX = gamepad.axes[2];
+      const shootAxisY = gamepad.axes[5];
+
+      if (axisX >= stickDeadZone) {
+        this.player1Keys.right.pressed = true;
+      } else if (axisX <= stickDeadZone) {
+        this.player1Keys.right.pressed = false;
+      }
+
+      if (axisX <= -stickDeadZone) {
+        this.player1Keys.left.pressed = true;
+      } else if (axisX >= -stickDeadZone) {
+        this.player1Keys.left.pressed = false;
+      }
+
+      if (axisY >= stickDeadZone) {
+        this.player1Keys.down.pressed = true;
+      } else if (axisY <= stickDeadZone) {
+        this.player1Keys.down.pressed = false;
+      }
+
+      if (axisY <= -stickDeadZone) {
+        keys.up.pressed = true;
+      } else if (axisY >= -stickDeadZone) {
+        keys.up.pressed = false;
+      }
+
+      if (shootAxisX >= stickDeadZone) {
+        keys.shootRight.pressed = true;
+      } else if (shootAxisX <= stickDeadZone) {
+        keys.shootRight.pressed = false;
+      }
+
+      if (shootAxisX <= -stickDeadZone) {
+        keys.shootLeft.pressed = true;
+      } else if (shootAxisX >= -stickDeadZone) {
+        keys.shootLeft.pressed = false;
+      }
+
+      if (shootAxisY >= stickDeadZone) {
+        keys.shootDown.pressed = true;
+      } else if (shootAxisY <= stickDeadZone) {
+        keys.shootDown.pressed = false;
+      }
+
+      if (shootAxisY <= -stickDeadZone) {
+        keys.shootUp.pressed = true;
+      } else if (shootAxisY >= -stickDeadZone) {
+        keys.shootUp.pressed = false;
+      }
+    }
+  }
+
   inputControl(keys) {
     document.addEventListener("keydown", (e) => {
       switch (e.key) {

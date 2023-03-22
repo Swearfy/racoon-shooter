@@ -38,12 +38,12 @@ export class Level {
       block.draw(ctx);
     });
 
-    // draw blocks around player
+    // // draw blocks around player
 
-    this.rangetiles.forEach((block) => {
-      let newBLock = new RedBlock(block.x1, block.y1);
-      newBLock.draw(ctx);
-    });
+    // this.rangetiles.forEach((block) => {
+    //   let newBLock = new RedBlock(block.x1, block.y1);
+    //   newBLock.draw(ctx);
+    // });
   }
   getAt(x, y) {
     const row = this.tileMap[y];

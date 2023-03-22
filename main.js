@@ -29,6 +29,7 @@ class Game {
 
     this.playerMovment(this.player, this.input.player1Keys);
     this.playerShooting(this.player, this.input.player1Keys);
+    this.input.controllerInput(this.input.player1Keys);
 
     this.level.update(this.player);
 
@@ -49,8 +50,8 @@ class Game {
       }
     });
   }
-  draw(ctx, player) {
-    this.level.draw(ctx, player);
+  draw(ctx) {
+    this.level.draw(ctx);
     this.player.draw(ctx);
 
     this.bullets.forEach((bullet) => {
