@@ -11,14 +11,14 @@ export class Input {
       shootRight: { key: "ArrowRight", pressed: false },
     };
     this.player2Keys = {
-      up: { key: "w", pressed: false },
-      down: { key: "s", pressed: false },
-      left: { key: "a", pressed: false },
-      right: { key: "d", pressed: false },
-      shootUp: { key: "ArrowUp", pressed: false },
-      shootDown: { key: "ArrowDown", pressed: false },
-      shootLeft: { key: "ArrowLeft", pressed: false },
-      shootRight: { key: "ArrowRight", pressed: false },
+      up: { key: "t", pressed: false },
+      down: { key: "g", pressed: false },
+      left: { key: "f", pressed: false },
+      right: { key: "h", pressed: false },
+      shootUp: { key: "i", pressed: false },
+      shootDown: { key: "k", pressed: false },
+      shootLeft: { key: "l", pressed: false },
+      shootRight: { key: "j", pressed: false },
     };
   }
   inputControl(keys) {

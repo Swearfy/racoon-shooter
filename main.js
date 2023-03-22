@@ -1,4 +1,3 @@
-import { Bullet } from "./classes/bullet.js";
 import { Input } from "./classes/input.js";
 import { Level } from "./classes/level.js";
 import { Player } from "./classes/player.js";
@@ -18,57 +17,68 @@ class Game {
 
     this.level = new Level(this);
     this.player = new Player(this, 500, 600, this.level);
+
     this.input = new Input();
-    this.bullets = [];
+
     this.input.inputControl(this.input.player1Keys);
   }
   update(fps) {
     this.player.update(fps);
+
     this.playerMovment(this.player, this.input.player1Keys);
     this.playerShooting(this.player, this.input.player1Keys);
-    this.level.update(this.player);
 
-    this.bullets.forEach((bullet) => {
-      if (
-        bullet.y <= -bullet.height ||
-        bullet.y >= this.height ||
-        bullet.x <= -bullet.width ||
-        bullet.x >= this.width
-      ) {
-        const index = this.bullets.indexOf(bullet);
-        this.bullets.splice(index, 1);
-        return;
-      }
-    });
+    this.level.update(this.player);
   }
   draw(ctx, player) {
     this.level.draw(ctx, player);
     this.player.draw(ctx);
-
-    this.bullets.forEach((bullet) => {
-      bullet.draw(ctx);
-    });
   }
   playerMovment(player, keys) {
-    let x = keys.left.pressed ? -2 : keys.right.pressed ? 2 : 0;
-    let y = keys.up.pressed ? -2 : keys.down.pressed ? 2 : 0;
+    let playerSpeed = 2;
+
+    if (
+      (keys.up.pressed || keys.down.pressed) &&
+      (keys.left.pressed || keys.right.pressed)
+    ) {
+      playerSpeed = playerSpeed * 0.71;
+    }
+
+    let x = keys.left.pressed
+      ? -playerSpeed
+      : keys.right.pressed
+      ? playerSpeed
+      : 0;
+    let y = keys.up.pressed
+      ? -playerSpeed
+      : keys.down.pressed
+      ? playerSpeed
+      : 0;
 
     player.move(x, y);
   }
   playerShooting(player, keys) {
-    let velX = keys.shootLeft.pressed ? -2 : keys.shootRight.pressed ? 2 : 0;
-    let velY = keys.shootUp.pressed ? -2 : keys.shootDown.pressed ? 2 : 0;
-    if (velX != 0 || velY != 0) {
-      this.bullets.push(
-        new Bullet(
-          player.x + player.width / 2,
-          player.y + player.height / 2.3,
-          velX,
-          velY,
-          1
-        )
-      );
+    let bulletSpeed = 4;
+
+    if (
+      (keys.shootUp.pressed || keys.shootDown.pressed) &&
+      (keys.shootLeft.pressed || keys.shootRight.pressed)
+    ) {
+      bulletSpeed = bulletSpeed * 0.71;
     }
+
+    let velX = keys.shootLeft.pressed
+      ? -bulletSpeed
+      : keys.shootRight.pressed
+      ? bulletSpeed
+      : 0;
+    let velY = keys.shootUp.pressed
+      ? -bulletSpeed
+      : keys.shootDown.pressed
+      ? bulletSpeed
+      : 0;
+
+    player.shoot(velX, velY);
   }
 }
 
