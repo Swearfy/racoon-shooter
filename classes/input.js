@@ -44,21 +44,21 @@ export class Input {
       const shootAxisY = gamepad.axes[5];
 
       if (axisX >= stickDeadZone) {
-        this.player1Keys.right.pressed = true;
+        keys.right.pressed = true;
       } else if (axisX <= stickDeadZone) {
-        this.player1Keys.right.pressed = false;
+        keys.right.pressed = false;
       }
 
       if (axisX <= -stickDeadZone) {
-        this.player1Keys.left.pressed = true;
+        keys.left.pressed = true;
       } else if (axisX >= -stickDeadZone) {
-        this.player1Keys.left.pressed = false;
+        keys.left.pressed = false;
       }
 
       if (axisY >= stickDeadZone) {
-        this.player1Keys.down.pressed = true;
+        keys.down.pressed = true;
       } else if (axisY <= stickDeadZone) {
-        this.player1Keys.down.pressed = false;
+        keys.down.pressed = false;
       }
 
       if (axisY <= -stickDeadZone) {
