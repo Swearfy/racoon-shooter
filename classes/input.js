@@ -43,53 +43,15 @@ export class Input {
       const shootAxisX = gamepad.axes[2];
       const shootAxisY = gamepad.axes[5];
 
-      if (axisX >= stickDeadZone) {
-        keys.right.pressed = true;
-      } else if (axisX <= stickDeadZone) {
-        keys.right.pressed = false;
-      }
+      keys.right.pressed = axisX >= stickDeadZone;
+      keys.left.pressed = axisX < -stickDeadZone;
+      keys.down.pressed = axisY >= stickDeadZone;
+      keys.up.pressed = axisY < -stickDeadZone;
 
-      if (axisX <= -stickDeadZone) {
-        keys.left.pressed = true;
-      } else if (axisX >= -stickDeadZone) {
-        keys.left.pressed = false;
-      }
-
-      if (axisY >= stickDeadZone) {
-        keys.down.pressed = true;
-      } else if (axisY <= stickDeadZone) {
-        keys.down.pressed = false;
-      }
-
-      if (axisY <= -stickDeadZone) {
-        keys.up.pressed = true;
-      } else if (axisY >= -stickDeadZone) {
-        keys.up.pressed = false;
-      }
-
-      if (shootAxisX >= stickDeadZone) {
-        keys.shootRight.pressed = true;
-      } else if (shootAxisX <= stickDeadZone) {
-        keys.shootRight.pressed = false;
-      }
-
-      if (shootAxisX <= -stickDeadZone) {
-        keys.shootLeft.pressed = true;
-      } else if (shootAxisX >= -stickDeadZone) {
-        keys.shootLeft.pressed = false;
-      }
-
-      if (shootAxisY >= stickDeadZone) {
-        keys.shootDown.pressed = true;
-      } else if (shootAxisY <= stickDeadZone) {
-        keys.shootDown.pressed = false;
-      }
-
-      if (shootAxisY <= -stickDeadZone) {
-        keys.shootUp.pressed = true;
-      } else if (shootAxisY >= -stickDeadZone) {
-        keys.shootUp.pressed = false;
-      }
+      keys.shootRight.pressed = shootAxisX >= stickDeadZone;
+      keys.shootLeft.pressed = shootAxisX < -stickDeadZone;
+      keys.shootDown.pressed = shootAxisY >= stickDeadZone;
+      keys.shootUp.pressed = shootAxisY < -stickDeadZone;
     }
   }
 
