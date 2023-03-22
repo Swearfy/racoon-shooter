@@ -11,7 +11,6 @@ export class Player {
     this.velocityX = 0;
     this.velocityY = 0;
     this.level = level;
-    this.bullets = [];
     this.actionLock = 0;
     this.shootSpeed = 3;
   }
@@ -40,19 +39,6 @@ export class Player {
     this.y += this.velocityY * fps;
     this.level.checkY(this);
 
-    this.bullets.forEach((bullet) => {
-      if (
-        bullet.y <= -bullet.height ||
-        bullet.y >= this.game.height ||
-        bullet.x <= -bullet.width ||
-        bullet.x >= this.game.width
-      ) {
-        const index = this.bullets.indexOf(bullet);
-        this.bullets.splice(index, 1);
-        return;
-      }
-    });
-
     //out of bounds check on x axies
     if (this.x < 0) {
       this.x = 0;
@@ -76,7 +62,7 @@ export class Player {
   shoot(velX, velY) {
     if ((velX != 0 || velY != 0) && Date.now() > this.actionLock) {
       this.actionLock = Date.now() + 1000 / this.shootSpeed;
-      this.bullets.push(
+      this.game.bullets.push(
         new Bullet(
           this.x + this.width / 2,
           this.y + this.height / 2.3,
@@ -90,9 +76,7 @@ export class Player {
 
   draw(ctx) {
     ctx.drawImage(this.player, this.x, this.y, this.width, this.height);
-    this.bullets.forEach((bullet) => {
-      bullet.draw(ctx);
-    });
+
     ctx.fillStyle = "rgba(0, 255, 0, 0.5)";
     ctx.strokeRect(this.x, this.y, this.width, this.height);
     ctx.fill();

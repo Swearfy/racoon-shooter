@@ -5,6 +5,7 @@ export class Bullet {
     this.velocityX = velocityX;
     this.velocityY = velocityY;
     this.dmg = dmg;
+    this.collide = false;
 
     this.width = 10;
     this.height = 10;

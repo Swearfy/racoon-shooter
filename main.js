@@ -21,6 +21,8 @@ class Game {
     this.input = new Input();
 
     this.input.inputControl(this.input.player1Keys);
+
+    this.bullets = [];
   }
   update(fps) {
     this.player.update(fps);
@@ -29,10 +31,31 @@ class Game {
     this.playerShooting(this.player, this.input.player1Keys);
 
     this.level.update(this.player);
+
+    this.bullets.forEach((bullet) => {
+      this.level.checkX(bullet);
+      this.level.checkY(bullet);
+
+      if (
+        bullet.y <= -bullet.height ||
+        bullet.y >= this.height ||
+        bullet.x <= -bullet.width ||
+        bullet.x >= this.width ||
+        bullet.collide === true
+      ) {
+        const index = this.bullets.indexOf(bullet);
+        this.bullets.splice(index, 1);
+        return;
+      }
+    });
   }
   draw(ctx, player) {
     this.level.draw(ctx, player);
     this.player.draw(ctx);
+
+    this.bullets.forEach((bullet) => {
+      bullet.draw(ctx);
+    });
   }
   playerMovment(player, keys) {
     let playerSpeed = 2;
