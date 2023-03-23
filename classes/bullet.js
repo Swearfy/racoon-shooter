@@ -11,13 +11,12 @@ export class Bullet {
     this.height = 10;
     this.color = "black";
   }
-  update() {
-    this.x += this.velocityX;
-    this.y += this.velocityY;
+  update(fps) {
+    this.x += this.velocityX * fps;
+    this.y += this.velocityY * fps;
   }
   draw(ctx) {
     ctx.fillStyle = this.color;
     ctx.fillRect(this.x, this.y, this.width, this.height);
-    this.update();
   }
 }

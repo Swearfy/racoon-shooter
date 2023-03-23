@@ -34,6 +34,7 @@ class Game {
     this.level.update(this.player);
 
     this.bullets.forEach((bullet) => {
+      bullet.update(fps);
       this.level.checkX(bullet);
       this.level.checkY(bullet);
 
