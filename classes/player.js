@@ -4,8 +4,8 @@ export class Player {
   constructor(game, x, y, level) {
     this.game = game;
     this.player = document.getElementById("racon");
-    this.width = 90;
-    this.height = 120;
+    this.width = 35;
+    this.height = 70;
     this.x = x;
     this.y = y;
     this.velocityX = 0;
@@ -13,8 +13,8 @@ export class Player {
     this.level = level;
     this.actionLock = 0;
     this.shootSpeed = 3;
-    this.hitboxWidth = 50;
-    this.hitboxHeight = 100;
+    this.spriteWidth = 60;
+    this.spriteHeight = 90;
     this.hitboxX = this.x + 35;
     this.hitboxY = this.y + 40;
   }
@@ -79,10 +79,16 @@ export class Player {
   }
 
   draw(ctx) {
-    ctx.drawImage(this.player, this.x, this.y, this.width, this.height);
+    ctx.drawImage(
+      this.player,
+      this.x - 15,
+      this.y - 15,
+      this.spriteWidth,
+      this.spriteHeight
+    );
 
     ctx.fillStyle = "rgba(0, 255, 0, 0.5)";
-    ctx.strokeRect(this.x + 20, this.y + 20, 60, 100);
+    ctx.strokeRect(this.x, this.y, this.width, this.height);
     ctx.fill();
   }
 }

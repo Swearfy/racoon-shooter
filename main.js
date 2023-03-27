@@ -1,6 +1,9 @@
 import { Input } from "./classes/input.js";
 import { Level } from "./classes/level.js";
 import { Player } from "./classes/player.js";
+import { Enemy } from "./classes/enemy.js";
+import { Pathfind } from "./classes/pathfinding.js";
+import { level } from "./classes/tileMaps.js";
 
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
@@ -14,13 +17,17 @@ class Game {
   constructor(width, height) {
     this.width = width;
     this.height = height;
+    this.level1 = level;
 
-    this.level = new Level(this);
+    this.pathfind = new Pathfind(this.level1);
+    this.pathfind.gridInit();
+
+    this.level = new Level(this, this.level1);
     this.player = new Player(this, 500, 600, this.level);
-
     this.input = new Input();
-
     this.input.inputControl(this.input.player1Keys);
+
+    this.enemy = new Enemy(this);
 
     this.bullets = [];
   }
@@ -30,8 +37,9 @@ class Game {
     this.playerMovment(this.player, this.input.player1Keys);
     this.playerShooting(this.player, this.input.player1Keys);
     this.input.controllerInput(this.input.player1Keys);
-
     this.level.update(this.player);
+
+    this.enemy.update(fps, this.player);
 
     this.bullets.forEach((bullet) => {
       bullet.update(fps);
@@ -53,11 +61,14 @@ class Game {
   }
   draw(ctx) {
     this.level.draw(ctx);
+    this.pathfind.draw(ctx);
     this.player.draw(ctx);
 
     this.bullets.forEach((bullet) => {
       bullet.draw(ctx);
     });
+
+    this.enemy.draw(ctx);
   }
   playerMovment(player, keys) {
     let playerSpeed = 2;

@@ -15,7 +15,7 @@ export class Level {
 
     for (let row = 0; row < level.length; row++) {
       for (let col = 0; col < level[row].length; col++) {
-        if (level[row][col] === 1) {
+        if (level[row][col].isWalkable === 1) {
           this.blocks.push(new RedBlock(col * 30, row * 30));
         }
       }
@@ -34,8 +34,7 @@ export class Level {
 
     // draw collision blocks
     this.blocks.forEach((block) => {
-      ctx.strokeStyle = "black";
-      block.draw(ctx);
+      block.draw(ctx, "red");
     });
 
     // // draw blocks around player
@@ -109,9 +108,10 @@ export class Level {
       entity.y,
       entity.y + entity.height
     );
+    console.log(tiles);
 
     tiles.forEach((tile) => {
-      if (tile.tile !== 1) {
+      if (tile.tile.isWalkable !== 1) {
         return;
       }
 
@@ -149,7 +149,7 @@ export class Level {
     );
 
     tiles.forEach((tile) => {
-      if (tile.tile !== 1) {
+      if (tile.tile.isWalkable !== 1) {
         return;
       }
 
@@ -177,7 +177,8 @@ class RedBlock {
     this.width = 30;
     this.height = 30;
   }
-  draw(ctx) {
-    ctx.strokeRect(this.x, this.y, this.width, this.height);
+  draw(ctx, color) {
+    ctx.fillStyle = color;
+    ctx.fillRect(this.x, this.y, this.width, this.height);
   }
 }
