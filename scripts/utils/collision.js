@@ -1,34 +1,32 @@
 export function checkX(entity, grid) {
   let x;
   if (entity.velocityX > 0) {
-    x = entity.x + entity.width;
+    x = entity.top;
   } else if (entity.velocityX < 0) {
     x = entity.x;
   } else {
     return;
   }
 
-  const tiles = grid.searchTilesInRange(
-    x,
-    x,
-    entity.y,
-    entity.y + entity.height
-  );
+  const tiles = grid.searchTilesInRange(x, x, entity.y, entity.left);
 
   tiles.forEach((tile) => {
-    if (tile.walkArea !== 1) {
+    const tileX1 = tile.x * tile.tileSize;
+    const tileX2 = tileX1 + tile.tileSize;
+
+    if (!tile.walkable) {
       return;
     }
 
     if (entity.velocityX > 0) {
-      if (entity.x + entity.width > tile.x1) {
-        entity.x = tile.x1 - entity.width;
+      if (entity.top > tileX1) {
+        entity.x = tileX1 - entity.width;
         entity.velocityX = 0;
         entity.collide = true;
       }
     } else if (entity.velocityX < 0) {
-      if (entity.x < tile.x2) {
-        entity.x = tile.x2;
+      if (entity.x < tileX2) {
+        entity.x = tileX2;
         entity.velocityX = 0;
         entity.collide = true;
       }
@@ -39,38 +37,34 @@ export function checkX(entity, grid) {
 export function checkY(entity, grid) {
   let y;
   if (entity.velocityY > 0) {
-    y = entity.y + entity.height;
+    y = entity.left;
   } else if (entity.velocityY < 0) {
     y = entity.y;
   } else {
     return;
   }
 
-  const tiles = grid.searchTilesInRange(
-    entity.x,
-    entity.x + entity.width,
-    y,
-    y
-  );
+  const tiles = grid.searchTilesInRange(entity.x, entity.top, y, y);
 
-  console.log(tiles);
-  // tiles.forEach((tile) => {
-  //   if (tile.walkArea !== 1) {
-  //     return;
-  //   }
+  tiles.forEach((tile) => {
+    const tileY1 = tile.y * tile.tileSize;
+    const tileY2 = tileY1 + tile.tileSize;
+    if (!tile.walkable) {
+      return;
+    }
 
-  //   if (entity.velocityY > 0) {
-  //     if (entity.y + entity.height > tile.y1) {
-  //       entity.y = tile.y1 - entity.height;
-  //       entity.velocityY = 0;
-  //       entity.collide = true;
-  //     }
-  //   } else if (entity.velocityY < 0) {
-  //     if (entity.y < tile.y2) {
-  //       entity.y = tile.y2;
-  //       entity.velocityY = 0;
-  //       entity.collide = true;
-  //     }
-  //   }
-  // });
+    if (entity.velocityY > 0) {
+      if (entity.left > tileY1) {
+        entity.y = tileY1 - entity.height;
+        entity.velocityY = 0;
+        entity.collide = true;
+      }
+    } else if (entity.velocityY < 0) {
+      if (entity.y < tileY2) {
+        entity.y = tileY2;
+        entity.velocityY = 0;
+        entity.collide = true;
+      }
+    }
+  });
 }

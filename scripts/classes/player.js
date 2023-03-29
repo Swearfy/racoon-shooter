@@ -1,16 +1,12 @@
 import { Bullet } from "./bullet.js";
 import { checkX, checkY } from "../utils/collision.js";
+import { Entity } from "./entity.js";
 
-export class Player {
+export class Player extends Entity {
   constructor(game, x, y, level) {
+    super(x, y, 30, 70, 0, 0);
     this.game = game;
     this.player = document.getElementById("racon");
-    this.width = 35;
-    this.height = 70;
-    this.x = x;
-    this.y = y;
-    this.velocityX = 0;
-    this.velocityY = 0;
     this.level = level;
     this.actionLock = 0;
     this.shootSpeed = 3;
@@ -19,31 +15,12 @@ export class Player {
     this.hitboxX = this.x + 35;
     this.hitboxY = this.y + 40;
   }
-  get top() {
-    return this.x + this.width;
-  }
-  get right() {
-    return this.top + this.height;
-  }
-  get bottom() {
-    return this.left + this.width;
-  }
-  get left() {
-    return this.y + this.height;
-  }
-
-  set velX(x) {
-    this.velocityX = x;
-  }
-  set velY(y) {
-    this.velocityY = y;
-  }
-  update(fps) {
+  update(fps, level) {
     this.x += this.velocityX * fps;
-    checkX(this, this.game.level1);
+    checkX(this, level);
 
     this.y += this.velocityY * fps;
-    checkY(this, this.game.level1);
+    checkY(this, level);
 
     //out of bounds check on x axies
     if (this.x < 0) {

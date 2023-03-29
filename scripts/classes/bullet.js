@@ -1,14 +1,10 @@
-export class Bullet {
+import { Entity } from "./entity.js";
+
+export class Bullet extends Entity {
   constructor(x, y, velocityX, velocityY, dmg) {
-    this.x = x;
-    this.y = y;
-    this.velocityX = velocityX;
-    this.velocityY = velocityY;
+    super(x, y, 10, 10, velocityX, velocityY);
     this.dmg = dmg;
     this.collide = false;
-
-    this.width = 10;
-    this.height = 10;
     this.color = "black";
   }
   update(fps) {

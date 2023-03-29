@@ -11,7 +11,7 @@ export function toIndexRange(pos1, pos2, tileSize) {
   let pos = pos1;
 
   do {
-    range.push(toIndex(pos));
+    range.push(toIndex(pos, tileSize));
     pos += tileSize;
   } while (pos < maxPos);
   return range;

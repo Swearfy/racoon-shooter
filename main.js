@@ -3,8 +3,9 @@ import { Player } from "./scripts/classes/player.js";
 import { Enemy } from "./scripts/classes/enemy.js";
 import { playerMovement } from "./scripts/utils/movement.js";
 import { playerShooting } from "./scripts/utils/shooting.js";
-import { Grid } from "./scripts/utils/grid.js";
+import { Grid } from "./scripts/classes/grid.js";
 import { level_1 } from "./assets/tilemaps/level-1.js";
+import { checkX, checkY } from "./scripts/utils/collision.js";
 
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
@@ -18,9 +19,8 @@ class Game {
   constructor(width, height) {
     this.width = width;
     this.height = height;
-
-    this.level1 = new Grid();
-    this.level1.makeGrid(level_1, 30);
+    this.level1 = new Grid(30);
+    this.level1.makeGrid(level_1);
     this.player = new Player(this, 500, 600, this.level);
     this.input = new Input();
     this.input.inputControl(this.input.player1Keys);
@@ -28,24 +28,18 @@ class Game {
     this.enemy = new Enemy(this);
 
     this.bullets = [];
-
-    console.table(this.level1);
-    console.log(this.level1.grid[1][1]);
-    console.log(this.level1.searchTilesInRange(1, 1, 1, 1));
   }
   update(fps) {
-    this.player.update(fps);
+    this.player.update(fps, this.level1);
 
     playerMovement(this.player, this.input.player1Keys);
     playerShooting(this.player, this.input.player1Keys);
     this.input.controllerInput(this.input.player1Keys);
 
-    // this.enemy.update(fps, this.player);
-
     this.bullets.forEach((bullet) => {
       bullet.update(fps);
-      this.level.checkX(bullet);
-      this.level.checkY(bullet);
+      checkX(bullet, this.level1);
+      checkY(bullet, this.level1);
 
       if (
         bullet.y <= -bullet.height ||
@@ -67,7 +61,11 @@ class Game {
       bullet.draw(ctx);
     });
 
-    // this.enemy.draw(ctx);
+    this.level1.grid.forEach((tile) => {
+      tile.forEach((tile2) => {
+        tile2.draw(ctx);
+      });
+    });
   }
 }
 

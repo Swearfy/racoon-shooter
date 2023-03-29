@@ -1,13 +1,25 @@
-export class Tiles {
-  constructor(x, y, tileSize, walkArea) {
+export class Tile {
+  constructor(x, y, tileSize, walkable) {
     this.x = x;
-    this.x2 = x + tileSize;
     this.y = y;
-    this.y2 = y + tileSize;
     this.tileSize = tileSize;
     this.f = 0;
     this.g = 0;
     this.h = 0;
-    this.walkArea = walkArea;
+    this.walkable = !!walkable;
+  }
+  draw(ctx) {
+    if (this.walkable) {
+      ctx.fillStyle = "red";
+    }
+    if (!this.walkable) {
+      ctx.fillStyle = "rgba(255,255,255,0.2)";
+    }
+    ctx.fillRect(
+      this.x * this.tileSize,
+      this.y * this.tileSize,
+      this.tileSize,
+      this.tileSize
+    );
   }
 }
