@@ -1,4 +1,5 @@
 import { Bullet } from "./bullet.js";
+import { checkX, checkY } from "../utils/collision.js";
 
 export class Player {
   constructor(game, x, y, level) {
@@ -39,10 +40,10 @@ export class Player {
   }
   update(fps) {
     this.x += this.velocityX * fps;
-    checkX(this);
+    checkX(this, this.game.level1);
 
     this.y += this.velocityY * fps;
-    checkY(this);
+    checkY(this, this.game.level1);
 
     //out of bounds check on x axies
     if (this.x < 0) {

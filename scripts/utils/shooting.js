@@ -1,4 +1,4 @@
-function playerShooting(player, keys) {
+export function playerShooting(player, keys) {
   let bulletSpeed = 4;
 
   if (

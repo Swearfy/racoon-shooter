@@ -1,4 +1,5 @@
-function checkX(entity, tiles) {
+import { searchTilesInRange } from "./grid.js";
+export function checkX(entity, grid) {
   let x;
   if (entity.velocityX > 0) {
     x = entity.x + entity.width;
@@ -8,15 +9,16 @@ function checkX(entity, tiles) {
     return;
   }
 
-  const tiles = this.searchTilesInRange(
+  const tiles = searchTilesInRange(
     x,
     x,
     entity.y,
-    entity.y + entity.height
+    entity.y + entity.height,
+    grid
   );
 
   tiles.forEach((tile) => {
-    if (tile.tile !== 1) {
+    if (tile.walkArea !== 1) {
       return;
     }
 
@@ -36,7 +38,7 @@ function checkX(entity, tiles) {
   });
 }
 
-function checkY(entity, tiles) {
+export function checkY(entity, grid) {
   let y;
   if (entity.velocityY > 0) {
     y = entity.y + entity.height;
@@ -46,30 +48,32 @@ function checkY(entity, tiles) {
     return;
   }
 
-  const tiles = this.searchTilesInRange(
+  const tiles = searchTilesInRange(
     entity.x,
     entity.x + entity.width,
     y,
-    y
+    y,
+    grid
   );
 
-  tiles.forEach((tile) => {
-    if (tile.tile !== 1) {
-      return;
-    }
+  console.log(tiles);
+  // tiles.forEach((tile) => {
+  //   if (tile.walkArea !== 1) {
+  //     return;
+  //   }
 
-    if (entity.velocityY > 0) {
-      if (entity.y + entity.height > tile.y1) {
-        entity.y = tile.y1 - entity.height;
-        entity.velocityY = 0;
-        entity.collide = true;
-      }
-    } else if (entity.velocityY < 0) {
-      if (entity.y < tile.y2) {
-        entity.y = tile.y2;
-        entity.velocityY = 0;
-        entity.collide = true;
-      }
-    }
-  });
+  //   if (entity.velocityY > 0) {
+  //     if (entity.y + entity.height > tile.y1) {
+  //       entity.y = tile.y1 - entity.height;
+  //       entity.velocityY = 0;
+  //       entity.collide = true;
+  //     }
+  //   } else if (entity.velocityY < 0) {
+  //     if (entity.y < tile.y2) {
+  //       entity.y = tile.y2;
+  //       entity.velocityY = 0;
+  //       entity.collide = true;
+  //     }
+  //   }
+  // });
 }

@@ -1,4 +1,4 @@
-function playerMovement(player, keys) {
+export function playerMovement(player, keys) {
   let playerSpeed = 2;
 
   if (
