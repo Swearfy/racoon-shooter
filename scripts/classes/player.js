@@ -18,9 +18,6 @@ export class Player {
     this.hitboxX = this.x + 35;
     this.hitboxY = this.y + 40;
   }
-  get left() {
-    return this.y + this.height;
-  }
   get top() {
     return this.x + this.width;
   }
@@ -30,6 +27,10 @@ export class Player {
   get bottom() {
     return this.left + this.width;
   }
+  get left() {
+    return this.y + this.height;
+  }
+
   set velX(x) {
     this.velocityX = x;
   }
@@ -38,10 +39,10 @@ export class Player {
   }
   update(fps) {
     this.x += this.velocityX * fps;
-    this.level.checkX(this);
+    checkX(this);
 
     this.y += this.velocityY * fps;
-    this.level.checkY(this);
+    checkY(this);
 
     //out of bounds check on x axies
     if (this.x < 0) {

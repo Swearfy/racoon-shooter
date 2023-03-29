@@ -1,7 +1,4 @@
-const fs = require("fs");
-
-// change this to new tilemap to get proper formatting
-const Level1Collision = [
+const level_1 = [
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -39,19 +36,3 @@ const Level1Collision = [
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 ];
-
-function splitArray(arr) {
-  let result = [];
-  for (let i = 0; i < arr.length; i += 30) {
-    result.push(arr.slice(i, i + 30));
-  }
-  return result;
-}
-
-const outputArray = splitArray(Level1Collision);
-console.log(outputArray);
-
-fs.writeFile("outputArray.json", JSON.stringify(outputArray), (err) => {
-  if (err) throw err;
-  console.log("The file has been saved!");
-});

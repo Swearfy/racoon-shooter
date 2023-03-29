@@ -1,9 +1,6 @@
-import { Input } from "./classes/input.js";
-import { Level } from "./classes/level.js";
-import { Player } from "./classes/player.js";
-import { Enemy } from "./classes/enemy.js";
-import { Pathfind } from "./classes/pathfinding.js";
-import { level } from "./classes/tileMaps.js";
+import { Input } from "./scripts/utils/input.js";
+import { Player } from "./scripts/classes/player.js";
+import { Enemy } from "./scripts/classes/enemy.js";
 
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
@@ -17,12 +14,7 @@ class Game {
   constructor(width, height) {
     this.width = width;
     this.height = height;
-    this.level1 = level;
 
-    this.pathfind = new Pathfind(this.level1);
-    this.pathfind.gridInit();
-
-    this.level = new Level(this, this.level1);
     this.player = new Player(this, 500, 600, this.level);
     this.input = new Input();
     this.input.inputControl(this.input.player1Keys);
@@ -34,12 +26,12 @@ class Game {
   update(fps) {
     this.player.update(fps);
 
-    this.playerMovment(this.player, this.input.player1Keys);
-    this.playerShooting(this.player, this.input.player1Keys);
+    playerMovement(this.player, this.input.player1Keys);
+    playerShooting(this.player, this.input.player1Keys);
     this.input.controllerInput(this.input.player1Keys);
     this.level.update(this.player);
 
-    this.enemy.update(fps, this.player);
+    // this.enemy.update(fps, this.player);
 
     this.bullets.forEach((bullet) => {
       bullet.update(fps);
@@ -61,60 +53,13 @@ class Game {
   }
   draw(ctx) {
     this.level.draw(ctx);
-    this.pathfind.draw(ctx);
     this.player.draw(ctx);
 
     this.bullets.forEach((bullet) => {
       bullet.draw(ctx);
     });
 
-    this.enemy.draw(ctx);
-  }
-  playerMovment(player, keys) {
-    let playerSpeed = 2;
-
-    if (
-      (keys.up.pressed || keys.down.pressed) &&
-      (keys.left.pressed || keys.right.pressed)
-    ) {
-      playerSpeed = playerSpeed * 0.71;
-    }
-
-    let x = keys.left.pressed
-      ? -playerSpeed
-      : keys.right.pressed
-      ? playerSpeed
-      : 0;
-    let y = keys.up.pressed
-      ? -playerSpeed
-      : keys.down.pressed
-      ? playerSpeed
-      : 0;
-
-    player.move(x, y);
-  }
-  playerShooting(player, keys) {
-    let bulletSpeed = 4;
-
-    if (
-      (keys.shootUp.pressed || keys.shootDown.pressed) &&
-      (keys.shootLeft.pressed || keys.shootRight.pressed)
-    ) {
-      bulletSpeed = bulletSpeed * 0.71;
-    }
-
-    let velX = keys.shootLeft.pressed
-      ? -bulletSpeed
-      : keys.shootRight.pressed
-      ? bulletSpeed
-      : 0;
-    let velY = keys.shootUp.pressed
-      ? -bulletSpeed
-      : keys.shootDown.pressed
-      ? bulletSpeed
-      : 0;
-
-    player.shoot(velX, velY);
+    // this.enemy.draw(ctx);
   }
 }
 
