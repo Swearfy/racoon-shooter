@@ -23,7 +23,10 @@ export class Grid {
 
     toIndexRange(y1, y2, this.tileSize).forEach((y) => {
       toIndexRange(x1, x2, this.tileSize).forEach((x) => {
-        tilesInRange.push(this.getTileAtIndex(x, y));
+        const tile = this.getTileAtIndex(x, y);
+        if (tile) {
+          tilesInRange.push(tile);
+        }
       });
     });
 
