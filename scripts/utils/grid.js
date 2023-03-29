@@ -24,27 +24,27 @@ export class Grid {
     }
     return undefined;
   }
-  //   searchTilesInRange(x1, x2, y1, y2) {
-  //     const tilesInRange = [];
+  searchTilesInRange(x1, x2, y1, y2) {
+    const tilesInRange = [];
 
-  //     toIndexRange(y1, y2).forEach((y) => {
-  //       toIndexRange(x1, x2).forEach((x) => {
-  //         tilesInRange.push(this.getTileAtIndex(x, y));
-  //       });
-  //     });
-
-  //     return tilesInRange;
-  //   }
-}
-
-export function searchTilesInRange(x1, x2, y1, y2, tiles) {
-  const tilesInRange = [];
-
-  toIndexRange(y1, y2).forEach((y) => {
-    toIndexRange(x1, x2).forEach((x) => {
-      tilesInRange.push(tiles[x][y]);
+    toIndexRange(y1, y2).forEach((y) => {
+      toIndexRange(x1, x2).forEach((x) => {
+        tilesInRange.push(this.getTileAtIndex(x, y));
+      });
     });
-  });
 
-  return tilesInRange;
+    return tilesInRange;
+  }
 }
+
+// export function searchTilesInRange(x1, x2, y1, y2, tiles) {
+//   const tilesInRange = [];
+
+//   toIndexRange(y1, y2).forEach((y) => {
+//     toIndexRange(x1, x2).forEach((x) => {
+//       tilesInRange.push(tiles[x][y]);
+//     });
+//   });
+
+//   return tilesInRange;
+// }

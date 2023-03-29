@@ -1,4 +1,3 @@
-import { searchTilesInRange } from "./grid.js";
 export function checkX(entity, grid) {
   let x;
   if (entity.velocityX > 0) {
@@ -9,12 +8,11 @@ export function checkX(entity, grid) {
     return;
   }
 
-  const tiles = searchTilesInRange(
+  const tiles = grid.searchTilesInRange(
     x,
     x,
     entity.y,
-    entity.y + entity.height,
-    grid
+    entity.y + entity.height
   );
 
   tiles.forEach((tile) => {
@@ -48,12 +46,11 @@ export function checkY(entity, grid) {
     return;
   }
 
-  const tiles = searchTilesInRange(
+  const tiles = grid.searchTilesInRange(
     entity.x,
     entity.x + entity.width,
     y,
-    y,
-    grid
+    y
   );
 
   console.log(tiles);

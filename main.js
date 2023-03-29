@@ -29,7 +29,9 @@ class Game {
 
     this.bullets = [];
 
-    console.table(this.level1.grid);
+    console.table(this.level1);
+    console.log(this.level1.grid[1][1]);
+    console.log(this.level1.searchTilesInRange(1, 1, 1, 1));
   }
   update(fps) {
     this.player.update(fps);
