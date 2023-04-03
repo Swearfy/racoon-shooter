@@ -6,6 +6,7 @@ import { playerShooting } from "./scripts/utils/shooting.js";
 import { Grid } from "./scripts/classes/grid.js";
 import { level_1 } from "./assets/tilemaps/level-1.js";
 import { checkX, checkY } from "./scripts/utils/collision.js";
+import { Pathfinding } from "./scripts/classes/pathfinding.js";
 
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
@@ -16,6 +17,10 @@ let previouseTime = null;
 const gameSpeed = 0.2;
 
 class Game {
+  /**
+   * @param width
+   * @param height
+   */
   constructor(width, height) {
     this.width = width;
     this.height = height;
@@ -27,10 +32,22 @@ class Game {
 
     this.enemy = new Enemy(this);
 
+    this.pathfinding = new Pathfinding();
     this.bullets = [];
+
+    // console.log(
+    //   getTileAtIndex(this.level1.grid, 0, 0).getNeighbors(this.level1.grid)
+    // );
+    console.log(this.pathfinding.findPath(this.level1.grid, 0, 0, 2, 0));
   }
+  /**
+   * Updates the enemy's player and bullets. This is called every frame to ensure that everything is up to date
+   *
+   * @param fps - The time in frames since the last update
+   */
   update(fps) {
     this.player.update(fps, this.level1);
+    this.enemy.update(fps, this.player, this.level1);
 
     playerMovement(this.player, this.input.player1Keys);
     playerShooting(this.player, this.input.player1Keys);
@@ -41,6 +58,7 @@ class Game {
       checkX(bullet, this.level1);
       checkY(bullet, this.level1);
 
+      // Removes the bullet from the bullet list.
       if (
         bullet.y <= -bullet.height ||
         bullet.y >= this.height ||
@@ -54,8 +72,14 @@ class Game {
       }
     });
   }
+  /**
+   * Draw the level on the canvas. This is called every frame to ensure that everything is drawn in one frame.
+   *
+   * @param ctx - The canvas context to draw on.
+   */
   draw(ctx) {
     this.player.draw(ctx);
+    this.enemy.draw(ctx);
 
     this.bullets.forEach((bullet) => {
       bullet.draw(ctx);
@@ -72,12 +96,12 @@ class Game {
 const game = new Game(canvas.width, canvas.height);
 
 //game loop function using delta time to calculate frame time
+/**
+ * Animates the game. This is called every frame to update the game and draw the game. A function is required to provide the time since the last frame in the animation.
+ *
+ * @param currentTime - The current time of the animation in ms
+ */
 function animate(currentTime) {
-  if (previouseTime === currentTime) {
-    previouseTime = currentTime;
-    requestAnimationFrame(animate);
-    return;
-  }
   const frameTimeDelta = currentTime - previouseTime;
   previouseTime = currentTime;
   let fps = gameSpeed * frameTimeDelta;
@@ -88,7 +112,7 @@ function animate(currentTime) {
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   game.update(fps);
-  game.draw(ctx, game.player);
+  game.draw(ctx);
   requestAnimationFrame(animate);
 }
 

@@ -8,15 +8,15 @@ export class Entity {
     this.velocityY = velocityY;
   }
   get top() {
-    return this.x + this.width;
+    return this.y;
   }
   get right() {
-    return this.top + this.height;
+    return this.x + this.width;
   }
   get bottom() {
-    return this.left + this.width;
+    return this.y + this.height;
   }
   get left() {
-    return this.y + this.height;
+    return this.x;
   }
 }

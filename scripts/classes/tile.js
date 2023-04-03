@@ -1,3 +1,5 @@
+import { getTileAtIndex } from "../utils/utils.js";
+
 export class Tile {
   constructor(x, y, tileSize, walkable) {
     this.x = x;
@@ -6,15 +8,55 @@ export class Tile {
     this.f = 0;
     this.g = 0;
     this.h = 0;
+    this.neigbours = [];
     this.walkable = !!walkable;
+    this.parent = null;
+  }
+  getNeighbors(grid) {
+    // ←
+    if (getTileAtIndex(grid, this.x - 1, this.y).walkable) {
+      this.neigbours.push(getTileAtIndex(grid, this.x - 1, this.y));
+    }
+
+    // ↑
+    if (getTileAtIndex(grid, this.x, this.y - 1).walkable) {
+      this.neigbours.push(getTileAtIndex(grid, this.x, this.y - 1));
+    }
+
+    // →
+    if (getTileAtIndex(grid, this.x + 1, this.y).walkable) {
+      this.neigbours.push(getTileAtIndex(grid, this.x + 1, this.y));
+    }
+
+    // ↓
+    if (getTileAtIndex(grid, this.x, this.y + 1).walkable) {
+      this.neigbours.push(getTileAtIndex(grid, this.x, this.y + 1));
+    }
+
+    // ↖
+    if (getTileAtIndex(grid, this.x - 1, this.y - 1).walkable) {
+      this.neigbours.push(getTileAtIndex(grid, this.x - 1, this.y - 1));
+    }
+
+    // ↗
+    if (getTileAtIndex(grid, this.x + 1, this.y - 1).walkable) {
+      this.neigbours.push(getTileAtIndex(grid, this.x + 1, this.y - 1));
+    }
+
+    // ↘
+    if (getTileAtIndex(grid, this.x + 1, this.y + 1).walkable) {
+      this.neigbours.push(getTileAtIndex(grid, this.x + 1, this.y + 1));
+    }
+
+    // ↙
+    if (getTileAtIndex(grid, this.x - 1, this.y + 1).walkable) {
+      this.neigbours.push(getTileAtIndex(grid, this.x - 1, this.y + 1));
+    }
+
+    return this.neigbours;
   }
   draw(ctx) {
-    if (this.walkable) {
-      ctx.fillStyle = "red";
-    }
-    if (!this.walkable) {
-      ctx.fillStyle = "rgba(255,255,255,0.2)";
-    }
+    ctx.fillStyle = this.walkable ? "rgba(255,255,255,0.2)" : "red";
     ctx.fillRect(
       this.x * this.tileSize,
       this.y * this.tileSize,
