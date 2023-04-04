@@ -11,6 +11,7 @@ export class Tile {
     this.neigbours = [];
     this.walkable = !!walkable;
     this.parent = null;
+    this.closed = false;
   }
   getNeighbors(grid) {
     // ←
@@ -56,7 +57,6 @@ export class Tile {
     return this.neigbours;
   }
   draw(ctx) {
-    ctx.fillStyle = this.walkable ? "rgba(255,255,255,0.2)" : "red";
     ctx.fillRect(
       this.x * this.tileSize,
       this.y * this.tileSize,

@@ -6,7 +6,7 @@ import { playerShooting } from "./scripts/utils/shooting.js";
 import { Grid } from "./scripts/classes/grid.js";
 import { level_1 } from "./assets/tilemaps/level-1.js";
 import { checkX, checkY } from "./scripts/utils/collision.js";
-import { Pathfinding } from "./scripts/classes/pathfinding.js";
+import { removeFromArray, toIndex } from "./scripts/utils/utils.js";
 
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
@@ -26,19 +26,13 @@ class Game {
     this.height = height;
     this.level1 = new Grid(30);
     this.level1.makeGrid(level_1);
-    this.player = new Player(this, 500, 600, this.level);
+    this.player = new Player(this, 300, 300, this.level);
     this.input = new Input();
     this.input.inputControl(this.input.player1Keys);
 
     this.enemy = new Enemy(this);
 
-    this.pathfinding = new Pathfinding();
     this.bullets = [];
-
-    // console.log(
-    //   getTileAtIndex(this.level1.grid, 0, 0).getNeighbors(this.level1.grid)
-    // );
-    console.log(this.pathfinding.findPath(this.level1.grid, 0, 0, 2, 0));
   }
   /**
    * Updates the enemy's player and bullets. This is called every frame to ensure that everything is up to date
@@ -47,7 +41,7 @@ class Game {
    */
   update(fps) {
     this.player.update(fps, this.level1);
-    this.enemy.update(fps, this.player, this.level1);
+    this.enemy.update(fps, this.player, this.level1.grid);
 
     playerMovement(this.player, this.input.player1Keys);
     playerShooting(this.player, this.input.player1Keys);
@@ -66,9 +60,7 @@ class Game {
         bullet.x >= this.width ||
         bullet.collide === true
       ) {
-        const index = this.bullets.indexOf(bullet);
-        this.bullets.splice(index, 1);
-        return;
+        removeFromArray(this.bullets, bullet);
       }
     });
   }
@@ -78,17 +70,19 @@ class Game {
    * @param ctx - The canvas context to draw on.
    */
   draw(ctx) {
+    this.level1.grid.forEach((tile) => {
+      tile.forEach((tile2) => {
+        ctx.fillStyle = tile2.walkable ? "rgba(255,255,255,0.3)" : "red";
+
+        tile2.draw(ctx);
+      });
+    });
+
     this.player.draw(ctx);
     this.enemy.draw(ctx);
 
     this.bullets.forEach((bullet) => {
       bullet.draw(ctx);
-    });
-
-    this.level1.grid.forEach((tile) => {
-      tile.forEach((tile2) => {
-        tile2.draw(ctx);
-      });
     });
   }
 }
@@ -108,8 +102,6 @@ function animate(currentTime) {
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   //placeholder color
-  ctx.fillStyle = "wheat";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
 
   game.update(fps);
   game.draw(ctx);

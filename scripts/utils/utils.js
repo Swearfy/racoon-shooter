@@ -49,8 +49,36 @@ export function getTileAtIndex(grid, x, y) {
   return new Tile(x, y, 30, false);
 }
 
+/**
+ *
+ * @param {*} entity1
+ * @param {*} entity2
+ * @returns Menhatten distance between 2 points
+ */
 export function calculateH(entity1, entity2) {
-  let dx = entity1.x - entity2.x;
-  let dy = entity1.y - entity2.y;
+  let dx = Math.abs(entity1.x - entity2.x);
+  let dy = Math.abs(entity1.y - entity2.y);
   return dx + dy;
+}
+
+/**
+ *  Clones the given grid.
+ * @param grid
+ * @returns {Array}
+ */
+export function cloneGrid(grid) {
+  let clone = [];
+  // Creates a clone of the grid.
+  for (let row = 0; row < grid.length; row++) {
+    clone[row] = [];
+    for (let col = 0; col < grid[row].length; col++) {
+      clone[row][col] = grid[row][col];
+    }
+  }
+  return clone;
+}
+
+export function removeFromArray(arr, elm) {
+  let i = arr.indexOf(elm);
+  return arr.splice(i, 1);
 }

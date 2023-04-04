@@ -66,8 +66,6 @@ export class Player extends Entity {
       this.spriteHeight
     );
 
-    ctx.fillStyle = "rgba(0, 255, 0, 0.5)";
     ctx.strokeRect(this.x, this.y, this.width, this.height);
-    ctx.fill();
   }
 }

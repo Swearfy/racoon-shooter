@@ -1,5 +1,6 @@
 import { checkX, checkY } from "../utils/collision.js";
 import { Entity } from "./entity.js";
+import { Pathfinding } from "./pathfinding.js";
 export class Enemy extends Entity {
   constructor(game) {
     super(0, 0, 20, 20, 0, 0);
@@ -8,6 +9,7 @@ export class Enemy extends Entity {
     this.spriteHeight = 30;
     this.dx = 0;
     this.dy = 0;
+    this.pathfinding = new Pathfinding();
   }
   update(fps, player, level) {
     this.x += this.velocityX * fps;
@@ -16,14 +18,13 @@ export class Enemy extends Entity {
     this.y += this.velocityY * fps;
     checkY(this, level);
 
-    // let dist = Math.atan2(player.y - this.y, player.x - this.x);
-    // let dx = Math.cos(dist);
-    // let dy = Math.sin(dist);
-
-    // this.velocityX = dx;
-    // this.velocityY = dy;
+    if (this.pathfinding.start !== this || player !== this.pathfinding.end) {
+      this.pathfinding.findPath(level, this, player);
+    }
   }
   draw(ctx) {
+    this.pathfinding.drawPath(ctx);
+
     ctx.fillStyle = "red";
     ctx.fillRect(this.x, this.y, this.width, this.height);
   }

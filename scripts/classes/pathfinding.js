@@ -1,70 +1,82 @@
-import { calculateH, toIndex } from "../utils/utils.js";
+import {
+  calculateH,
+  cloneGrid,
+  removeFromArray,
+  toIndex,
+} from "../utils/utils.js";
 
 export class Pathfinding {
   constructor() {
-    this.openList = [];
-    this.closeList = [];
+    this.openSet = [];
     this.start;
     this.end;
-    this.pathGrid = [];
+    this.clonedGrid = [];
+    this.path = [];
   }
-  findPath(grid, startX, startY, endX, endY) {
-    // let startY = toIndex(start.y, 30);
-    // let startX = toIndex(start.x, 30);
-    // let endY = toIndex(end.y, 30);
-    // let endX = toIndex(end.x, 30);
+  updateStartAndEnd(start, end) {
+    let startY = toIndex(start.y, 30);
+    let startX = toIndex(start.x, 30);
+    let endY = toIndex(end.y, 30);
+    let endX = toIndex(end.x, 30);
 
-    this.pathGrid = cloneGrid(grid);
-    this.start = this.pathGrid[startY][startX];
-    this.end = this.pathGrid[endY][endX];
+    this.start = this.clonedGrid[startY][startX];
+    this.end = this.clonedGrid[endY][endX];
+    if (
+      (this.start.x !== startX && this.start.y !== startY) ||
+      (this.end.x !== endX && this.end.y !== endY)
+    ) {
+      this.openSet = [];
+      this.path = [];
+    }
+  }
+  findPath(grid, start, end) {
+    this.clonedGrid = cloneGrid(grid);
+
+    this.updateStartAndEnd(start, end);
 
     this.start.g = 0;
     this.start.f = 0;
 
-    this.openList.push(this.start);
+    this.openSet.push(this.start);
 
     if (!this.end.walkable) {
       return;
     }
 
-    while (this.openList.length > 0) {
-      let current = this.getLowestF(this.openList);
+    while (this.openSet.length > 0) {
+      let current = this.getLowestF(this.openSet);
 
-      this.removeFromArray(this.openList, current);
-      this.closeList.push(current);
+      removeFromArray(this.openSet, current);
+      current.closed = true;
 
       // Backtrack the path to the current path.
       if (current.x === this.end.x && current.y === this.end.y) {
+        this.path.push(this.backtrackPath(current));
         return this.backtrackPath(current);
       }
 
-      let neigbours = current.getNeighbors(this.pathGrid);
+      let neigbours = current.getNeighbors(this.clonedGrid);
 
       for (let i = 0; i < neigbours.length; i++) {
         let neigbor = neigbours[i];
 
-        if (!neigbor.walkable || this.closeList.includes(neigbor)) {
-          continue;
-        }
+        if (!neigbor.closed) {
+          let possibleG = current.g + 1;
 
-        let tempG = current.g + 1;
-
-        // This method is used to calculate the G value of the neigbor.
-        if (tempG < neigbor.g) {
-          neigbor.parent = current;
-          neigbor.g = tempG;
+          if (!this.openSet.includes(neigbor)) {
+            this.openSet.push(neigbor);
+          } else if (possibleG >= neigbor.g) {
+            continue;
+          }
+          neigbor.g = possibleG;
           neigbor.h = calculateH(neigbor, this.end);
           neigbor.f = neigbor.g + neigbor.h;
-
-          // Add a neigbor to the open list
-          if (!this.openList.includes(neigbor)) {
-            this.openList.push(neigbor);
-          }
+          neigbor.parent = current;
         }
       }
     }
 
-    return "Path was never found";
+    return [];
   }
   /**
    * @param current
@@ -91,25 +103,17 @@ export class Pathfinding {
     }
     return lowestF;
   }
-  removeFromArray(arr, elm) {
-    let i = arr.indexOf(elm);
-    return arr.splice(i, 1);
-  }
-}
+  drawPath(ctx) {
+    this.openSet.forEach((tile) => {
+      ctx.fillStyle = "purple";
+      tile.draw(ctx);
+    });
 
-/**
- *  Clones the given grid.
- * @param grid
- * @returns {Array}
- */
-function cloneGrid(grid) {
-  let clone = [];
-  // Creates a clone of the grid.
-  for (let row = 0; row < grid.length; row++) {
-    clone[row] = [];
-    for (let col = 0; col < grid[row].length; col++) {
-      clone[row][col] = grid[row][col];
-    }
+    this.path.forEach((arr) => {
+      arr.forEach((tile) => {
+        ctx.fillStyle = "black";
+        tile.draw(ctx);
+      });
+    });
   }
-  return clone;
 }
