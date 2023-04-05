@@ -101,7 +101,7 @@ class Game {
     });
 
     this.enemy.draw(ctx);
-    // this.pathfinding.drawPath(ctx);
+    this.pathfinding.drawPath(ctx);
 
     if (this.player2) {
       this.player2.draw(ctx);
