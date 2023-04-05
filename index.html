@@ -11,8 +11,61 @@
     <img id="level1" src="/assets/img/map-1.png" />
     <img id="racon" src="/assets/img/racoon.png" />
 
-    <h1>Game in progress</h1>
-    <div><span>Score:</span><span id="scoreEL">0</span></div>
+    <div id="gameMenu">
+      <div id="startMenu">
+        <button id="startButton" type="button">Start Game</button>
+        <button type="button" id="leaderBoard-button">LeaderBoard</button>
+        <button type="button" id="settings-button">Settings</button>
+      </div>
+
+      <div id="playerSelector">
+        <input type="text" id="saveName" />
+        <button id="singlePlayer">Single Play</button>
+        <button id="duoPlay">Duo Play</button>
+      </div>
+
+      <div id="leaderBoard">
+        <button id="leaderBoard-back-btn">Back</button>
+      </div>
+
+      <div id="settings">
+        <div class="playerSettings">
+          <h1>Player 1</h1>
+          <div>
+            <h1>Move Up:</h1>
+            <h2 id="up-Key">W</h2>
+          </div>
+          <div>
+            <h1>Move Down:</h1>
+            <h2 id="down-Key">S</h2>
+          </div>
+          <div>
+            <h1>Move Left:</h1>
+            <h2 id="left-Key">A</h2>
+          </div>
+          <div>
+            <h1>Move Right:</h1>
+            <h2 id="right-Key">D</h2>
+          </div>
+          <div>
+            <h1>Shoot Up:</h1>
+            <h2 id="shootUp-Key">Arrow Up</h2>
+          </div>
+          <div>
+            <h1>Shoot Down:</h1>
+            <h2 id="shootDown-Key">Arrow Down</h2>
+          </div>
+          <div>
+            <h1>Shoot Left:</h1>
+            <h2 id="shootLeft-Key">Arrow Left</h2>
+          </div>
+          <div>
+            <h1>Shoot Right:</h1>
+            <h2 id="shootRight-Key">Arrow Right</h2>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <canvas id="canvas"></canvas>
 

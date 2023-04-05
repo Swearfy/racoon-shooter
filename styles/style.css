@@ -1,4 +1,13 @@
-canvas {
+body {
+  background-color: #222;
+  color: #aaa;
+}
+
+img {
+  display: none;
+}
+
+#gameMenu {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -7,15 +16,58 @@ canvas {
   max-height: 100%;
 }
 
-body {
-  background-color: black;
+#startMenu,
+#playerSelector,
+#leaderBoard {
+  flex-direction: column;
+  gap: 20px;
+  width: 200px;
 }
 
-h1,
-span {
+#startMenu {
+  display: none;
+}
+
+#playerSelector {
+  display: none;
+}
+
+#leaderBoard {
+  display: none;
+}
+
+#settings {
+  display: none;
+  flex-direction: column;
+}
+
+.playerSettings {
+  width: 400px;
+}
+.playerSettings div {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  padding-left: 50px;
+  border: 1px solid black;
+}
+
+.playerSettings h1,
+h2 {
+  font-size: x-large;
+}
+
+.playerSettings h2 {
   color: white;
 }
 
-img {
-  display: none;
+canvas {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+  border: black 5px solid;
 }
