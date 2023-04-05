@@ -1,4 +1,4 @@
-export function playerMovement(player, keys) {
+export function playerMovement(player, keys, ee) {
   let playerSpeed = 2;
 
   if (
@@ -15,5 +15,8 @@ export function playerMovement(player, keys) {
     : 0;
   let y = keys.up.pressed ? -playerSpeed : keys.down.pressed ? playerSpeed : 0;
 
+  if (x !== 0 || y !== 0) {
+    ee.emit("test");
+  }
   player.move(x, y);
 }

@@ -12,6 +12,7 @@ export class Pathfinding {
     this.end;
     this.clonedGrid = [];
     this.path = [];
+    this.closedSet = [];
   }
   updateStartAndEnd(start, end) {
     let startY = toIndex(start.y, 30);
@@ -29,6 +30,7 @@ export class Pathfinding {
 
     this.start.g = 0;
     this.start.f = 0;
+    this.start.parent = null;
 
     this.openSet.push(this.start);
     this.path = [];
@@ -72,6 +74,7 @@ export class Pathfinding {
 
     return [];
   }
+
   /**
    * @param current
    *

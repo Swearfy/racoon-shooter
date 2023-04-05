@@ -72,7 +72,10 @@ export function cloneGrid(grid) {
   for (let row = 0; row < grid.length; row++) {
     clone[row] = [];
     for (let col = 0; col < grid[row].length; col++) {
-      clone[row][col] = grid[row][col];
+      const tile = grid[row][col];
+      if (tile) {
+        clone[row][col] = tile.clone();
+      }
     }
   }
   return clone;

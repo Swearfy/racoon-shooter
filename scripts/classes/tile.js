@@ -5,56 +5,57 @@ export class Tile {
     this.x = x;
     this.y = y;
     this.tileSize = tileSize;
-    this.f = 0;
-    this.g = 0;
-    this.h = 0;
-    this.neigbours = [];
     this.walkable = !!walkable;
-    this.parent = null;
-    this.closed = false;
+  }
+  clone() {
+    return new Tile(this.x, this.y, this.tileSize, this.walkable);
   }
   getNeighbors(grid) {
+    const neigbours = [];
     // ←
     if (getTileAtIndex(grid, this.x - 1, this.y).walkable) {
-      this.neigbours.push(getTileAtIndex(grid, this.x - 1, this.y));
+      neigbours.push(getTileAtIndex(grid, this.x - 1, this.y));
     }
 
     // ↑
     if (getTileAtIndex(grid, this.x, this.y - 1).walkable) {
-      this.neigbours.push(getTileAtIndex(grid, this.x, this.y - 1));
+      neigbours.push(getTileAtIndex(grid, this.x, this.y - 1));
     }
 
     // →
     if (getTileAtIndex(grid, this.x + 1, this.y).walkable) {
-      this.neigbours.push(getTileAtIndex(grid, this.x + 1, this.y));
+      neigbours.push(getTileAtIndex(grid, this.x + 1, this.y));
     }
 
     // ↓
     if (getTileAtIndex(grid, this.x, this.y + 1).walkable) {
-      this.neigbours.push(getTileAtIndex(grid, this.x, this.y + 1));
+      neigbours.push(getTileAtIndex(grid, this.x, this.y + 1));
     }
 
     // ↖
     if (getTileAtIndex(grid, this.x - 1, this.y - 1).walkable) {
-      this.neigbours.push(getTileAtIndex(grid, this.x - 1, this.y - 1));
+      neigbours.push(getTileAtIndex(grid, this.x - 1, this.y - 1));
     }
 
     // ↗
     if (getTileAtIndex(grid, this.x + 1, this.y - 1).walkable) {
-      this.neigbours.push(getTileAtIndex(grid, this.x + 1, this.y - 1));
+      neigbours.push(getTileAtIndex(grid, this.x + 1, this.y - 1));
     }
 
     // ↘
     if (getTileAtIndex(grid, this.x + 1, this.y + 1).walkable) {
-      this.neigbours.push(getTileAtIndex(grid, this.x + 1, this.y + 1));
+      neigbours.push(getTileAtIndex(grid, this.x + 1, this.y + 1));
     }
 
     // ↙
     if (getTileAtIndex(grid, this.x - 1, this.y + 1).walkable) {
-      this.neigbours.push(getTileAtIndex(grid, this.x - 1, this.y + 1));
+      neigbours.push(getTileAtIndex(grid, this.x - 1, this.y + 1));
     }
 
-    return this.neigbours;
+    return neigbours;
+  }
+  equals(tile) {
+    return this.x === tile.x && this.y === tile.y;
   }
   draw(ctx) {
     ctx.fillRect(

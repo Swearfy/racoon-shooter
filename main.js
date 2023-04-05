@@ -38,9 +38,7 @@ class Game {
     this.ee.on("test", this.test);
   }
   test() {
-    console.log(
-      game.pathfinding.findPath(game.currentLevel.grid, game.enemy, game.player)
-    );
+    game.pathfinding.findPath(game.currentLevel.grid, game.enemy, game.player);
   }
   init(player) {
     this.currentLevel.makeGrid(level_1);
@@ -66,10 +64,6 @@ class Game {
 
     if (this.player2) {
       this.player2.update(fps, this.currentLevel);
-    }
-
-    if (this.input.player1Keys.down.pressed) {
-      this.ee.emit("test");
     }
 
     playerMovement(this.player, this.input.player1Keys, this.ee);
@@ -107,7 +101,7 @@ class Game {
     });
 
     this.enemy.draw(ctx);
-    this.pathfinding.drawPath(ctx);
+    // this.pathfinding.drawPath(ctx);
 
     if (this.player2) {
       this.player2.draw(ctx);
