@@ -21,13 +21,6 @@ export class Pathfinding {
 
     this.start = this.clonedGrid[startY][startX];
     this.end = this.clonedGrid[endY][endX];
-    if (
-      (this.start.x !== startX && this.start.y !== startY) ||
-      (this.end.x !== endX && this.end.y !== endY)
-    ) {
-      this.openSet = [];
-      this.path = [];
-    }
   }
   findPath(grid, start, end) {
     this.clonedGrid = cloneGrid(grid);
@@ -38,6 +31,7 @@ export class Pathfinding {
     this.start.f = 0;
 
     this.openSet.push(this.start);
+    this.path = [];
 
     if (!this.end.walkable) {
       return;

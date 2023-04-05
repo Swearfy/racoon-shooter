@@ -9,7 +9,6 @@ export class Enemy extends Entity {
     this.spriteHeight = 30;
     this.dx = 0;
     this.dy = 0;
-    this.pathfinding = new Pathfinding();
   }
   update(fps, player, level) {
     this.x += this.velocityX * fps;
@@ -19,12 +18,9 @@ export class Enemy extends Entity {
     checkY(this, level);
 
     if (this.pathfinding.start !== this || player !== this.pathfinding.end) {
-      this.pathfinding.findPath(level, this, player);
     }
   }
   draw(ctx) {
-    this.pathfinding.drawPath(ctx);
-
     ctx.fillStyle = "red";
     ctx.fillRect(this.x, this.y, this.width, this.height);
   }
