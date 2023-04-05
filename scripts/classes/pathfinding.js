@@ -32,8 +32,9 @@ export class Pathfinding {
     this.start.f = 0;
     this.start.parent = null;
 
-    this.openSet.push(this.start);
+    this.openSet = [];
     this.path = [];
+    this.openSet.push(this.start);
 
     if (!this.end.walkable) {
       return;
