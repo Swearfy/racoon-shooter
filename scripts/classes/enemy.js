@@ -16,9 +16,6 @@ export class Enemy extends Entity {
 
     this.y += this.velocityY * fps;
     checkY(this, level);
-
-    if (this.pathfinding.start !== this || player !== this.pathfinding.end) {
-    }
   }
   draw(ctx) {
     ctx.fillStyle = "red";

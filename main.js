@@ -43,6 +43,7 @@ class Game {
   init(player) {
     this.currentLevel.makeGrid(level_1);
     this.input.inputControl(this.input.player1Keys);
+    this.ee.emit("test");
 
     requestAnimationFrame(animate);
   }
