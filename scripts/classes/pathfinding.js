@@ -15,10 +15,10 @@ export class Pathfinding {
     this.closedSet = [];
   }
   updateStartAndEnd(start, end) {
-    let startY = toIndex(start.y, 30);
-    let startX = toIndex(start.x, 30);
-    let endY = toIndex(end.y, 30);
-    let endX = toIndex(end.x, 30);
+    let startY = toIndex(start.y);
+    let startX = toIndex(start.x);
+    let endY = toIndex(end.y);
+    let endX = toIndex(end.x);
 
     this.start = this.clonedGrid[startY][startX];
     this.end = this.clonedGrid[endY][endX];
@@ -36,9 +36,7 @@ export class Pathfinding {
     this.path = [];
     this.openSet.push(this.start);
 
-    if (!this.end.walkable) {
-      return;
-    }
+    if (!this.end.walkable) return;
 
     while (this.openSet.length > 0) {
       let current = this.getLowestF(this.openSet);

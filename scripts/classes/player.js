@@ -14,35 +14,61 @@ export class Player extends Entity {
     this.spriteHeight = 90;
     this.hitboxX = this.x + 35;
     this.hitboxY = this.y + 40;
+    this.bulletSpeed = 4;
+    this.playerSpeed = 2;
   }
-  update(fps, level) {
+  update(fps, level, input, ee) {
     this.x += this.velocityX * fps;
     checkX(this, level);
 
     this.y += this.velocityY * fps;
     checkY(this, level);
 
-    //out of bounds check on x axies
-    if (this.x < 0) {
-      this.x = 0;
-    }
-    if (this.x > this.game.width - this.width) {
-      this.x = this.game.width - this.width;
-    }
+    this.move(input, ee);
+    this.shoot(input);
+  }
+  move(keys, ee) {
+    // if (
+    //   (keys.up.pressed || keys.down.pressed) &&
+    //   (keys.left.pressed || keys.right.pressed)
+    // ) {
+    //   this.playerSpeed = this.playerSpeed * 0.71;
+    // }
 
-    //out of bounds check on y axies
-    if (this.y < 0) {
-      this.y = 0;
-    }
-    if (this.y > this.game.height - this.height) {
-      this.y = this.game.height - this.height;
+    this.velocityX = keys.left.pressed
+      ? -this.playerSpeed
+      : keys.right.pressed
+      ? this.playerSpeed
+      : 0;
+    this.velocityY = keys.up.pressed
+      ? -this.playerSpeed
+      : keys.down.pressed
+      ? this.playerSpeed
+      : 0;
+
+    if (this.velocityX !== 0 || this.velocityY !== 0) {
+      ee.emit("test");
     }
   }
-  move(x, y) {
-    this.velocityX = x;
-    this.velocityY = y;
-  }
-  shoot(velX, velY) {
+  shoot(keys) {
+    // if (
+    //   (keys.shootUp.pressed || keys.shootDown.pressed) &&
+    //   (keys.shootLeft.pressed || keys.shootRight.pressed)
+    // ) {
+    //   bulletSpeed = bulletSpeed * 0.71;
+    // }
+
+    let velX = keys.shootLeft.pressed
+      ? -this.bulletSpeed
+      : keys.shootRight.pressed
+      ? this.bulletSpeed
+      : 0;
+    let velY = keys.shootUp.pressed
+      ? -this.bulletSpeed
+      : keys.shootDown.pressed
+      ? this.bulletSpeed
+      : 0;
+
     if ((velX != 0 || velY != 0) && Date.now() > this.actionLock) {
       this.actionLock = Date.now() + 1000 / this.shootSpeed;
       this.game.bullets.push(
@@ -56,7 +82,6 @@ export class Player extends Entity {
       );
     }
   }
-
   draw(ctx) {
     ctx.drawImage(
       this.player,

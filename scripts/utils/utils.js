@@ -6,7 +6,7 @@ import { Tile } from "../classes/tile.js";
  * @param {*} tileSize
  * @returns
  */
-export function toIndex(pos, tileSize) {
+export function toIndex(pos, tileSize = 30) {
   let newPos = Math.floor(pos / tileSize);
   return newPos;
 }
@@ -26,7 +26,7 @@ export function toIndexRange(pos1, pos2, tileSize) {
   let pos = pos1;
 
   do {
-    range.push(toIndex(pos, tileSize));
+    range.push(toIndex(pos));
     pos += tileSize;
   } while (pos < maxPos);
   return range;

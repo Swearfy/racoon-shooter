@@ -1,12 +1,10 @@
 import { Input } from "./scripts/utils/input.js";
 import { Player } from "./scripts/classes/player.js";
 import { Enemy } from "./scripts/classes/enemy.js";
-import { playerMovement } from "./scripts/utils/movement.js";
-import { playerShooting } from "./scripts/utils/shooting.js";
 import { Grid } from "./scripts/classes/grid.js";
 import { level_1 } from "./assets/tilemaps/level-1.js";
 import { checkX, checkY } from "./scripts/utils/collision.js";
-import { removeFromArray, toIndex } from "./scripts/utils/utils.js";
+import { removeFromArray } from "./scripts/utils/utils.js";
 import { EventEmitter } from "./scripts/utils/eventEmitter.js";
 import { Pathfinding } from "./scripts/classes/pathfinding.js";
 
@@ -61,14 +59,12 @@ class Game {
    * @param fps - The time in frames since the last update
    */
   update(fps) {
-    this.player.update(fps, this.currentLevel);
+    this.player.update(fps, this.currentLevel, this.input.player1Keys, this.ee);
 
     if (this.player2) {
       this.player2.update(fps, this.currentLevel);
     }
 
-    playerMovement(this.player, this.input.player1Keys, this.ee);
-    playerShooting(this.player, this.input.player1Keys);
     this.input.controllerInput(this.input.player1Keys);
 
     this.bullets.forEach((bullet) => {
@@ -116,8 +112,6 @@ class Game {
 }
 
 const game = new Game(canvas.width, canvas.height);
-const player1 = new Player(game, 300, 300);
-const player2 = new Player(game, 300, 500);
 
 game.init();
 //game.twoPlayerInit(player1, player2);
