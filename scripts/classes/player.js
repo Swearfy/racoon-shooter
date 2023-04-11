@@ -1,13 +1,13 @@
 import { Bullet } from "./bullet.js";
 import { checkX, checkY } from "../utils/collision.js";
 import { Entity } from "./entity.js";
+import { removeFromArray } from "../utils/utils.js";
 
 export class Player extends Entity {
-  constructor(game, x, y, level) {
+  constructor(game, x, y, ee) {
     super(x, y, 30, 70, 0, 0);
     this.game = game;
     this.player = document.getElementById("racon");
-    this.level = level;
     this.actionLock = 0;
     this.shootSpeed = 3;
     this.spriteWidth = 60;
@@ -16,18 +16,31 @@ export class Player extends Entity {
     this.hitboxY = this.y + 40;
     this.bulletSpeed = 4;
     this.playerSpeed = 2;
+    this.ee = ee;
+    this.bullets = [];
   }
-  update(fps, level, input, ee) {
+  update(fps, level, input) {
     this.x += this.velocityX * fps;
     checkX(this, level);
 
     this.y += this.velocityY * fps;
     checkY(this, level);
 
-    this.move(input, ee);
+    this.move(input);
     this.shoot(input);
+
+    for (const bullet of this.bullets) {
+      bullet.update(fps);
+      checkX(bullet, level);
+      checkY(bullet, level);
+
+      // Removes the bullet from the bullet list.
+      if (bullet.collide === true) {
+        removeFromArray(this.bullets, bullet);
+      }
+    }
   }
-  move(keys, ee) {
+  move(keys) {
     // if (
     //   (keys.up.pressed || keys.down.pressed) &&
     //   (keys.left.pressed || keys.right.pressed)
@@ -47,7 +60,7 @@ export class Player extends Entity {
       : 0;
 
     if (this.velocityX !== 0 || this.velocityY !== 0) {
-      ee.emit("test");
+      this.ee.emit("test");
     }
   }
   shoot(keys) {
@@ -71,7 +84,7 @@ export class Player extends Entity {
 
     if ((velX != 0 || velY != 0) && Date.now() > this.actionLock) {
       this.actionLock = Date.now() + 1000 / this.shootSpeed;
-      this.game.bullets.push(
+      this.bullets.push(
         new Bullet(
           this.x + this.width / 2,
           this.y + this.height / 2.3,
@@ -90,6 +103,9 @@ export class Player extends Entity {
       this.spriteWidth,
       this.spriteHeight
     );
+    this.bullets.forEach((bullet) => {
+      bullet.draw(ctx);
+    });
 
     ctx.strokeRect(this.x, this.y, this.width, this.height);
   }

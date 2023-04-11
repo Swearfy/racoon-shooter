@@ -3,10 +3,7 @@ import { Player } from "./scripts/classes/player.js";
 import { Enemy } from "./scripts/classes/enemy.js";
 import { Grid } from "./scripts/classes/grid.js";
 import { level_1 } from "./assets/tilemaps/level-1.js";
-import { checkX, checkY } from "./scripts/utils/collision.js";
-import { removeFromArray } from "./scripts/utils/utils.js";
 import { EventEmitter } from "./scripts/utils/eventEmitter.js";
-import { Pathfinding } from "./scripts/classes/pathfinding.js";
 
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
@@ -25,23 +22,18 @@ class Game {
     this.width = width;
     this.height = height;
 
-    this.currentLevel = new Grid(30);
-    this.input = new Input();
-    this.player = new Player(this, 300, 300);
-    this.bullets = [];
     this.ee = new EventEmitter();
-    this.enemy = new Enemy(this);
-    this.pathfinding = new Pathfinding();
+    this.currentLevel = new Grid(30);
     this.currentLevel.makeGrid(level_1);
-    this.ee.on("test", this.test);
+
+    this.input = new Input();
+
+    this.player = new Player(this, 300, 300, this.ee);
+    this.enemy = new Enemy(this, this.ee, this.currentLevel.grid, this.player);
   }
-  test() {
-    game.pathfinding.findPath(game.currentLevel.grid, game.enemy, game.player);
-  }
-  init(player) {
+  init() {
     this.currentLevel.makeGrid(level_1);
     this.input.inputControl(this.input.player1Keys);
-    this.ee.emit("test");
 
     requestAnimationFrame(animate);
   }
@@ -59,30 +51,15 @@ class Game {
    * @param fps - The time in frames since the last update
    */
   update(fps) {
-    this.player.update(fps, this.currentLevel, this.input.player1Keys, this.ee);
+    this.player.update(fps, this.currentLevel, this.input.player1Keys);
 
     if (this.player2) {
       this.player2.update(fps, this.currentLevel);
     }
 
+    this.enemy.update(fps, this.currentLevel);
+
     this.input.controllerInput(this.input.player1Keys);
-
-    this.bullets.forEach((bullet) => {
-      bullet.update(fps);
-      checkX(bullet, this.currentLevel);
-      checkY(bullet, this.currentLevel);
-
-      // Removes the bullet from the bullet list.
-      if (
-        bullet.y <= -bullet.height ||
-        bullet.y >= this.height ||
-        bullet.x <= -bullet.width ||
-        bullet.x >= this.width ||
-        bullet.collide === true
-      ) {
-        removeFromArray(this.bullets, bullet);
-      }
-    });
   }
   /**
    * Draw the level on the canvas. This is called every frame to ensure that everything is drawn in one frame.
@@ -98,16 +75,11 @@ class Game {
     });
 
     this.enemy.draw(ctx);
-    this.pathfinding.drawPath(ctx);
 
     if (this.player2) {
       this.player2.draw(ctx);
     }
     this.player.draw(ctx);
-
-    this.bullets.forEach((bullet) => {
-      bullet.draw(ctx);
-    });
   }
 }
 
