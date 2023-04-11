@@ -7,6 +7,12 @@ export class Tile {
     this.tileSize = tileSize;
     this.walkable = !!walkable;
   }
+  get centerX() {
+    return this.x * (this.tileSize / 2);
+  }
+  get centerY() {
+    return this.y * (this.tileSize / 2);
+  }
   clone() {
     return new Tile(this.x, this.y, this.tileSize, this.walkable);
   }
