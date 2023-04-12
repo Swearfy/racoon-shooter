@@ -25,7 +25,7 @@ export class Enemy extends Entity {
     );
   }
   // Move to the next point in the path.
-  goTo(level) {
+  goTo(level, fps) {
     const currentPoint = this.pathToFollow.shift();
     const nextPoint = this.pathToFollow[0];
 
@@ -36,12 +36,17 @@ export class Enemy extends Entity {
       const angle = Math.atan2(dy, dx);
 
       // Move in the direction vector.
-      this.x += Math.cos(angle) * this.maxSpeed;
-      this.y += Math.sin(angle) * this.maxSpeed;
+      this.x += this.velocityX * fps;
+      this.velocityX = Math.round(Math.cos(angle)) * this.maxSpeed;
+      checkX(this, level);
+
+      this.y += this.velocityY * fps;
+      this.velocityY = Math.round(Math.sin(angle)) * this.maxSpeed;
+      checkY(this, level);
     }
   }
   update(fps, level) {
-    this.goTo(level);
+    this.goTo(level, fps);
     this.findPlayer();
   }
   draw(ctx) {
