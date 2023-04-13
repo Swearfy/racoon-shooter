@@ -1,4 +1,5 @@
 import { checkX, checkY } from "../utils/collision.js";
+import { toIndex } from "../utils/utils.js";
 import { Entity } from "./entity.js";
 import { Pathfinding } from "./pathfinding.js";
 export class Enemy extends Entity {
@@ -13,7 +14,7 @@ export class Enemy extends Entity {
     this.level = level;
     this.player = player;
     this.ee.on("test", () => {
-      "this.findPlayer();";
+      this.findPlayer();
     });
     this.pathToFollow = [];
   }
@@ -23,12 +24,10 @@ export class Enemy extends Entity {
       this,
       this.player
     );
+    console.log(this.pathToFollow);
   }
   // Move to the next point in the path.
   goTo(level, fps) {
-    if (!this.pathToFollow || this.pathToFollow.length === 0) {
-      return;
-    }
     const currentPoint = this.pathToFollow.shift();
     const nextPoint = this.pathToFollow[0];
 
@@ -46,17 +45,24 @@ export class Enemy extends Entity {
       this.y += this.velocityY * fps;
       this.velocityY = Math.round(Math.sin(angle)) * this.maxSpeed;
       checkY(this, level);
-
-      console.log(this.velocityX);
     }
   }
   update(fps, level) {
     this.goTo(level, fps);
-    this.findPlayer();
+    // this.findPlayer();
   }
   draw(ctx) {
     this.pathfinding.drawPath(ctx);
+
     ctx.fillStyle = "blue";
     ctx.fillRect(this.x, this.y, this.width, this.height);
+    // Draw position on self
+    ctx.font = "12px Arial";
+    ctx.fillStyle = "white";
+    ctx.fillText(
+      `(${Math.round(toIndex(this.x))}, ${Math.round(toIndex(this.y))})`,
+      this.x + this.width / 2,
+      this.y + this.height / 2
+    );
   }
 }

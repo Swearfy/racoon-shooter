@@ -1,7 +1,7 @@
 import { Bullet } from "./bullet.js";
 import { checkX, checkY } from "../utils/collision.js";
 import { Entity } from "./entity.js";
-import { removeFromArray } from "../utils/utils.js";
+import { removeFromArray, toIndex } from "../utils/utils.js";
 
 export class Player extends Entity {
   constructor(game, x, y, ee) {
@@ -107,6 +107,13 @@ export class Player extends Entity {
       bullet.draw(ctx);
     });
 
+    ctx.font = "12px Arial";
+    ctx.fillStyle = "black";
+    ctx.fillText(
+      `(${Math.round(toIndex(this.x))}, ${Math.round(toIndex(this.y))})`,
+      this.x + this.width / 2,
+      this.y + this.height / 2
+    );
     ctx.strokeRect(this.x, this.y, this.width, this.height);
   }
 }
