@@ -26,13 +26,16 @@ export class Enemy extends Entity {
   }
   // Move to the next point in the path.
   goTo(level, fps) {
+    if (!this.pathToFollow || this.pathToFollow.length === 0) {
+      return;
+    }
     const currentPoint = this.pathToFollow.shift();
     const nextPoint = this.pathToFollow[0];
 
     // Calculate the direction vector.
     if (nextPoint) {
-      const dx = nextPoint.centerX - currentPoint.centerX;
-      const dy = nextPoint.centerY - currentPoint.centerY;
+      const dx = nextPoint.x - currentPoint.x;
+      const dy = nextPoint.y - currentPoint.y;
       const angle = Math.atan2(dy, dx);
 
       // Move in the direction vector.
@@ -43,6 +46,8 @@ export class Enemy extends Entity {
       this.y += this.velocityY * fps;
       this.velocityY = Math.round(Math.sin(angle)) * this.maxSpeed;
       checkY(this, level);
+
+      console.log(this.velocityX);
     }
   }
   update(fps, level) {

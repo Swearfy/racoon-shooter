@@ -19,9 +19,10 @@ export class Pathfinding {
     let startX = toIndex(start.x);
     let endY = toIndex(end.y);
     let endX = toIndex(end.x);
-
-    this.start = this.clonedGrid[startY][startX];
-    this.end = this.clonedGrid[endY][endX];
+    if (this.clonedGrid[startY] && this.clonedGrid[endY]) {
+      this.start = this.clonedGrid[startY][startX];
+      this.end = this.clonedGrid[endY][endX];
+    }
   }
   findPath(grid, start, end) {
     this.clonedGrid = cloneGrid(grid);
@@ -55,18 +56,24 @@ export class Pathfinding {
       for (let i = 0; i < neigbours.length; i++) {
         let neigbor = neigbours[i];
 
-        if (!neigbor.closed) {
-          let possibleG = current.g + 1;
+        if (neigbor.closed) {
+          continue;
+        }
 
-          if (!this.openSet.includes(neigbor)) {
-            this.openSet.push(neigbor);
-          } else if (possibleG >= neigbor.g) {
-            continue;
-          }
+        let possibleG =
+          current.g +
+          (current.x - neigbor.x === 0 || current.y - neigbor.y === 0
+            ? 1
+            : Math.SQRT2);
+
+        if (!this.openSet.includes(neigbor) || possibleG < neigbor.g) {
           neigbor.g = possibleG;
           neigbor.h = calculateH(neigbor, this.end);
           neigbor.f = neigbor.g + neigbor.h;
           neigbor.parent = current;
+          if (!this.openSet.includes(neigbor)) {
+            this.openSet.push(neigbor);
+          }
         }
       }
     }
