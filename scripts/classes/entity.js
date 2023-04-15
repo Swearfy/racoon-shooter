@@ -1,5 +1,6 @@
 export class Entity {
-  constructor(x, y, width, height, velocityX, velocityY) {
+  constructor(game, x, y, width, height, velocityX, velocityY) {
+    this.game = game;
     this.x = x;
     this.y = y;
     this.width = width;
@@ -18,5 +19,11 @@ export class Entity {
   }
   get left() {
     return this.x;
+  }
+  setVelocity(speedX, speedY) {
+    this.x += this.velocityX;
+    this.y += this.velocityY;
+    this.velocityX = speedX * this.game.fps;
+    this.velocityY = speedY * this.game.fps;
   }
 }

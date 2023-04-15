@@ -1,70 +1,85 @@
-export function checkX(entity, grid) {
-  let x;
-  if (entity.velocityX > 0) {
-    x = entity.right;
-  } else if (entity.velocityX < 0) {
-    x = entity.x;
-  } else {
-    return;
-  }
+export function checkCollision(entity, grid) {
+  const tileHalf = grid.tileSize / 2;
 
-  const tiles = grid.searchTilesInRange(x, x, entity.y, entity.bottom);
-
-  tiles.forEach((tile) => {
-    const tileX1 = tile.x * tile.tileSize;
-    const tileX2 = tileX1 + tile.tileSize;
-
-    if (tile.walkable) {
-      return;
-    }
-
+  // Check X-axis collision
+  if (entity.velocityX !== 0) {
+    let x;
     if (entity.velocityX > 0) {
-      if (entity.right > tileX1) {
-        entity.x = tileX1 - entity.width;
-        entity.velocityX = 0;
-        entity.collide = true;
-      }
-    } else if (entity.velocityX < 0) {
-      if (entity.x < tileX2) {
-        entity.x = tileX2;
-        entity.velocityX = 0;
-        entity.collide = true;
-      }
+      x = entity.right;
+    } else {
+      x = entity.left;
     }
-  });
-}
 
-export function checkY(entity, grid) {
-  let y;
-  if (entity.velocityY > 0) {
-    y = entity.bottom;
-  } else if (entity.velocityY < 0) {
-    y = entity.y;
-  } else {
-    return;
+    const tiles = grid.searchTilesInRange(
+      x - tileHalf,
+      x + tileHalf,
+      entity.top,
+      entity.bottom
+    );
+
+    tiles.forEach((tile) => {
+      if (tile.walkable) {
+        return;
+      }
+
+      if (entity.velocityX > 0) {
+        if (
+          entity.right + entity.velocityX > tile.left &&
+          entity.left < tile.left
+        ) {
+          entity.velocityX = tile.left - entity.right;
+          entity.collide = true;
+        }
+      } else {
+        if (
+          entity.left + entity.velocityX < tile.right &&
+          entity.right > tile.right
+        ) {
+          entity.velocityX = tile.right - entity.left;
+          entity.collide = true;
+        }
+      }
+    });
   }
 
-  const tiles = grid.searchTilesInRange(entity.x, entity.right, y, y);
-
-  tiles.forEach((tile) => {
-    const tileY1 = tile.y * tile.tileSize;
-    const tileY2 = tileY1 + tile.tileSize;
-    if (tile.walkable) {
-      return;
-    }
-
+  // Check Y-axis collision
+  if (entity.velocityY !== 0) {
+    let y;
     if (entity.velocityY > 0) {
-      if (entity.bottom > tileY1) {
-        entity.y = tileY1 - entity.height;
-        entity.velocityY = 0;
-        entity.collide = true;
-      }
-    } else if (entity.velocityY < 0) {
-      if (entity.y < tileY2) {
-        entity.y = tileY2;
-        entity.velocityY = 0;
-        entity.collide = true;
-      }
+      y = entity.bottom;
+    } else {
+      y = entity.top;
     }
-  });
+
+    const tiles = grid.searchTilesInRange(
+      entity.left,
+      entity.right,
+      y - tileHalf,
+      y + tileHalf
+    );
+
+    tiles.forEach((tile) => {
+      if (tile.walkable) {
+        return;
+      }
+
+      if (entity.velocityY > 0) {
+        if (
+          entity.bottom + entity.velocityY > tile.top &&
+          entity.top < tile.top
+        ) {
+          entity.velocityY = tile.top - entity.bottom;
+          entity.collide = true;
+        }
+      } else {
+        if (
+          entity.top + entity.velocityY < tile.bottom &&
+          entity.bottom > tile.bottom
+        ) {
+          entity.velocityY = tile.bottom - entity.top;
+          entity.collide = true;
+        }
+      }
+    });
+  }
 }

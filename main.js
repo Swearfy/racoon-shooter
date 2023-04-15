@@ -21,6 +21,7 @@ class Game {
   constructor(width, height) {
     this.width = width;
     this.height = height;
+    this.fps = 0;
 
     this.ee = new EventEmitter();
     this.currentLevel = new Grid(30);
@@ -47,17 +48,15 @@ class Game {
   }
   /**
    * Updates the enemy's player and bullets. This is called every frame to ensure that everything is up to date
-   *
-   * @param fps - The time in frames since the last update
    */
-  update(fps) {
-    this.player.update(fps, this.currentLevel, this.input.player1Keys);
+  update() {
+    this.player.update(this.currentLevel, this.input.player1Keys);
 
     if (this.player2) {
-      this.player2.update(fps, this.currentLevel);
+      this.player2.update(this.currentLevel);
     }
 
-    this.enemy.update(fps, this.currentLevel);
+    this.enemy.update(this.currentLevel);
 
     this.input.controllerInput(this.input.player1Keys);
   }
@@ -96,12 +95,12 @@ game.init();
 function animate(currentTime) {
   const frameTimeDelta = currentTime - previouseTime;
   previouseTime = currentTime;
-  let fps = gameSpeed * frameTimeDelta;
+  game.fps = gameSpeed * frameTimeDelta;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   //placeholder color
 
-  game.update(fps);
+  game.update();
   game.draw(ctx);
   requestAnimationFrame(animate);
 }

@@ -1,11 +1,10 @@
-import { checkX, checkY } from "../utils/collision.js";
+import { checkCollision } from "../utils/collision.js";
 import { toIndex } from "../utils/utils.js";
 import { Entity } from "./entity.js";
 import { Pathfinding } from "./pathfinding.js";
 export class Enemy extends Entity {
   constructor(game, ee, level, player) {
-    super(Math.random() * 900, Math.random() * 900, 30, 30, 0, 0);
-    this.game = game;
+    super(game, Math.random() * 900, Math.random() * 900, 30, 30, 0, 0);
     this.spriteWidth = 30;
     this.spriteHeight = 30;
     this.maxSpeed = 1;
@@ -14,7 +13,7 @@ export class Enemy extends Entity {
     this.level = level;
     this.player = player;
     this.ee.on("test", () => {
-      this.findPlayer();
+      // this.findPlayer();
     });
     this.pathToFollow = [];
   }
@@ -24,10 +23,9 @@ export class Enemy extends Entity {
       this,
       this.player
     );
-    console.log(this.pathToFollow);
   }
   // Move to the next point in the path.
-  goTo(level, fps) {
+  goTo() {
     const currentPoint = this.pathToFollow.shift();
     const nextPoint = this.pathToFollow[0];
 
@@ -38,18 +36,15 @@ export class Enemy extends Entity {
       const angle = Math.atan2(dy, dx);
 
       // Move in the direction vector.
-      this.x += this.velocityX * fps;
-      this.velocityX = Math.round(Math.cos(angle)) * this.maxSpeed;
-      checkX(this, level);
-
-      this.y += this.velocityY * fps;
-      this.velocityY = Math.round(Math.sin(angle)) * this.maxSpeed;
-      checkY(this, level);
+      const velX = Math.round(Math.cos(angle)) * this.maxSpeed;
+      const velY = Math.round(Math.sin(angle)) * this.maxSpeed;
+      this.setVelocity(velX, velY);
     }
   }
-  update(fps, level) {
-    this.goTo(level, fps);
-    // this.findPlayer();
+  update(level) {
+    this.goTo();
+    this.findPlayer();
+    checkCollision(this, level);
   }
   draw(ctx) {
     this.pathfinding.drawPath(ctx);

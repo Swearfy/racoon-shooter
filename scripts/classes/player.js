@@ -1,12 +1,11 @@
 import { Bullet } from "./bullet.js";
-import { checkX, checkY } from "../utils/collision.js";
+import { checkCollision } from "../utils/collision.js";
 import { Entity } from "./entity.js";
 import { removeFromArray, toIndex } from "../utils/utils.js";
 
 export class Player extends Entity {
   constructor(game, x, y, ee) {
-    super(x, y, 30, 70, 0, 0);
-    this.game = game;
+    super(game, x, y, 30, 70, 0, 0);
     this.player = document.getElementById("racon");
     this.actionLock = 0;
     this.shootSpeed = 3;
@@ -19,20 +18,13 @@ export class Player extends Entity {
     this.ee = ee;
     this.bullets = [];
   }
-  update(fps, level, input) {
-    this.x += this.velocityX * fps;
-    checkX(this, level);
-
-    this.y += this.velocityY * fps;
-    checkY(this, level);
-
+  update(level, input) {
     this.move(input);
     this.shoot(input);
+    checkCollision(this, level);
 
     for (const bullet of this.bullets) {
-      bullet.update(fps);
-      checkX(bullet, level);
-      checkY(bullet, level);
+      bullet.update(level);
 
       // Removes the bullet from the bullet list.
       if (bullet.collide === true) {
@@ -48,16 +40,18 @@ export class Player extends Entity {
     //   this.playerSpeed = this.playerSpeed * 0.71;
     // }
 
-    this.velocityX = keys.left.pressed
+    let velx = keys.left.pressed
       ? -this.playerSpeed
       : keys.right.pressed
       ? this.playerSpeed
       : 0;
-    this.velocityY = keys.up.pressed
+    let velY = keys.up.pressed
       ? -this.playerSpeed
       : keys.down.pressed
       ? this.playerSpeed
       : 0;
+
+    this.setVelocity(velx, velY);
 
     if (this.velocityX !== 0 || this.velocityY !== 0) {
       this.ee.emit("test");
@@ -86,6 +80,7 @@ export class Player extends Entity {
       this.actionLock = Date.now() + 1000 / this.shootSpeed;
       this.bullets.push(
         new Bullet(
+          this.game,
           this.x + this.width / 2,
           this.y + this.height / 2.3,
           velX,
@@ -103,6 +98,7 @@ export class Player extends Entity {
       this.spriteWidth,
       this.spriteHeight
     );
+
     this.bullets.forEach((bullet) => {
       bullet.draw(ctx);
     });
