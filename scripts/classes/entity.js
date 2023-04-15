@@ -28,9 +28,11 @@ export class Entity {
     return this.x;
   }
   setVelocity(speedX, speedY) {
-    this.x += this.velocityX;
-    this.y += this.velocityY;
     this.velocityX = speedX * this.game.fps;
     this.velocityY = speedY * this.game.fps;
+  }
+  move() {
+    this.x += this.velocityX;
+    this.y += this.velocityY;
   }
 }

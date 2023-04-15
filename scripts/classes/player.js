@@ -41,9 +41,11 @@ export class Player extends Entity {
     this.staggerFrame = 30;
   }
   update(level, input) {
-    this.move(input);
-    this.shoot(input);
+    this.handleInput(input);
     checkCollision(this, level);
+    this.move();
+
+    this.shoot(input);
 
     for (const bullet of this.bullets) {
       bullet.update(level);
@@ -53,8 +55,11 @@ export class Player extends Entity {
         removeFromArray(this.bullets, bullet);
       }
     }
+    // if (this.velocityX !== 0 || this.velocityY !== 0) {
+    //   this.ee.emit("test");
+    // }
   }
-  move(keys) {
+  handleInput(keys) {
     // if (
     //   (keys.up.pressed || keys.down.pressed) &&
     //   (keys.left.pressed || keys.right.pressed)
@@ -74,10 +79,6 @@ export class Player extends Entity {
       : 0;
 
     this.setVelocity(velx, velY);
-
-    if (this.velocityX !== 0 || this.velocityY !== 0) {
-      this.ee.emit("test");
-    }
   }
   shoot(keys) {
     // if (

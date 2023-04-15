@@ -25,7 +25,7 @@ export class Enemy extends Entity {
     );
   }
   // Move to the next point in the path.
-  goTo() {
+  goTo(level) {
     const currentPoint = this.pathToFollow.shift();
     const nextPoint = this.pathToFollow[0];
 
@@ -39,12 +39,13 @@ export class Enemy extends Entity {
       const velX = Math.round(Math.cos(angle)) * this.maxSpeed;
       const velY = Math.round(Math.sin(angle)) * this.maxSpeed;
       this.setVelocity(velX, velY);
+      checkCollision(this, level);
+      this.move();
     }
   }
   update(level) {
-    this.goTo();
+    this.goTo(level);
     this.findPlayer();
-    checkCollision(this, level);
   }
   draw(ctx) {
     this.pathfinding.drawPath(ctx);

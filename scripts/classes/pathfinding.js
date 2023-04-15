@@ -56,15 +56,24 @@ export class Pathfinding {
       for (let i = 0; i < neigbours.length; i++) {
         let neigbor = neigbours[i];
 
-        if (neigbor.closed) {
+        if (neigbor.closed || !neigbor.walkable) {
           continue;
         }
 
-        let possibleG =
-          current.g +
-          (current.x - neigbor.x === 0 || current.y - neigbor.y === 0
-            ? 1
-            : Math.SQRT2);
+        let possibleG = current.g;
+
+        if (neigbor.x !== current.x && neigbor.y !== current.y) {
+          if (
+            this.clonedGrid[current.y][neigbor.x].walkable &&
+            this.clonedGrid[neigbor.y][current.x].walkable
+          ) {
+            possibleG += 1.5;
+          } else {
+            continue;
+          }
+        } else {
+          possibleG += 1;
+        }
 
         if (!this.openSet.includes(neigbor) || possibleG < neigbor.g) {
           neigbor.g = possibleG;

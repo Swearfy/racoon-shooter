@@ -13,6 +13,7 @@ export class Bullet extends Entity {
   update(level) {
     this.setVelocity(this.velX, this.velY);
     checkCollision(this, level);
+    this.move();
   }
   draw(ctx) {
     ctx.fillStyle = this.color;
