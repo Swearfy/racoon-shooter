@@ -53,12 +53,12 @@ export function getTileAtIndex(grid, x, y) {
  *
  * @param {*} entity1
  * @param {*} entity2
- * @returns Menhatten distance between 2 points
+ * @returns Octile distance between 2 points
  */
 export function calculateH(entity1, entity2) {
   let dx = Math.abs(entity1.x - entity2.x);
   let dy = Math.abs(entity1.y - entity2.y);
-  return dx + dy;
+  return 1 * (dx + dy) + (Math.SQRT2 - 2 * 1) * Math.min(dx, dy);
 }
 
 /**
