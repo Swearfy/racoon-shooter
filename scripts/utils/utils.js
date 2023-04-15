@@ -1,9 +1,7 @@
-import { Tile } from "../classes/tile.js";
-
 /**
  * Returns the position as an index based on given tile size
- * @param {*} pos
- * @param {*} tileSize
+ * @param pos
+ * @param tileSize
  * @returns
  */
 export function toIndex(pos, tileSize = 30) {
@@ -18,7 +16,7 @@ export function toIndex(pos, tileSize = 30) {
  * @param pos2 - Second position in the range
  * @param tileSize - Size of each tile in pixels.
  *
- * @return { Array } Array of tile indices that correspond to the range of positions on the map
+ * @return  Array of tile indices that correspond to the range of positions on the map
  */
 export function toIndexRange(pos1, pos2, tileSize) {
   const maxPos = Math.ceil(pos2 / tileSize) * tileSize;
@@ -39,7 +37,7 @@ export function toIndexRange(pos1, pos2, tileSize) {
  * @param x - The x position of the tile to search in
  * @param y - The y position of the tile to search in
  *
- * @return { Tile } The tile at the position or a new tile if none is found at that position
+ * @return The tile at the position or a new tile if none is found at that position
  */
 export function getTileAtIndex(grid, x, y) {
   let tile = grid[y]?.[x];
@@ -51,8 +49,8 @@ export function getTileAtIndex(grid, x, y) {
 
 /**
  *
- * @param {*} entity1
- * @param {*} entity2
+ * @param entity1
+ * @param entity2
  * @returns Octile distance between 2 points
  */
 export function calculateH(entity1, entity2) {
@@ -64,7 +62,7 @@ export function calculateH(entity1, entity2) {
 /**
  *  Clones the given grid.
  * @param grid
- * @returns {Array}
+ * @returns cloed grid
  */
 export function cloneGrid(grid) {
   let clone = [];

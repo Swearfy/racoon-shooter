@@ -84,7 +84,7 @@ export class Pathfinding {
   /**
    * @param current
    *
-   * @return { Array } The path from the root
+   * @return The path from the root
    */
   backtrackPath(current) {
     let path = [];
