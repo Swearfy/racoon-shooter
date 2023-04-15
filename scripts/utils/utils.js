@@ -1,3 +1,4 @@
+import { Tile } from "../classes/tile.js";
 /**
  * Returns the position as an index based on given tile size
  * @param pos

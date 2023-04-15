@@ -2,21 +2,43 @@ import { Bullet } from "./bullet.js";
 import { checkCollision } from "../utils/collision.js";
 import { Entity } from "./entity.js";
 import { removeFromArray, toIndex } from "../utils/utils.js";
+import { Sprite } from "./sprite.js";
 
 export class Player extends Entity {
   constructor(game, x, y, ee) {
     super(game, x, y, 30, 70, 0, 0);
-    this.player = document.getElementById("racon");
-    this.actionLock = 0;
-    this.shootSpeed = 3;
-    this.spriteWidth = 60;
-    this.spriteHeight = 90;
+    this.image = document.getElementById("racon");
+    this.ee = ee;
     this.hitboxX = this.x + 35;
     this.hitboxY = this.y + 40;
-    this.bulletSpeed = 4;
+
     this.playerSpeed = 2;
-    this.ee = ee;
+
+    this.actionLock = 0;
+    this.shootSpeed = 3;
+    this.bulletSpeed = 4;
     this.bullets = [];
+
+    // stuff for animation
+    this.sprite = new Sprite(this, this.state);
+    this.spriteWidth = 60;
+    this.spriteHeight = 90;
+    this.offsetX = 15;
+    this.offsetY = 15;
+
+    this.spriteAnim = [];
+    this.animationState = [
+      {
+        name: "moveRight",
+        frames: 1,
+      },
+      {
+        name: "idle",
+        frames: 1,
+      },
+    ];
+    this.gameFrame = 0;
+    this.staggerFrame = 30;
   }
   update(level, input) {
     this.move(input);
@@ -91,14 +113,27 @@ export class Player extends Entity {
     }
   }
   draw(ctx) {
-    ctx.drawImage(
-      this.player,
-      this.x - 15,
-      this.y - 15,
-      this.spriteWidth,
-      this.spriteHeight
-    );
+    this.animationState.forEach((state, index) => {
+      let frames = {
+        loc: [],
+      };
 
+      for (let i = 0; i < state.frames; i++) {
+        let x = i * this.spriteWidth;
+        let y = index * this.spriteHeight;
+        frames.loc.push({ x, y });
+      }
+      this.spriteAnim[state.name] = frames;
+    });
+
+    let postion =
+      Math.floor(this.gameFrame / this.staggerFrame) %
+      this.spriteAnim[this.state].loc.length;
+
+    let frameX = this.spriteAnim[this.state].loc[postion].x;
+    let frameY = this.spriteAnim[this.state].loc[postion].y;
+
+    this.sprite.draw(ctx);
     this.bullets.forEach((bullet) => {
       bullet.draw(ctx);
     });
@@ -110,6 +145,7 @@ export class Player extends Entity {
       this.x + this.width / 2,
       this.y + this.height / 2
     );
-    ctx.strokeRect(this.x, this.y, this.width, this.height);
+    // ctx.strokeRect(this.x, this.y, this.width, this.height);
+    this.gameFrame++;
   }
 }

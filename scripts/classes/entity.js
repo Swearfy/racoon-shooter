@@ -7,6 +7,13 @@ export class Entity {
     this.height = height;
     this.velocityX = velocityX;
     this.velocityY = velocityY;
+    this.state = "idle";
+  }
+  setState(state) {
+    this.state = state;
+  }
+  getState() {
+    return this.state;
   }
   get top() {
     return this.y;
