@@ -3,6 +3,7 @@ import { Player } from "./scripts/classes/player.js";
 import { Enemy } from "./scripts/classes/enemy.js";
 import { Grid } from "./scripts/classes/grid.js";
 import { level_1 } from "./assets/tilemaps/level-1.js";
+import { level_2 } from "./assets/tilemaps/level-2.js";
 import { EventEmitter } from "./scripts/utils/eventEmitter.js";
 
 const canvas = document.querySelector("canvas");
@@ -25,7 +26,6 @@ class Game {
 
     this.ee = new EventEmitter();
     this.currentLevel = new Grid(30);
-    this.currentLevel.makeGrid(level_1);
 
     this.input = new Input();
 
@@ -33,7 +33,7 @@ class Game {
     this.enemy = new Enemy(this, this.ee, this.currentLevel.grid, this.player);
   }
   init() {
-    this.currentLevel.makeGrid(level_1);
+    this.currentLevel.makeGrid(level_2);
     this.input.inputControl(this.input.player1Keys);
 
     requestAnimationFrame(animate);
@@ -50,6 +50,8 @@ class Game {
    * Updates the enemy's player and bullets. This is called every frame to ensure that everything is up to date
    */
   update() {
+    const image = document.getElementById("level1");
+    ctx.drawImage(image, 0, 0);
     this.player.update(this.currentLevel, this.input.player1Keys);
 
     if (this.player2) {
