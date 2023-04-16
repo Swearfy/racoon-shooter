@@ -1,7 +1,6 @@
 export class Sprite {
   constructor(entity, frameLimit) {
     this.entity = entity;
-    this.state = "idle";
     this.currentFrame = 0;
     this.animations = {
       idle: [{ x: 0, y: 0 }],
@@ -16,11 +15,11 @@ export class Sprite {
       moveUp: [],
       moveDown: [],
     };
-    this.animationFrameLimit = frameLimit;
-    this.frameProgres = 0;
+    this.currentFrame = 0;
+    this.frameLimit = frameLimit;
   }
-  get frame() {
-    return this.animations[this.state][this.currentFrame];
+  getFrame(entity, currentFrame) {
+    return this.animations[entity.state][currentFrame];
   }
   setAnimation() {
     if (this.entity.velocityX > 0) {
@@ -30,33 +29,17 @@ export class Sprite {
     } else {
       this.entity.setState("idle");
     }
-
-    if (this.state !== this.entity.state) {
-      console.log(this.state, this.entity.state);
-      this.state = this.entity.state;
-      this.currentFrame = 0;
-      this.frameProgres = this.animationFrameLimit;
-    }
-  }
-  updateAnimationProgress() {
-    //Downtick frame progress
-    if (this.frameProgres > 0) {
-      this.frameProgres -= 1;
-      return;
-    }
-
-    //Reset the counter
-    this.frameProgres = this.animationFrameLimit;
-    this.currentFrame += 1;
-
-    if (this.frame === undefined) {
-      this.currentFrame = 0;
-    }
   }
   draw(ctx) {
     const x = this.entity.x - this.entity.offsetX;
     const y = this.entity.y - this.entity.offsetY;
-    const framePos = this.frame;
+
+    const animLength = this.animations[this.entity.state].length;
+    let pos = Math.floor(this.currentFrame / this.frameLimit) % animLength;
+
+    const framePos = this.getFrame(this.entity, pos);
+
+    this.currentFrame++;
     ctx.drawImage(
       this.entity.image,
       framePos.x * this.entity.spriteWidth,
@@ -68,6 +51,5 @@ export class Sprite {
       this.entity.spriteWidth,
       this.entity.spriteHeight
     );
-    this.updateAnimationProgress();
   }
 }

@@ -29,8 +29,8 @@ export class Player extends Entity {
     checkCollision(this, level);
     this.move();
 
-    this.shoot(input);
     this.sprite.setAnimation();
+    this.shoot(input);
 
     for (const bullet of this.bullets) {
       bullet.update(level);
