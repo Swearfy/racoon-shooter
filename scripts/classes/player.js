@@ -9,8 +9,6 @@ export class Player extends Entity {
     super(game, x, y, 30, 70, 0, 0);
     this.image = document.getElementById("racon");
     this.ee = ee;
-    this.hitboxX = this.x + 35;
-    this.hitboxY = this.y + 40;
 
     this.playerSpeed = 2;
 
@@ -20,25 +18,11 @@ export class Player extends Entity {
     this.bullets = [];
 
     // stuff for animation
-    this.sprite = new Sprite(this, this.state);
+    this.sprite = new Sprite(this, 20);
     this.spriteWidth = 60;
     this.spriteHeight = 90;
     this.offsetX = 15;
     this.offsetY = 15;
-
-    this.spriteAnim = [];
-    this.animationState = [
-      {
-        name: "moveRight",
-        frames: 1,
-      },
-      {
-        name: "idle",
-        frames: 1,
-      },
-    ];
-    this.gameFrame = 0;
-    this.staggerFrame = 30;
   }
   update(level, input) {
     this.handleInput(input);
@@ -46,6 +30,7 @@ export class Player extends Entity {
     this.move();
 
     this.shoot(input);
+    this.sprite.setAnimation();
 
     for (const bullet of this.bullets) {
       bullet.update(level);
@@ -99,6 +84,10 @@ export class Player extends Entity {
       ? this.bulletSpeed
       : 0;
 
+    if (keys.shootLeft.pressed) {
+      this.setState("moveLeft");
+    }
+
     if ((velX != 0 || velY != 0) && Date.now() > this.actionLock) {
       this.actionLock = Date.now() + 1000 / this.shootSpeed;
       this.bullets.push(
@@ -114,26 +103,6 @@ export class Player extends Entity {
     }
   }
   draw(ctx) {
-    this.animationState.forEach((state, index) => {
-      let frames = {
-        loc: [],
-      };
-
-      for (let i = 0; i < state.frames; i++) {
-        let x = i * this.spriteWidth;
-        let y = index * this.spriteHeight;
-        frames.loc.push({ x, y });
-      }
-      this.spriteAnim[state.name] = frames;
-    });
-
-    let postion =
-      Math.floor(this.gameFrame / this.staggerFrame) %
-      this.spriteAnim[this.state].loc.length;
-
-    let frameX = this.spriteAnim[this.state].loc[postion].x;
-    let frameY = this.spriteAnim[this.state].loc[postion].y;
-
     this.sprite.draw(ctx);
     this.bullets.forEach((bullet) => {
       bullet.draw(ctx);
@@ -146,7 +115,5 @@ export class Player extends Entity {
       this.x + this.width / 2,
       this.y + this.height / 2
     );
-    // ctx.strokeRect(this.x, this.y, this.width, this.height);
-    this.gameFrame++;
   }
 }
