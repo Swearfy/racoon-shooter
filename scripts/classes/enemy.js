@@ -4,38 +4,23 @@ import { Entity } from "./entity.js";
 import { Pathfinding } from "./pathfinding.js";
 import { Sprite } from "./sprite.js";
 export class Enemy extends Entity {
-  constructor(
-    game,
-    x,
-    y,
-    width,
-    height,
-    spriteWidth,
-    spriteHeight,
-    velocityX,
-    velocityY,
-    maxSpeed,
-    lives,
-    level,
-    player
-  ) {
+  constructor(type, game, x, y) {
     super(
       game,
       x,
       y,
-      width,
-      height,
-      spriteWidth,
-      spriteHeight,
-      velocityX,
-      velocityY,
-      maxSpeed,
-      lives
+      type.width,
+      type.height,
+      type.spriteWidth,
+      type.spriteHeight,
+      0,
+      0,
+      type.maxSpeed,
+      type.lives
     );
+    this.type = type;
 
-    this.level = level;
-    this.player = player;
-    this.image = document.getElementById("test");
+    this.image = document.getElementById(image);
 
     // animation stuff
     this.sprite = new Sprite(this, 30);
@@ -45,16 +30,16 @@ export class Enemy extends Entity {
   }
   findPlayer() {
     this.pathToFollow = this.pathfinding.findPath(
-      this.level,
+      this.game.currentLevel,
       this,
-      this.player
+      this.game.player
     );
   }
   goTo() {
     this.pathToFollow = this.pathfinding.findPath(
-      this.level,
+      this.game.currentLevel,
       this,
-      this.player
+      this.game.player
     );
 
     // We want to skip the first point in the path, because that's the current position.
@@ -107,74 +92,5 @@ export class Enemy extends Entity {
       this.x + this.width / 2,
       this.y + this.height / 2
     );
-  }
-}
-
-class Opposum extends Enemy {
-  constructor(game, level, plyer) {
-    super(
-      game,
-      x,
-      y,
-      width,
-      height,
-      spriteWidth,
-      spriteHeight,
-      velocityX,
-      velocityY,
-      maxSpeed,
-      lives,
-      level,
-      player
-    );
-    this.image = document.getElementById("");
-    this.spriteWidth = 60;
-    this.spriteHeight = 90;
-  }
-}
-
-class Bat extends Enemy {
-  constructor(game, level, plyer) {
-    super(
-      game,
-      x,
-      y,
-      width,
-      height,
-      spriteWidth,
-      spriteHeight,
-      velocityX,
-      velocityY,
-      maxSpeed,
-      lives,
-      level,
-      player
-    );
-    this.image = document.getElementById("");
-    this.spriteWidth = 60;
-    this.spriteHeight = 90;
-  }
-}
-
-class Bear extends Enemy {
-  constructor(game, level, plyer) {
-    super(
-      game,
-      x,
-      y,
-      width,
-      height,
-      spriteWidth,
-      spriteHeight,
-      velocityX,
-      velocityY,
-      maxSpeed,
-      lives,
-      level,
-      player
-    );
-    this.image = document.getElementById("");
-    this.spriteWidth = 60;
-    this.spriteHeight = 90;
   }
 }
