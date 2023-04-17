@@ -6,16 +6,6 @@ import { level_1 } from "./assets/tilemaps/level-1.js";
 import { level_2 } from "./assets/tilemaps/level-2.js";
 import { EventEmitter } from "./scripts/utils/eventEmitter.js";
 
-const enemyTypes = {};
-fetch("./assets/enemyTypes.json")
-  .then((response) => response.json())
-  .then((data) => {
-    Object.assign(enemyTypes, data);
-  })
-  .catch((error) => {
-    console.error("Error:", error);
-  });
-
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
@@ -33,15 +23,17 @@ class Game {
     this.width = width;
     this.height = height;
     this.fps = 0;
-    this.enemyData = enemyTypes;
-    console.log(this.enemyData);
+    this.enemyData = null;
     this.ee = new EventEmitter();
     this.currentLevel = new Grid(30);
 
     this.input = new Input();
 
     this.player = new Player(this, 300, 300);
-    // this.enemy = new Enemy(this, this.currentLevel.grid, this.player);
+    this.enemy = new Enemy(this.enemyData.bat, this, 0, 0);
+  }
+  setEnemyTypes(enemyTypes) {
+    this.enemyData = enemyTypes;
   }
   init() {
     this.currentLevel.makeGrid(level_2);
@@ -86,7 +78,7 @@ class Game {
       });
     });
 
-    // this.enemy.draw(ctx);
+    this.enemy.draw(ctx);
 
     if (this.player2) {
       this.player2.draw(ctx);
@@ -97,7 +89,17 @@ class Game {
 
 const game = new Game(canvas.width, canvas.height);
 
+fetch("./assets/enemyTypes.json")
+  .then((response) => response.json())
+  .then((data) => {
+    game.setEnemyTypes(data);
+  })
+  .catch((error) => {
+    console.error("Error:", error);
+  });
+
 game.init();
+
 //game.twoPlayerInit(player1, player2);
 //game loop function using delta time to calculate frame time
 /**
