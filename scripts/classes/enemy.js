@@ -16,11 +16,11 @@ export class Enemy extends Entity {
       0,
       0,
       type.maxSpeed,
-      type.lives
+      type.lives,
+      type.image
     );
     this.type = type;
-
-    this.image = document.getElementById(image);
+    console.log(this.type.width);
 
     // animation stuff
     this.sprite = new Sprite(this, 30);

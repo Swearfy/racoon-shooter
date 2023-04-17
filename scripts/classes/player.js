@@ -6,8 +6,7 @@ import { Sprite } from "./sprite.js";
 
 export class Player extends Entity {
   constructor(game, x, y) {
-    super(game, x, y, 30, 70, 0, 0, 2);
-    this.image = document.getElementById("racon");
+    super(game, x, y, 30, 70, 60, 90, 0, 0, 2, 3, "racon");
 
     this.actionLock = 0;
     this.shootSpeed = 3;
@@ -16,10 +15,6 @@ export class Player extends Entity {
 
     // stuff for animation
     this.sprite = new Sprite(this, 20);
-    this.spriteWidth = 60;
-    this.spriteHeight = 90;
-    this.offsetX = 15;
-    this.offsetY = 15;
   }
   update(level, input) {
     this.handleInput(input);
