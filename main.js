@@ -29,8 +29,8 @@ class Game {
 
     this.input = new Input();
 
-    this.player = new Player(this, 300, 300, this.ee);
-    this.enemy = new Enemy(this, this.ee, this.currentLevel.grid, this.player);
+    this.player = new Player(this, 300, 300);
+    this.enemy = new Enemy(this, this.currentLevel.grid, this.player);
   }
   init() {
     this.currentLevel.makeGrid(level_2);

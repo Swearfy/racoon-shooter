@@ -5,12 +5,9 @@ import { removeFromArray, toIndex } from "../utils/utils.js";
 import { Sprite } from "./sprite.js";
 
 export class Player extends Entity {
-  constructor(game, x, y, ee) {
-    super(game, x, y, 30, 70, 0, 0);
+  constructor(game, x, y) {
+    super(game, x, y, 30, 70, 0, 0, 2);
     this.image = document.getElementById("racon");
-    this.ee = ee;
-
-    this.playerSpeed = 2;
 
     this.actionLock = 0;
     this.shootSpeed = 3;
@@ -49,18 +46,18 @@ export class Player extends Entity {
     //   (keys.up.pressed || keys.down.pressed) &&
     //   (keys.left.pressed || keys.right.pressed)
     // ) {
-    //   this.playerSpeed = this.playerSpeed * 0.71;
+    //   this.maxSpeed = this.maxSpeed * 0.71;
     // }
 
     let velx = keys.left.pressed
-      ? -this.playerSpeed
+      ? -this.maxSpeed
       : keys.right.pressed
-      ? this.playerSpeed
+      ? this.maxSpeed
       : 0;
     let velY = keys.up.pressed
-      ? -this.playerSpeed
+      ? -this.maxSpeed
       : keys.down.pressed
-      ? this.playerSpeed
+      ? this.maxSpeed
       : 0;
 
     this.setVelocity(velx, velY);

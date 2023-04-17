@@ -4,24 +4,43 @@ import { Entity } from "./entity.js";
 import { Pathfinding } from "./pathfinding.js";
 import { Sprite } from "./sprite.js";
 export class Enemy extends Entity {
-  constructor(game, ee, level, player) {
-    super(game, 500, 800, 30, 30, 0, 0);
-    this.spriteWidth = 30;
-    this.spriteHeight = 30;
-    this.maxSpeed = 1;
-    this.pathfinding = new Pathfinding();
-    this.ee = ee;
+  constructor(
+    game,
+    x,
+    y,
+    width,
+    height,
+    spriteWidth,
+    spriteHeight,
+    velocityX,
+    velocityY,
+    maxSpeed,
+    lives,
+    level,
+    player
+  ) {
+    super(
+      game,
+      x,
+      y,
+      width,
+      height,
+      spriteWidth,
+      spriteHeight,
+      velocityX,
+      velocityY,
+      maxSpeed,
+      lives
+    );
+
     this.level = level;
     this.player = player;
     this.image = document.getElementById("test");
+
+    // animation stuff
     this.sprite = new Sprite(this, 30);
-    this.spriteWidth = 60;
-    this.spriteHeight = 90;
-    this.offsetX = 15;
-    this.offsetY = 15;
-    this.ee.on("test", () => {
-      // this.findPlayer();
-    });
+
+    this.pathfinding = new Pathfinding();
     this.pathToFollow = [];
   }
   findPlayer() {
@@ -88,5 +107,74 @@ export class Enemy extends Entity {
       this.x + this.width / 2,
       this.y + this.height / 2
     );
+  }
+}
+
+class Opposum extends Enemy {
+  constructor(game, level, plyer) {
+    super(
+      game,
+      x,
+      y,
+      width,
+      height,
+      spriteWidth,
+      spriteHeight,
+      velocityX,
+      velocityY,
+      maxSpeed,
+      lives,
+      level,
+      player
+    );
+    this.image = document.getElementById("");
+    this.spriteWidth = 60;
+    this.spriteHeight = 90;
+  }
+}
+
+class Bat extends Enemy {
+  constructor(game, level, plyer) {
+    super(
+      game,
+      x,
+      y,
+      width,
+      height,
+      spriteWidth,
+      spriteHeight,
+      velocityX,
+      velocityY,
+      maxSpeed,
+      lives,
+      level,
+      player
+    );
+    this.image = document.getElementById("");
+    this.spriteWidth = 60;
+    this.spriteHeight = 90;
+  }
+}
+
+class Bear extends Enemy {
+  constructor(game, level, plyer) {
+    super(
+      game,
+      x,
+      y,
+      width,
+      height,
+      spriteWidth,
+      spriteHeight,
+      velocityX,
+      velocityY,
+      maxSpeed,
+      lives,
+      level,
+      player
+    );
+    this.image = document.getElementById("");
+    this.spriteWidth = 60;
+    this.spriteHeight = 90;
   }
 }

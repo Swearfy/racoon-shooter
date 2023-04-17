@@ -1,5 +1,17 @@
 export class Entity {
-  constructor(game, x, y, width, height, velocityX, velocityY) {
+  constructor(
+    game,
+    x,
+    y,
+    width,
+    height,
+    spriteWidth,
+    spriteHeight,
+    velocityX,
+    velocityY,
+    maxSpeed,
+    lives
+  ) {
     this.game = game;
     this.x = x;
     this.y = y;
@@ -7,6 +19,15 @@ export class Entity {
     this.height = height;
     this.velocityX = velocityX;
     this.velocityY = velocityY;
+    this.maxSpeed = maxSpeed;
+    this.offsetX = 15;
+    this.offsetY = 15;
+
+    this.spriteWidth = spriteWidth;
+    this.spriteHeight = spriteHeight;
+
+    this.lives = lives;
+
     this.state = "idle";
   }
   setState(state) {
