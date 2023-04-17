@@ -84,8 +84,12 @@ export class Player extends Entity {
       ? this.bulletSpeed
       : 0;
 
-    if (keys.shootLeft.pressed) {
+    // handle shooting animations
+    if (keys.shootLeft.pressed && this.state === "moveRight") {
       this.setState("moveLeft");
+    }
+    if (keys.shootLeft.pressed && this.state !== "moveLeft") {
+      this.setState("shootLeft");
     }
 
     if ((velX != 0 || velY != 0) && Date.now() > this.actionLock) {

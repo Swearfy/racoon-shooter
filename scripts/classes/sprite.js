@@ -14,6 +14,7 @@ export class Sprite {
       ],
       moveUp: [],
       moveDown: [],
+      shootLeft: [{ x: 0, y: 1 }],
     };
     this.currentFrame = 0;
     this.frameLimit = frameLimit;
