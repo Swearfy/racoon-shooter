@@ -28,8 +28,8 @@ export class Entity {
     this.spriteHeight = spriteHeight;
 
     this.lives = lives;
-    this.image = document.getElementById(image);
-
+    this.image = new Image();
+    this.image.src = image;
     this.state = "idle";
   }
   setState(state) {

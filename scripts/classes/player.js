@@ -6,7 +6,7 @@ import { Sprite } from "./sprite.js";
 
 export class Player extends Entity {
   constructor(game, x, y) {
-    super(game, x, y, 30, 70, 60, 90, 0, 0, 2, 3, "racon");
+    super(game, x, y, 30, 70, 60, 90, 0, 0, 2, 3, "./assets/img/racoon.png");
 
     this.actionLock = 0;
     this.shootSpeed = 3;

@@ -2,29 +2,27 @@
   "opossum": {
     "width": 1,
     "height": 1,
-    "spriteWidth": 1,
-    "spriteHeight": 1,
-    "speed": 1,
+    "spriteWidth": 60,
+    "spriteHeight": 90,
+    "maxSpeed": 1,
     "lives": 1,
-    "image": 1
+    "image": "./assets/img/testAsset.png"
   },
-
   "bat": {
     "width": 1,
     "height": 1,
     "spriteWidth": 1,
     "spriteHeight": 1,
-    "speed": 1,
+    "maxSpeed": 1,
     "lives": 1,
     "image": 1
   },
-
   "bear": {
     "width": 1,
     "height": 1,
     "spriteWidth": 1,
     "spriteHeight": 1,
-    "speed": 1,
+    "maxSpeed": 1,
     "lives": 1,
     "image": 1
   }

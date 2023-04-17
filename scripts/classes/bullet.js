@@ -3,7 +3,7 @@ import { Entity } from "./entity.js";
 
 export class Bullet extends Entity {
   constructor(game, x, y, velX, velY, dmg) {
-    super(game, x, y, 10, 10, 0, 0);
+    super(game, x, y, 10, 10, 0, 0, velX, velY, 1, 1, "#");
     this.velX = velX;
     this.velY = velY;
     this.dmg = dmg;

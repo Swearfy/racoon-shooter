@@ -20,7 +20,6 @@ export class Enemy extends Entity {
       type.image
     );
     this.type = type;
-    console.log(this.type.width);
 
     // animation stuff
     this.sprite = new Sprite(this, 30);
@@ -37,7 +36,7 @@ export class Enemy extends Entity {
   }
   goTo() {
     this.pathToFollow = this.pathfinding.findPath(
-      this.game.currentLevel,
+      this.game.currentLevel.grid,
       this,
       this.game.player
     );
@@ -68,7 +67,6 @@ export class Enemy extends Entity {
         velY = Math.floor(velY);
       }
 
-      // console.log(`Angle: ${angle}, velX: ${velX}, velY: ${velY}`);
       this.setVelocity(velX, velY);
     }
   }

@@ -14,23 +14,25 @@ canvas.height = 900;
 let previouseTime = null;
 const gameSpeed = 0.2;
 
+async function promise() {
+  const response = await fetch("./assets/enemyTypes.json");
+  const enemyType = await response.json();
+
+  return enemyType;
+}
+
 class Game {
-  /**
-   * @param width
-   * @param height
-   */
-  constructor(width, height) {
+  constructor(assets, width, height) {
     this.width = width;
     this.height = height;
     this.fps = 0;
-    this.enemyData = null;
+    this.enemyData = assets;
     this.ee = new EventEmitter();
     this.currentLevel = new Grid(30);
 
     this.input = new Input();
-
+    this.enemy = new Enemy(this.enemyData.opossum, this, 300, 300);
     this.player = new Player(this, 300, 300);
-    this.enemy = new Enemy(this.enemyData.bat, this, 0, 0);
   }
   setEnemyTypes(enemyTypes) {
     this.enemyData = enemyTypes;
@@ -38,8 +40,6 @@ class Game {
   init() {
     this.currentLevel.makeGrid(level_2);
     this.input.inputControl(this.input.player1Keys);
-
-    requestAnimationFrame(animate);
   }
   twoPlayerInit(player1, player2) {
     this.currentLevel.makeGrid(level_1);
@@ -49,9 +49,6 @@ class Game {
 
     requestAnimationFrame(animate);
   }
-  /**
-   * Updates the enemy's player and bullets. This is called every frame to ensure that everything is up to date
-   */
   update() {
     const image = document.getElementById("level1");
     ctx.drawImage(image, 0, 0);
@@ -61,15 +58,10 @@ class Game {
       this.player2.update(this.currentLevel);
     }
 
-    // this.enemy.update(this.currentLevel);
+    this.enemy.update(this.currentLevel);
 
     this.input.controllerInput(this.input.player1Keys);
   }
-  /**
-   * Draw the level on the canvas. This is called every frame to ensure that everything is drawn in one frame.
-   *
-   * @param ctx - The canvas context to draw on.
-   */
   draw(ctx) {
     this.currentLevel.grid.forEach((tile) => {
       tile.forEach((tile2) => {
@@ -87,18 +79,9 @@ class Game {
   }
 }
 
-const game = new Game(canvas.width, canvas.height);
+// const game = new Game(canvas.width, canvas.height);
 
-fetch("./assets/enemyTypes.json")
-  .then((response) => response.json())
-  .then((data) => {
-    game.setEnemyTypes(data);
-  })
-  .catch((error) => {
-    console.error("Error:", error);
-  });
-
-game.init();
+// game.init();
 
 //game.twoPlayerInit(player1, player2);
 //game loop function using delta time to calculate frame time
@@ -107,15 +90,23 @@ game.init();
  *
  * @param currentTime - The current time of the animation in ms
  */
-function animate(currentTime) {
-  const frameTimeDelta = currentTime - previouseTime;
-  previouseTime = currentTime;
-  game.fps = gameSpeed * frameTimeDelta;
 
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  //placeholder color
+promise().then((assets) => {
+  const game = new Game(assets, canvas.width, canvas.height);
+  game.init();
 
-  game.update();
-  game.draw(ctx);
   requestAnimationFrame(animate);
-}
+
+  function animate(currentTime) {
+    const frameTimeDelta = currentTime - previouseTime;
+    previouseTime = currentTime;
+    game.fps = gameSpeed * frameTimeDelta;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    //placeholder color
+
+    game.update();
+    game.draw(ctx);
+    requestAnimationFrame(animate);
+  }
+});
