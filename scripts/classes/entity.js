@@ -10,7 +10,8 @@ export class Entity {
     velocityX,
     velocityY,
     maxSpeed,
-    lives
+    lives,
+    image
   ) {
     this.game = game;
     this.x = x;
@@ -27,6 +28,7 @@ export class Entity {
     this.spriteHeight = spriteHeight;
 
     this.lives = lives;
+    this.image = document.getElementById(image);
 
     this.state = "idle";
   }
