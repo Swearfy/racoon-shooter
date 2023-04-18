@@ -37,6 +37,7 @@ class Game {
   setEnemyTypes(enemyTypes) {
     this.enemyData = enemyTypes;
   }
+  timer() {}
   init() {
     this.currentLevel.makeGrid(level_2);
     this.input.inputControl(this.input.player1Keys);

@@ -61,7 +61,7 @@ h2 {
   color: white;
 }
 
-canvas {
+#game {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
@@ -70,4 +70,33 @@ canvas {
   max-height: 100%;
   display: block;
   border: black 5px solid;
+}
+
+.timerBox {
+  position: absolute;
+  top: 0%;
+  width: 900px;
+  height: 30px;
+  background-color: black;
+}
+#timer {
+  width: 100%;
+  height: 100%;
+  background-color: red;
+}
+
+#lives {
+  position: absolute;
+  top: 4%;
+  width: 150px;
+  height: 30px;
+  background-color: black;
+}
+
+#powerUps {
+  position: absolute;
+  top: 8%;
+  width: 150px;
+  height: 30px;
+  background-color: black;
 }
