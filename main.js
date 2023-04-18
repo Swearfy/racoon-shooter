@@ -9,6 +9,9 @@ import { EventEmitter } from "./scripts/utils/eventEmitter.js";
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d");
 
+const lives = document.getElementById("lives");
+const powerUps = document.getElementById("powerUps");
+
 canvas.width = 900;
 canvas.height = 900;
 let previouseTime = null;
@@ -37,10 +40,31 @@ class Game {
   setEnemyTypes(enemyTypes) {
     this.enemyData = enemyTypes;
   }
-  timer() {}
+  startCountdown() {
+    const countdownDisplay = document.getElementById("timer");
+    let seconds = 10;
+    let initialWidth = countdownDisplay.offsetWidth; // get initial width of countdownDisplay element
+    const stepDiameter = initialWidth / seconds;
+
+    const interval = setInterval(() => {
+      seconds--;
+      if (seconds === 0) {
+        clearInterval(interval);
+        countdownDisplay.style.width = 0 + "px";
+
+        console.log("Countdown ended!");
+      } else {
+        initialWidth -= stepDiameter;
+        countdownDisplay.style.width = initialWidth + "px";
+      }
+    }, 1000);
+  }
+
+  spawnEnemy() {}
   init() {
     this.currentLevel.makeGrid(level_2);
     this.input.inputControl(this.input.player1Keys);
+    this.startCountdown();
   }
   twoPlayerInit(player1, player2) {
     this.currentLevel.makeGrid(level_1);
