@@ -1,36 +1,36 @@
 {
   "opossum": {
-    "width": 1,
-    "height": 1,
-    "spriteWidth": 60,
-    "spriteHeight": 90,
+    "width": 30,
+    "height": 70,
+    "spriteWidth": 73,
+    "spriteHeight": 72,
     "maxSpeed": 1,
     "lives": 1,
-    "image": "./assets/img/testAsset.png"
+    "image": "./assets/img/opossum.png"
   },
   "bat": {
-    "width": 1,
-    "height": 1,
-    "spriteWidth": 1,
-    "spriteHeight": 1,
+    "width": 30,
+    "height": 70,
+    "spriteWidth": 142,
+    "spriteHeight": 102,
     "maxSpeed": 1,
     "lives": 1,
-    "image": 1
+    "image": "./assets/img/bat.png"
   },
   "bear": {
-    "width": 1,
-    "height": 1,
-    "spriteWidth": 1,
-    "spriteHeight": 1,
+    "width": 30,
+    "height": 70,
+    "spriteWidth": 110,
+    "spriteHeight": 130,
     "maxSpeed": 1,
     "lives": 1,
-    "image": 1
+    "image": "./assets/img/bear.png"
   },
   "player": {
     "width": 30,
     "height": 70,
-    "spriteWidth": 60,
-    "spriteHeight": 90,
+    "spriteWidth": 65,
+    "spriteHeight": 92,
     "maxSpeed": 2,
     "lives": 3,
     "image": "./assets/img/racoon.png"
