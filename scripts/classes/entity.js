@@ -1,35 +1,23 @@
 export class Entity {
-  constructor(
-    game,
-    x,
-    y,
-    width,
-    height,
-    spriteWidth,
-    spriteHeight,
-    velocityX,
-    velocityY,
-    maxSpeed,
-    lives,
-    image
-  ) {
+  constructor(type, game, x, y, velocityX, velocityY) {
+    this.type = type;
     this.game = game;
     this.x = x;
     this.y = y;
-    this.width = width;
-    this.height = height;
+    this.width = type.width;
+    this.height = type.height;
     this.velocityX = velocityX;
     this.velocityY = velocityY;
-    this.maxSpeed = maxSpeed;
+    this.maxSpeed = type.maxSpeed;
     this.offsetX = 15;
     this.offsetY = 15;
 
-    this.spriteWidth = spriteWidth;
-    this.spriteHeight = spriteHeight;
+    this.spriteWidth = type.spriteWidth;
+    this.spriteHeight = type.spriteHeight;
 
-    this.lives = lives;
+    this.lives = type.lives;
     this.image = new Image();
-    this.image.src = image;
+    this.image.src = type.image;
     this.state = "idle";
   }
   setState(state) {

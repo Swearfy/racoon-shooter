@@ -5,8 +5,8 @@ import { removeFromArray, toIndex } from "../utils/utils.js";
 import { Sprite } from "./sprite.js";
 
 export class Player extends Entity {
-  constructor(game, x, y) {
-    super(game, x, y, 30, 70, 60, 90, 0, 0, 2, 3, "./assets/img/racoon.png");
+  constructor(type, game, x, y) {
+    super(type, game, x, y, 0, 0);
 
     this.actionLock = 0;
     this.shootSpeed = 3;
@@ -88,6 +88,7 @@ export class Player extends Entity {
       this.actionLock = Date.now() + 1000 / this.shootSpeed;
       this.bullets.push(
         new Bullet(
+          this.game.enemyData.bullet,
           this.game,
           this.x + this.width / 2,
           this.y + this.height / 2.3,

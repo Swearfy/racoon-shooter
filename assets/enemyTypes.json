@@ -25,5 +25,23 @@
     "maxSpeed": 1,
     "lives": 1,
     "image": 1
+  },
+  "player": {
+    "width": 30,
+    "height": 70,
+    "spriteWidth": 60,
+    "spriteHeight": 90,
+    "maxSpeed": 2,
+    "lives": 3,
+    "image": "./assets/img/racoon.png"
+  },
+  "bullet": {
+    "width": 10,
+    "height": 10,
+    "spriteWidth": 60,
+    "spriteHeight": 90,
+    "maxSpeed": 2,
+    "lives": 3,
+    "image": "#"
   }
 }

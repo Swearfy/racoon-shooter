@@ -32,7 +32,7 @@ class Game {
 
     this.input = new Input();
     this.enemy = new Enemy(this.enemyData.opossum, this, 300, 300);
-    this.player = new Player(this, 300, 300);
+    this.player = new Player(this.enemyData.player, this, 300, 300);
   }
   setEnemyTypes(enemyTypes) {
     this.enemyData = enemyTypes;
@@ -78,18 +78,6 @@ class Game {
     this.player.draw(ctx);
   }
 }
-
-// const game = new Game(canvas.width, canvas.height);
-
-// game.init();
-
-//game.twoPlayerInit(player1, player2);
-//game loop function using delta time to calculate frame time
-/**
- * Animates the game. This is called every frame to update the game and draw the game. A function is required to provide the time since the last frame in the animation.
- *
- * @param currentTime - The current time of the animation in ms
- */
 
 promise().then((assets) => {
   const game = new Game(assets, canvas.width, canvas.height);

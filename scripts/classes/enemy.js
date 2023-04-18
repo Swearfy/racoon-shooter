@@ -5,20 +5,7 @@ import { Pathfinding } from "./pathfinding.js";
 import { Sprite } from "./sprite.js";
 export class Enemy extends Entity {
   constructor(type, game, x, y) {
-    super(
-      game,
-      x,
-      y,
-      type.width,
-      type.height,
-      type.spriteWidth,
-      type.spriteHeight,
-      0,
-      0,
-      type.maxSpeed,
-      type.lives,
-      type.image
-    );
+    super(type, game, x, y, 0, 0);
     this.type = type;
 
     // animation stuff
