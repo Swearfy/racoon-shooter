@@ -4,10 +4,11 @@ import { Entity } from "./entity.js";
 import { Pathfinding } from "./pathfinding.js";
 import { Sprite } from "./sprite.js";
 export class Enemy extends Entity {
-  constructor(type, game, x, y) {
+  constructor(type, game, x, y, findPath) {
     super(type, game, x, y, 0, 0);
     this.type = type;
 
+    this.findPath = findPath;
     // animation stuff
     this.sprite = new Sprite(this, 30);
 
@@ -58,7 +59,11 @@ export class Enemy extends Entity {
     }
   }
   update(level) {
-    this.goTo();
+    if (this.findPath) {
+      this.goTo();
+    } else {
+      this.setVelocity(0, 0);
+    }
     checkCollision(this, level);
     this.move();
     this.sprite.setAnimation();

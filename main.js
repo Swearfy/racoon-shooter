@@ -34,11 +34,8 @@ class Game {
     this.currentLevel = new Grid(30);
 
     this.input = new Input();
-    this.enemy = new Enemy(this.enemyData.opossum, this, 300, 300);
+    this.enemy = new Enemy(this.enemyData.opossum, this, 300, 300, true);
     this.player = new Player(this.enemyData.player, this, 300, 300);
-  }
-  setEnemyTypes(enemyTypes) {
-    this.enemyData = enemyTypes;
   }
   startCountdown() {
     const countdownDisplay = document.getElementById("timer");
