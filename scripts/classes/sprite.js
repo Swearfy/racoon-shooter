@@ -5,16 +5,22 @@ export class Sprite {
     this.animations = {
       idle: [{ x: 0, y: 0 }],
       moveRight: [
-        { x: 0, y: 0 },
-        { x: 1, y: 0 },
+        { x: 0, y: 2 },
+        { x: 1, y: 2 },
       ],
       moveLeft: [
+        { x: 0, y: 3 },
+        { x: 1, y: 3 },
+      ],
+      moveUp: [
         { x: 0, y: 1 },
         { x: 1, y: 1 },
       ],
-      moveUp: [],
-      moveDown: [],
-      shootLeft: [{ x: 0, y: 1 }],
+      moveDown: [
+        { x: 0, y: 0 },
+        { x: 1, y: 0 },
+      ],
+      shootLeft: [{ x: 0, y: 3 }],
     };
     this.currentFrame = 0;
     this.frameLimit = frameLimit;
@@ -23,7 +29,11 @@ export class Sprite {
     return this.animations[entity.state][currentFrame];
   }
   setAnimation() {
-    if (this.entity.velocityX > 0) {
+    if (this.entity.velocityY > 0) {
+      this.entity.setState("moveDown");
+    } else if (this.entity.velocityY < 0) {
+      this.entity.setState("moveUp");
+    } else if (this.entity.velocityX > 0) {
       this.entity.setState("moveRight");
     } else if (this.entity.velocityX < 0) {
       this.entity.setState("moveLeft");
