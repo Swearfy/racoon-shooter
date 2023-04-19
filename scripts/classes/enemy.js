@@ -10,33 +10,33 @@ export class Enemy extends Entity {
 
     this.findPath = findPath;
     // animation stuff
-    this.sprite = new Sprite(this, 30);
+    this.sprite = new Sprite(this, 50);
 
     this.pathfinding = new Pathfinding();
     this.pathToFollow = [];
   }
   findPlayer() {
     this.pathToFollow = this.pathfinding.findPath(
-      this.game.currentLevel,
-      this,
-      this.game.player
-    );
-  }
-  goTo() {
-    this.pathToFollow = this.pathfinding.findPath(
       this.game.currentLevel.grid,
       this,
       this.game.player
     );
-
-    // We want to skip the first point in the path, because that's the current position.
-    const currentPoint = this.pathToFollow.shift();
-    const nextPoint = this.pathToFollow[0];
+  }
+  moveToTarget() {
+    let target;
+    if (this.findPath) {
+      this.findPlayer();
+      // We want to skip the first point in the path, because that's the current position.
+      const currentPoint = this.pathToFollow.shift();
+      target = this.pathToFollow[0];
+    } else {
+      target = this.game.player;
+    }
 
     // Calculate the direction vector.
-    if (nextPoint) {
-      const dx = nextPoint.left - this.left;
-      const dy = nextPoint.top - this.top;
+    if (target) {
+      const dx = target.left - this.left;
+      const dy = target.top - this.top;
       const angle = Math.atan2(dy, dx);
 
       // Move in the direction vector.
@@ -59,11 +59,7 @@ export class Enemy extends Entity {
     }
   }
   update(level) {
-    if (this.findPath) {
-      this.goTo();
-    } else {
-      this.setVelocity(0, 0);
-    }
+    this.moveToTarget();
     checkCollision(this, level);
     this.move();
     this.sprite.setAnimation();
