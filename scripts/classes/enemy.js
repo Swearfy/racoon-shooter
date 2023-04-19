@@ -10,7 +10,7 @@ export class Enemy extends Entity {
 
     this.findPath = findPath;
     // animation stuff
-    this.sprite = new Sprite(this, 50);
+    this.sprite = new Sprite(this, 30);
 
     this.pathfinding = new Pathfinding();
     this.pathToFollow = [];
@@ -43,23 +43,24 @@ export class Enemy extends Entity {
       let velX = Math.cos(angle) * this.maxSpeed;
       let velY = Math.sin(angle) * this.maxSpeed;
 
-      if (velX > 0) {
-        velX = Math.ceil(velX);
-      } else if (velX < 0) {
-        velX = Math.floor(velX);
-      }
+      // if (velX > 0) {
+      //   velX = Math.ceil(velX);
+      // } else if (velX < 0) {
+      //   velX = Math.floor(velX);
+      // }
 
-      if (velY > 0) {
-        velY = Math.ceil(velY);
-      } else if (velY < 0) {
-        velY = Math.floor(velY);
-      }
+      // if (velY > 0) {
+      //   velY = Math.ceil(velY);
+      // } else if (velY < 0) {
+      //   velY = Math.floor(velY);
+      // }
 
       this.setVelocity(velX, velY);
     }
   }
   update(level) {
     this.moveToTarget();
+    console.log(this.velocityX, this.velocityY);
     checkCollision(this, level);
     this.move();
     this.sprite.setAnimation();
