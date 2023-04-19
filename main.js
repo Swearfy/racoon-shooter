@@ -59,7 +59,7 @@ class Game {
 
   spawnEnemy() {}
   init() {
-    this.currentLevel.makeGrid(level_2);
+    this.currentLevel.makeGrid(level_2.tileMap);
     this.input.inputControl(this.input.player1Keys);
     this.startCountdown();
   }

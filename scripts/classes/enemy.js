@@ -60,7 +60,6 @@ export class Enemy extends Entity {
   }
   update(level) {
     this.moveToTarget();
-    console.log(this.velocityX, this.velocityY);
     checkCollision(this, level);
     this.move();
     this.sprite.setAnimation();
