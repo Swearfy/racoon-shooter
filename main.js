@@ -18,7 +18,7 @@ let previouseTime = null;
 const gameSpeed = 0.2;
 
 async function promise() {
-  const response = await fetch("./assets/gameObjectTypes.json");
+  const response = await fetch("./assets/gameObjects.json");
   const enemyType = await response.json();
 
   return enemyType;
