@@ -1,7 +1,6 @@
 export class Sprite {
-  constructor(entity, frameLimit) {
-    this.entity = entity;
-    this.currentFrame = 0;
+  constructor(gameObject, frameLimit) {
+    this.gameObject = gameObject;
     this.animations = {
       idle: [{ x: 0, y: 0 }],
       moveRight: [
@@ -25,42 +24,42 @@ export class Sprite {
     this.currentFrame = 0;
     this.frameLimit = frameLimit;
   }
-  getFrame(entity, currentFrame) {
-    return this.animations[entity.state][currentFrame];
+  getFrame(gameObject, currentFrame) {
+    return this.animations[gameObject.state][currentFrame];
   }
   setAnimation() {
-    if (this.entity.velocityX > 0) {
-      this.entity.setState("moveRight");
-    } else if (this.entity.velocityX < 0) {
-      this.entity.setState("moveLeft");
-    } else if (this.entity.velocityY > 0) {
-      this.entity.setState("moveDown");
-    } else if (this.entity.velocityY < 0) {
-      this.entity.setState("moveUp");
+    if (this.gameObject.velocityY > 0) {
+      this.gameObject.setState("moveDown");
+    } else if (this.gameObject.velocityY < 0) {
+      this.gameObject.setState("moveUp");
+    } else if (this.gameObject.velocityX > 0) {
+      this.gameObject.setState("moveRight");
+    } else if (this.gameObject.velocityX < 0) {
+      this.gameObject.setState("moveLeft");
     } else {
-      this.entity.setState("idle");
+      this.gameObject.setState("idle");
     }
   }
   draw(ctx) {
-    const x = this.entity.x - this.entity.offsetX;
-    const y = this.entity.y - this.entity.offsetY;
+    const x = this.gameObject.x - this.gameObject.offsetX;
+    const y = this.gameObject.y - this.gameObject.offsetY;
 
-    const animLength = this.animations[this.entity.state].length;
+    const animLength = this.animations[this.gameObject.state].length;
     let pos = Math.floor(this.currentFrame / this.frameLimit) % animLength;
 
-    const framePos = this.getFrame(this.entity, pos);
+    const framePos = this.getFrame(this.gameObject, pos);
 
     this.currentFrame++;
     ctx.drawImage(
-      this.entity.image,
-      framePos.x * this.entity.spriteWidth,
-      framePos.y * this.entity.spriteHeight,
-      this.entity.spriteWidth,
-      this.entity.spriteHeight,
+      this.gameObject.image,
+      framePos.x * this.gameObject.spriteWidth,
+      framePos.y * this.gameObject.spriteHeight,
+      this.gameObject.spriteWidth,
+      this.gameObject.spriteHeight,
       x,
       y,
-      this.entity.spriteWidth,
-      this.entity.spriteHeight
+      this.gameObject.spriteWidth,
+      this.gameObject.spriteHeight
     );
   }
 }

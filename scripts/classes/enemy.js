@@ -1,9 +1,9 @@
-import { checkCollision } from "../utils/collision.js";
+import { checkTileCollision } from "../utils/checkTileCollision.js";
 import { toIndex } from "../utils/utils.js";
-import { Entity } from "./entity.js";
+import { GameObject } from "./gameObject.js";
 import { Pathfinding } from "./pathfinding.js";
 import { Sprite } from "./sprite.js";
-export class Enemy extends Entity {
+export class Enemy extends GameObject {
   constructor(type, game, x, y, findPath) {
     super(type, game, x, y, 0, 0);
     this.type = type;
@@ -60,7 +60,7 @@ export class Enemy extends Entity {
   }
   update(level) {
     this.moveToTarget();
-    checkCollision(this, level);
+    checkTileCollision(this, level);
     this.move();
     this.sprite.setAnimation();
   }

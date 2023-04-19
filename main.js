@@ -18,7 +18,7 @@ let previouseTime = null;
 const gameSpeed = 0.2;
 
 async function promise() {
-  const response = await fetch("./assets/entityTypes.json");
+  const response = await fetch("./assets/gameObjectTypes.json");
   const enemyType = await response.json();
 
   return enemyType;
@@ -30,12 +30,9 @@ class Game {
     this.height = height;
     this.fps = 0;
     this.enemyData = assets;
-    this.ee = new EventEmitter();
     this.currentLevel = new Grid(30);
 
     this.input = new Input();
-    this.enemy = new Enemy(this.enemyData.opossum, this, 300, 300, false);
-    this.player = new Player(this.enemyData.player, this, 300, 300);
   }
   startCountdown() {
     const countdownDisplay = document.getElementById("timer");
@@ -57,8 +54,10 @@ class Game {
     }, 1000);
   }
 
-  spawnEnemy() {}
+  spawnEnemys() {}
   init() {
+    this.enemy = new Enemy(this.enemyData.opossum, this, 300, 300, false);
+    this.player = new Player(this.enemyData.player, this, 300, 300);
     this.currentLevel.makeGrid(level_2.tileMap);
     this.input.inputControl(this.input.player1Keys);
     this.startCountdown();

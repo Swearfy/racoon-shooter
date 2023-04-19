@@ -1,7 +1,7 @@
-import { checkCollision } from "../utils/collision.js";
-import { Entity } from "./entity.js";
+import { checkTileCollision } from "../utils/checkTileCollision.js";
+import { GameObject } from "./gameObject.js";
 
-export class Bullet extends Entity {
+export class Bullet extends GameObject {
   constructor(type, game, x, y, velX, velY, dmg) {
     super(type, game, x, y, velX, velY);
     this.velX = velX;
@@ -12,7 +12,7 @@ export class Bullet extends Entity {
   }
   update(level) {
     this.setVelocity(this.velX, this.velY);
-    checkCollision(this, level);
+    checkTileCollision(this, level);
     this.move();
   }
   draw(ctx) {

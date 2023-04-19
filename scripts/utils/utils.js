@@ -50,13 +50,13 @@ export function getTileAtIndex(grid, x, y) {
 
 /**
  *
- * @param entity1
- * @param entity2
+ * @param gameObject1
+ * @param gameObject2
  * @returns Octile distance between 2 points
  */
-export function calculateH(entity1, entity2) {
-  let dx = Math.abs(entity1.x - entity2.x);
-  let dy = Math.abs(entity1.y - entity2.y);
+export function calculateH(gameObject1, gameObject2) {
+  let dx = Math.abs(gameObject1.x - gameObject2.x);
+  let dy = Math.abs(gameObject1.y - gameObject2.y);
   return 1 * (dx + dy) + (Math.SQRT2 - 2 * 1) * Math.min(dx, dy);
 }
 

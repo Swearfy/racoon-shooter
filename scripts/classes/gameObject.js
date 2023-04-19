@@ -1,4 +1,4 @@
-export class Entity {
+export class GameObject {
   constructor(type, game, x, y, velocityX, velocityY) {
     this.type = type;
     this.game = game;

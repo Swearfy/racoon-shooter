@@ -1,10 +1,10 @@
 import { Bullet } from "./bullet.js";
-import { checkCollision } from "../utils/collision.js";
-import { Entity } from "./entity.js";
+import { checkTileCollision } from "../utils/checkTileCollision.js";
+import { GameObject } from "./gameObject.js";
 import { removeFromArray, toIndex } from "../utils/utils.js";
 import { Sprite } from "./sprite.js";
 
-export class Player extends Entity {
+export class Player extends GameObject {
   constructor(type, game, x, y) {
     super(type, game, x, y, 0, 0);
 
@@ -18,7 +18,7 @@ export class Player extends Entity {
   }
   update(level, input) {
     this.handleInput(input);
-    checkCollision(this, level);
+    checkTileCollision(this, level);
     this.move();
 
     this.sprite.setAnimation();
