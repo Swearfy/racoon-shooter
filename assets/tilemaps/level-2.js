@@ -1,5 +1,5 @@
 export const level_2 = {
-  background: "",
+  background: "../img/map-1.png",
   overLayImage: "",
   tileMap: [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
