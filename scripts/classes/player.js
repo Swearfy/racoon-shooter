@@ -11,7 +11,6 @@ export class Player extends GameObject {
     this.actionLock = 0;
     this.shootSpeed = 3;
     this.bulletSpeed = 4;
-    this.bullets = [];
 
     // stuff for animation
     this.sprite = new Sprite(this, 20);
@@ -24,14 +23,6 @@ export class Player extends GameObject {
     this.sprite.setAnimation();
     this.shoot(input);
 
-    for (const bullet of this.bullets) {
-      bullet.update(level);
-
-      // Removes the bullet from the bullet list.
-      if (bullet.collide === true) {
-        removeFromArray(this.bullets, bullet);
-      }
-    }
     // if (this.velocityX !== 0 || this.velocityY !== 0) {
     //   this.ee.emit("test");
     // }
@@ -86,25 +77,11 @@ export class Player extends GameObject {
 
     if ((velX != 0 || velY != 0) && Date.now() > this.actionLock) {
       this.actionLock = Date.now() + 1000 / this.shootSpeed;
-      this.bullets.push(
-        new Bullet(
-          this.game.gameAssets.gameObject.bullet,
-          this.game,
-          this.x + this.width / 2,
-          this.y + this.height / 2.3,
-          velX,
-          velY,
-          1
-        )
-      );
+      this.game.shootBullet(this, velX, velY);
     }
   }
   draw(ctx) {
     this.sprite.draw(ctx);
-    this.bullets.forEach((bullet) => {
-      bullet.draw(ctx);
-    });
-
     ctx.font = "12px Arial";
     ctx.fillStyle = "black";
     ctx.fillText(

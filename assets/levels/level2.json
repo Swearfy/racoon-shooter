@@ -1,7 +1,7 @@
 {
   "background": "./assets/img/map-1.png",
-  "overLayImage": "",
-  "enemyTypes": ["opossum"],
+  "overLayImage": "#",
+  "enemyTypes": ["bat", "bear"],
   "tileMap": [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
