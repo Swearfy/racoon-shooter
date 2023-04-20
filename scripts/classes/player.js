@@ -88,7 +88,7 @@ export class Player extends GameObject {
       this.actionLock = Date.now() + 1000 / this.shootSpeed;
       this.bullets.push(
         new Bullet(
-          this.game.enemyData.bullet,
+          this.game.gameObjet.bullet,
           this.game,
           this.x + this.width / 2,
           this.y + this.height / 2.3,
