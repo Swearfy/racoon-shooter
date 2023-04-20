@@ -29,7 +29,7 @@ class Game {
     this.width = width;
     this.height = height;
     this.fps = 0;
-    this.enemyData = assets;
+    this.gameObjet = assets;
     this.currentLevel = new Grid(30);
 
     this.input = new Input();
@@ -56,8 +56,8 @@ class Game {
 
   spawnEnemys() {}
   init() {
-    this.enemy = new Enemy(this.enemyData.opossum, this, 300, 300, false);
-    this.player = new Player(this.enemyData.player, this, 300, 300);
+    this.enemy = new Enemy(this.gameObjet.opossum, this, 300, 300, false);
+    this.player = new Player(this.gameObjet.player, this, 300, 300);
     this.currentLevel.makeGrid(level_2.tileMap);
     this.input.inputControl(this.input.player1Keys);
     this.startCountdown();
