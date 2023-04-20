@@ -28,11 +28,12 @@ class Game {
   constructor(assets, width, height) {
     this.width = width;
     this.height = height;
-    this.fps = 0;
     this.gameObjet = assets;
-    this.currentLevel = new Grid(30);
-
+    this.fps = 0;
+    this.level = 1;
+    this.currentLevel = new Grid(this, level_1, 30);
     this.input = new Input();
+    this.gameState = "starting";
   }
   startCountdown() {
     const countdownDisplay = document.getElementById("timer");
@@ -45,8 +46,7 @@ class Game {
       if (seconds === 0) {
         clearInterval(interval);
         countdownDisplay.style.width = 0 + "px";
-
-        console.log("Countdown ended!");
+        this.level++; // change level
       } else {
         initialWidth -= stepDiameter;
         countdownDisplay.style.width = initialWidth + "px";
@@ -58,44 +58,18 @@ class Game {
   init() {
     this.enemy = new Enemy(this.gameObjet.opossum, this, 300, 300, false);
     this.player = new Player(this.gameObjet.player, this, 300, 300);
-    this.currentLevel.makeGrid(level_2.tileMap);
     this.input.inputControl(this.input.player1Keys);
     this.startCountdown();
   }
-  twoPlayerInit(player1, player2) {
-    this.currentLevel.makeGrid(level_1);
-    this.player = player1;
-    this.player2 = player2;
-    this.input.inputControl(this.input.player1Keys);
-
-    requestAnimationFrame(animate);
-  }
   update() {
-    const image = document.getElementById("level1");
-    ctx.drawImage(image, 0, 0);
+    this.currentLevel.update();
     this.player.update(this.currentLevel, this.input.player1Keys);
-
-    if (this.player2) {
-      this.player2.update(this.currentLevel);
-    }
-
     this.enemy.update(this.currentLevel);
-
     this.input.controllerInput(this.input.player1Keys);
   }
   draw(ctx) {
-    this.currentLevel.grid.forEach((tile) => {
-      tile.forEach((tile2) => {
-        ctx.fillStyle = tile2.walkable ? "rgba(255,255,255,0.3)" : "red";
-        tile2.draw(ctx);
-      });
-    });
-
+    this.currentLevel.draw(ctx);
     this.enemy.draw(ctx);
-
-    if (this.player2) {
-      this.player2.draw(ctx);
-    }
     this.player.draw(ctx);
   }
 }
