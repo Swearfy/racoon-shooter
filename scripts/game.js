@@ -7,10 +7,10 @@ export class Game {
   constructor(assets, width, height) {
     this.width = width;
     this.height = height;
-    this.gameObjet = assets;
+    this.gameAssets = assets;
     this.fps = 0;
     this.level = 1;
-    this.currentLevel = new Grid(this, this.gameObjet.level1, 30);
+    this.currentLevel = new Grid(this, this.gameAssets.levels[this.level], 30);
     this.input = new Input();
     this.gameState = "starting";
   }
@@ -32,27 +32,21 @@ export class Game {
       }
     }, 1000);
   }
-
   spawnEnemys() {}
   init() {
     this.enemy = new Enemy(
-      this.gameObjet.gameObjectType.opossum,
+      this.gameAssets.gameObject.opossum,
       this,
       300,
       300,
       false
     );
-    this.player = new Player(
-      this.gameObjet.gameObjectType.player,
-      this,
-      300,
-      300
-    );
+    this.player = new Player(this.gameAssets.gameObject.player, this, 300, 300);
     this.input.inputControl(this.input.player1Keys);
     this.startCountdown();
   }
   update() {
-    this.currentLevel.update();
+    this.currentLevel.update(this.gameAssets.levels[this.level]);
     this.player.update(this.currentLevel, this.input.player1Keys);
     this.enemy.update(this.currentLevel);
     this.input.controllerInput(this.input.player1Keys);

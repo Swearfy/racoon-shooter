@@ -37,7 +37,8 @@ export class Grid {
       .filter((tile) => tile !== undefined);
   }
 
-  update() {
+  update(level) {
+    this.level = level;
     this.makeGrid();
   }
   draw(ctx) {
