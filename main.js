@@ -12,16 +12,21 @@ let previouseTime = null;
 const gameSpeed = 0.2;
 
 async function promise() {
+  const level1Data = await fetch("./assets/levels/level1.json");
+  const level2Data = await fetch("./assets/levels/level2.json");
+  const level3Data = await fetch("./assets/levels/level3.json");
   const response = await fetch("./assets/gameObjects.json");
-  const enemyType = await response.json();
+  const gameObjectType = await response.json();
+  const level1 = await level1Data.json();
+  const level2 = await level2Data.json();
+  const level3 = await level3Data.json();
 
-  return enemyType;
+  return { gameObjectType, level1, level2, level3 };
 }
 
 promise().then((assets) => {
   const game = new Game(assets, canvas.width, canvas.height);
   game.init();
-
   requestAnimationFrame(animate);
 
   function animate(currentTime) {

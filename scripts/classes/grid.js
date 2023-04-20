@@ -10,8 +10,8 @@ export class Grid {
     this.background = new Image();
     this.background.src = level.background;
 
-    this.overlay = new Image();
-    this.overlay.src = level.overlay;
+    // this.overlay = new Image();
+    // this.overlay.src = level.overlay;
   }
   makeGrid() {
     for (let row = 0; row < this.tileSize; row++) {

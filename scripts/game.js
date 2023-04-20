@@ -2,7 +2,6 @@ import { Input } from "./utils/input.js";
 import { Player } from "./classes/player.js";
 import { Enemy } from "./classes/enemy.js";
 import { Grid } from "./classes/grid.js";
-import { level_1 } from "../assets/tilemaps/level-1.js";
 import { EventEmitter } from "./utils/eventEmitter.js";
 export class Game {
   constructor(assets, width, height) {
@@ -11,7 +10,7 @@ export class Game {
     this.gameObjet = assets;
     this.fps = 0;
     this.level = 1;
-    this.currentLevel = new Grid(this, level_1, 30);
+    this.currentLevel = new Grid(this, this.gameObjet.level1, 30);
     this.input = new Input();
     this.gameState = "starting";
   }
@@ -36,8 +35,19 @@ export class Game {
 
   spawnEnemys() {}
   init() {
-    this.enemy = new Enemy(this.gameObjet.opossum, this, 300, 300, false);
-    this.player = new Player(this.gameObjet.player, this, 300, 300);
+    this.enemy = new Enemy(
+      this.gameObjet.gameObjectType.opossum,
+      this,
+      300,
+      300,
+      false
+    );
+    this.player = new Player(
+      this.gameObjet.gameObjectType.player,
+      this,
+      300,
+      300
+    );
     this.input.inputControl(this.input.player1Keys);
     this.startCountdown();
   }
