@@ -78,6 +78,7 @@ export class Game {
       this.bullets.forEach((bullet) => {
         if (checkObjectCollision(bullet, enemy)) {
           removeFromArray(this.enemies, enemy);
+          removeFromArray(this.bullets, bullet);
         }
       });
     });

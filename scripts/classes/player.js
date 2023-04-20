@@ -70,9 +70,22 @@ export class Player extends GameObject {
     // handle shooting animations
     if (keys.shootLeft.pressed && this.state === "moveRight") {
       this.setState("moveLeft");
-    }
-    if (keys.shootLeft.pressed && this.state !== "moveLeft") {
+    } else if (keys.shootLeft.pressed && this.state !== "moveLeft") {
       this.setState("shootLeft");
+    } else if (keys.shootRight.pressed && this.state === "moveLeft") {
+      this.setState("moveRight");
+    } else if (keys.shootRight.pressed && this.state !== "moveRight") {
+      this.setState("shootRight");
+    }
+
+    if (keys.shootUp.pressed && this.state === "moveDown") {
+      this.setState("moveUp");
+    } else if (keys.shootUp.pressed && this.state !== "moveUp") {
+      this.setState("shootUp");
+    } else if (keys.shootDown.pressed && this.state === "moveUp") {
+      this.setState("moveDown");
+    } else if (keys.shootDown.pressed && this.state !== "moveDown") {
+      this.setState("shootDown");
     }
 
     if ((velX != 0 || velY != 0) && Date.now() > this.actionLock) {
@@ -82,12 +95,13 @@ export class Player extends GameObject {
   }
   draw(ctx) {
     this.sprite.draw(ctx);
-    ctx.font = "12px Arial";
-    ctx.fillStyle = "black";
-    ctx.fillText(
-      `(${Math.round(toIndex(this.x))}, ${Math.round(toIndex(this.y))})`,
-      this.x + this.width / 2,
-      this.y + this.height / 2
-    );
+    // ctx.strokeRect(this.x, this.y, this.width, this.height);
+    // ctx.font = "12px Arial";
+    // ctx.fillStyle = "black";
+    // ctx.fillText(
+    //   `(${Math.round(toIndex(this.x))}, ${Math.round(toIndex(this.y))})`,
+    //   this.x + this.width / 2,
+    //   this.y + this.height / 2
+    // );
   }
 }

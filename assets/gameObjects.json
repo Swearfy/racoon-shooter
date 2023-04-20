@@ -29,8 +29,8 @@
   "player": {
     "width": 30,
     "height": 70,
-    "spriteWidth": 65,
-    "spriteHeight": 92,
+    "spriteWidth": 66,
+    "spriteHeight": 106,
     "maxSpeed": 2,
     "lives": 3,
     "image": "./assets/img/racoon.png"
