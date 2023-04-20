@@ -1,7 +1,5 @@
 import { Tile } from "./tile.js";
 import { getTileAtIndex, toIndexRange } from "../utils/utils.js";
-import { level_2 } from "../../assets/tilemaps/level-2.js";
-import { level_1 } from "../../assets/tilemaps/level-1.js";
 
 export class Grid {
   constructor(game, level, tileSize) {
@@ -38,23 +36,8 @@ export class Grid {
       )
       .filter((tile) => tile !== undefined);
   }
-  levelSelector() {
-    switch (this.game.level) {
-      case 1: {
-        this.level = level_1;
-        break;
-      }
-      case 2: {
-        this.level = level_2;
-        break;
-      }
-      default: {
-        this.level = level_1;
-      }
-    }
-  }
+
   update() {
-    this.levelSelector();
     this.makeGrid();
   }
   draw(ctx) {
