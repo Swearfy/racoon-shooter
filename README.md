@@ -23,10 +23,23 @@ Player 2:
 
 - Not implemented yet
 
-## Future updates:
+## Current Features:
 
-- Fix Map collision
-- Add enemies
+- Tile/Grid Maps
+- Tile Collision
+- Janky A\* Pathfinding using octile distance
+- GameObjets
+- Animations/Sprites
+- Ps 5 controller support
+
+## Things to do:
+
+- <s>Add enemies</s>
+- add bullet collision
 - Add enemy collision
-- Add Maps Controller
+- enemy spawner
+- Add Maps Controller/ Level swapper
+- Get better at programming
+- Electron
+- Add more controllers support
 - More...
