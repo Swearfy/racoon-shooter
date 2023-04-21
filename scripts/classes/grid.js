@@ -35,7 +35,6 @@ export class Grid {
   }
 
   update(level) {
-    console.log(this.level);
     this.level = level;
     this.makeGrid();
   }
