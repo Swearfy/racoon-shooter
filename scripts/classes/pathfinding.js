@@ -29,6 +29,9 @@ export class Pathfinding {
 
     this.updateStartAndEnd(start, end);
 
+    if (this.start === undefined || this.end === undefined) {
+      return;
+    }
     this.start.g = 0;
     this.start.f = 0;
     this.start.parent = null;
