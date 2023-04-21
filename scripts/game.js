@@ -98,9 +98,9 @@ export class Game {
     this.enemies.forEach((enemy) => {
       enemy.draw(ctx);
     });
+    this.player.draw(ctx);
     this.bullets.forEach((bullet) => {
       bullet.draw(ctx);
     });
-    this.player.draw(ctx);
   }
 }

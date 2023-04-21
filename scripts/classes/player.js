@@ -70,21 +70,26 @@ export class Player extends GameObject {
     // handle shooting animations
     if (keys.shootLeft.pressed && this.state === "moveRight") {
       this.setState("moveLeft");
-    } else if (keys.shootLeft.pressed && this.state !== "moveLeft") {
+    }
+    if (keys.shootLeft.pressed && this.state !== "moveLeft") {
       this.setState("shootLeft");
-    } else if (keys.shootRight.pressed && this.state === "moveLeft") {
+    }
+    if (keys.shootRight.pressed && this.state === "moveLeft") {
       this.setState("moveRight");
-    } else if (keys.shootRight.pressed && this.state !== "moveRight") {
+    }
+    if (keys.shootRight.pressed && this.state !== "moveRight") {
       this.setState("shootRight");
     }
-
     if (keys.shootUp.pressed && this.state === "moveDown") {
       this.setState("moveUp");
-    } else if (keys.shootUp.pressed && this.state !== "moveUp") {
+    }
+    if (keys.shootUp.pressed && this.state !== "moveUp") {
       this.setState("shootUp");
-    } else if (keys.shootDown.pressed && this.state === "moveUp") {
+    }
+    if (keys.shootDown.pressed && this.state === "moveUp") {
       this.setState("moveDown");
-    } else if (keys.shootDown.pressed && this.state !== "moveDown") {
+    }
+    if (keys.shootDown.pressed && this.state !== "moveDown") {
       this.setState("shootDown");
     }
 
