@@ -1,7 +1,11 @@
 {
   "background": "./assets/img/map-1.png",
   "overlay": "./assets/img/map1Overlay.png",
-  "enemyTypes": ["bat", "bear"],
+  "enemyTypes": [
+    { "type": "opossum", "spawnChance": 25 },
+    { "type": "bat", "spawnChance": 25 },
+    { "type": "bear", "spawnChance": 25 }
+  ],
   "tileMap": [
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
