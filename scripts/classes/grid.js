@@ -9,9 +9,6 @@ export class Grid {
     this.tileSize = tileSize;
     this.background = new Image();
     this.overlay = new Image();
-
-    this.background.src = level.background;
-    this.overlay.src = level.overlay;
   }
   makeGrid() {
     for (let row = 0; row < this.tileSize; row++) {
@@ -38,11 +35,14 @@ export class Grid {
   }
 
   update(level) {
+    console.log(this.level);
     this.level = level;
-    console.log(this.overlay);
     this.makeGrid();
   }
   draw(ctx) {
+    this.background.src = this.level.background;
+    this.overlay.src = this.level.overlay;
+
     ctx.drawImage(this.background, 0, 0);
 
     this.grid.forEach((tile) => {
@@ -51,9 +51,6 @@ export class Grid {
         tile2.draw(ctx);
       });
     });
-
-    if (this.level.overlay) {
-      ctx.drawImage(this.overlay, 0, 0);
-    }
+    ctx.drawImage(this.overlay, 0, 0);
   }
 }

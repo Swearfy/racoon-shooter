@@ -88,12 +88,12 @@ export class Tile {
       this.tileSize,
       this.tileSize
     );
-    // ctx.fillStyle = "white";
-    // ctx.font = "10px Arial";
-    // ctx.fillText(
-    //   `(${this.x},${this.y})`,
-    //   this.x * this.tileSize,
-    //   (this.y + 1) * this.tileSize - 2
-    // );
+    ctx.fillStyle = "white";
+    ctx.font = "10px Arial";
+    ctx.fillText(
+      `(${this.x},${this.y})`,
+      this.x * this.tileSize,
+      (this.y + 1) * this.tileSize - 2
+    );
   }
 }

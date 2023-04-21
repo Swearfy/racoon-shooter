@@ -4,11 +4,11 @@ import { GameObject } from "./gameObject.js";
 import { Pathfinding } from "./pathfinding.js";
 import { Sprite } from "./sprite.js";
 export class Enemy extends GameObject {
-  constructor(type, game, x, y, findPath) {
+  constructor(type, game, x, y) {
     super(type, game, x, y, 0, 0);
     this.type = type;
 
-    this.findPath = findPath;
+    this.findPath = type.pathFinding;
     // animation stuff
     this.sprite = new Sprite(this, 30);
 

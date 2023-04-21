@@ -1,6 +1,6 @@
 {
   "background": "#",
-  "overLayImage": "#",
+  "overlay": "#",
   "enemyTypes": ["opossum"],
   "tileMap": []
 }

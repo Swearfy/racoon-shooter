@@ -100,7 +100,7 @@ export class Player extends GameObject {
   }
   draw(ctx) {
     this.sprite.draw(ctx);
-    // ctx.strokeRect(this.x, this.y, this.width, this.height);
+    ctx.strokeRect(this.x, this.y, this.width, this.height);
     // ctx.font = "12px Arial";
     // ctx.fillStyle = "black";
     // ctx.fillText(

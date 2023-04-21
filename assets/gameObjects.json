@@ -6,7 +6,8 @@
     "spriteHeight": 72,
     "maxSpeed": 1,
     "lives": 1,
-    "image": "./assets/img/opossum.png"
+    "image": "./assets/img/opossum.png",
+    "pathFinding": true
   },
   "bat": {
     "width": 30,
@@ -15,7 +16,8 @@
     "spriteHeight": 102,
     "maxSpeed": 1,
     "lives": 1,
-    "image": "./assets/img/bat.png"
+    "image": "./assets/img/bat.png",
+    "pathFinding": false
   },
   "bear": {
     "width": 30,
@@ -24,7 +26,8 @@
     "spriteHeight": 130,
     "maxSpeed": 1,
     "lives": 1,
-    "image": "./assets/img/bear.png"
+    "image": "./assets/img/bear.png",
+    "pathFinding": true
   },
   "player": {
     "width": 30,

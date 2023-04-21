@@ -18,6 +18,12 @@ export class Game {
     this.gameState = "starting";
     this.bullets = [];
     this.enemies = [];
+    this.enemy = new Enemy(
+      this.gameAssets.gameObject.bear,
+      this,
+      Math.random() * 900,
+      Math.random() * 900
+    );
   }
   startCountdown() {
     const countdownDisplay = document.getElementById("timer");
@@ -73,6 +79,7 @@ export class Game {
     // this.spawnEnemys();
     this.player.update(this.currentLevel, this.input.player1Keys);
 
+    this.enemy.update(this.currentLevel);
     this.enemies.forEach((enemy) => {
       enemy.update(this.currentLevel);
       this.bullets.forEach((bullet) => {
@@ -95,6 +102,7 @@ export class Game {
   }
   draw(ctx) {
     this.currentLevel.draw(ctx);
+    this.enemy.draw(ctx);
     this.enemies.forEach((enemy) => {
       enemy.draw(ctx);
     });
