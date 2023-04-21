@@ -18,12 +18,11 @@ export class Game {
     this.gameState = "starting";
     this.bullets = [];
     this.enemies = [];
-    this.enemy = new Enemy(
-      this.gameAssets.gameObject.bear,
-      this,
-      Math.random() * 900,
-      Math.random() * 900
-    );
+
+    this.maxEnemy = 40;
+
+    this.enemyTimer = 0;
+    this.spawnInterval = 700;
   }
   startCountdown() {
     const countdownDisplay = document.getElementById("timer");
@@ -58,13 +57,13 @@ export class Game {
   }
   spawnEnemys() {
     this.gameAssets.levels[this.level].enemyTypes.forEach((enemyType) => {
+      console.log(enemyType.type);
       this.enemies.push(
         new Enemy(
-          this.gameAssets.gameObject[enemyType],
+          this.gameAssets.gameObject[enemyType.type],
           this,
           Math.random() * 900,
-          Math.random() * 900,
-          false
+          Math.random() * 900
         )
       );
     });
@@ -72,14 +71,21 @@ export class Game {
   init() {
     this.player = new Player(this.gameAssets.gameObject.player, this, 300, 300);
     this.input.inputControl(this.input.player1Keys);
-    this.startCountdown();
+    // this.startCountdown();
   }
   update() {
     this.currentLevel.update(this.gameAssets.levels[this.level]);
-    // this.spawnEnemys();
     this.player.update(this.currentLevel, this.input.player1Keys);
 
-    this.enemy.update(this.currentLevel);
+    if (this.enemyTimer > this.spawnInterval) {
+      // this.spawnEnemys();
+      this.enemyTimer = 0;
+    } else {
+      this.enemyTimer += this.fps;
+    }
+
+    // this.spawnEnemys();
+
     this.enemies.forEach((enemy) => {
       enemy.update(this.currentLevel);
       this.bullets.forEach((bullet) => {
@@ -102,10 +108,11 @@ export class Game {
   }
   draw(ctx) {
     this.currentLevel.draw(ctx);
-    this.enemy.draw(ctx);
+
     this.enemies.forEach((enemy) => {
       enemy.draw(ctx);
     });
+
     this.player.draw(ctx);
     this.bullets.forEach((bullet) => {
       bullet.draw(ctx);
