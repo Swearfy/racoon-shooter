@@ -25,7 +25,6 @@ async function promise() {
 }
 
 promise().then((assets) => {
-  console.log(assets.gameObject);
   const game = new Game(assets, canvas.width, canvas.height);
   game.init();
   requestAnimationFrame(animate);
