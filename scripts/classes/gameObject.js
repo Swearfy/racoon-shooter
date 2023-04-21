@@ -9,8 +9,8 @@ export class GameObject {
     this.velocityX = velocityX;
     this.velocityY = velocityY;
     this.maxSpeed = type.maxSpeed;
-    this.offsetX = 15;
-    this.offsetY = 25;
+    this.offsetX = type.offsetX;
+    this.offsetY = type.offsetY;
 
     this.spriteWidth = type.spriteWidth;
     this.spriteHeight = type.spriteHeight;
