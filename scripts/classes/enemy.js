@@ -9,6 +9,7 @@ export class Enemy extends GameObject {
     this.type = type;
 
     this.findPath = type.pathFinding;
+    this.collision = type.collision;
     // animation stuff
     this.sprite = new Sprite(this, 30);
 
@@ -27,6 +28,7 @@ export class Enemy extends GameObject {
     if (this.findPath) {
       this.findPlayer();
       // We want to skip the first point in the path, because that's the current position.
+
       const currentPoint = this.pathToFollow.shift();
       target = this.pathToFollow[0];
     } else {
@@ -60,7 +62,9 @@ export class Enemy extends GameObject {
   }
   update(level) {
     this.moveToTarget();
-    checkTileCollision(this, level);
+    if (this.collision) {
+      checkTileCollision(this, level);
+    }
     this.move();
     this.sprite.setAnimation();
   }
