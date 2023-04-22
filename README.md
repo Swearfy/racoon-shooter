@@ -1,4 +1,4 @@
-# Project-GameV2
+# Racoon-Shooter
 
 Final year project for university.
 
