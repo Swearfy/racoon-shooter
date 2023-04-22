@@ -21,7 +21,7 @@ async function promise() {
   const level2 = await level2Data.json();
   const level3 = await level3Data.json();
 
-  return { gameObject, levels: { 1: level1, 2: level2, 3: level3 } };
+  return { gameObject, gameLevels: { 1: level1, 2: level2, 3: level3 } };
 }
 
 promise().then((assets) => {

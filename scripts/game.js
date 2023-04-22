@@ -10,19 +10,20 @@ export class Game {
   constructor(assets, width, height) {
     this.width = width;
     this.height = height;
-    this.gameAssets = assets;
+    this.gameLevels = assets.gameLevels;
+    this.gameObjects = assets.gameObject;
     this.fps = 0;
     this.level = 1;
-    this.currentLevel = new Grid(this, this.gameAssets.levels[this.level], 30);
+    this.currentLevel = new Grid(this, this.gameLevels[this.level], 30);
     this.input = new Input();
     this.gameState = "starting";
     this.bullets = [];
     this.enemies = [];
 
-    this.maxEnemy = 40;
+    this.spawnChance = this.maxEnemy = 40;
 
     this.enemyTimer = 0;
-    this.spawnInterval = 700;
+    this.spawnInterval = 300;
   }
   startCountdown() {
     const countdownDisplay = document.getElementById("timer");
@@ -45,7 +46,7 @@ export class Game {
   shootBullet(gameObject, velX, velY) {
     this.bullets.push(
       new Bullet(
-        this.gameAssets.gameObject.bullet,
+        this.gameObjects.bullet,
         this,
         gameObject.left + gameObject.width / 2,
         gameObject.top + gameObject.height / 2.3,
@@ -56,35 +57,45 @@ export class Game {
     );
   }
   spawnEnemys() {
-    this.gameAssets.levels[this.level].enemyTypes.forEach((enemyType) => {
-      console.log(enemyType.type);
-      this.enemies.push(
-        new Enemy(
-          this.gameAssets.gameObject[enemyType.type],
-          this,
-          Math.random() * 900,
-          Math.random() * 900
-        )
-      );
-    });
+    console.log(this.randomSpawn());
+    this.enemies.push(
+      new Enemy(
+        this.gameObjects[this.randomSpawn()],
+        this,
+        Math.random() * 900,
+        Math.random() * 900
+      )
+    );
+    // this.gameLevels[this.level].enemyTypes.forEach((enemyType) => {
+
+    // });
+  }
+  randomSpawn() {
+    const randomNumber = Math.random() * 100;
+    let probability = 0;
+
+    for (let i = 0; i < this.gameLevels[this.level].enemyTypes.length; i++) {
+      probability += this.gameLevels[this.level].enemyTypes[i].spawnChance;
+      if (randomNumber <= probability) {
+        return Object.keys(this.gameObjects)[i];
+      }
+    }
   }
   init() {
-    this.player = new Player(this.gameAssets.gameObject.player, this, 300, 300);
+    this.player = new Player(this.gameObjects.player, this, 300, 300);
     this.input.inputControl(this.input.player1Keys);
-    // this.startCountdown();
+    this.startCountdown();
   }
   update() {
-    this.currentLevel.update(this.gameAssets.levels[this.level]);
+    this.currentLevel.update(this.gameLevels[this.level]);
     this.player.update(this.currentLevel, this.input.player1Keys);
 
     if (this.enemyTimer > this.spawnInterval) {
-      // this.spawnEnemys();
+      this.spawnEnemys();
       this.enemyTimer = 0;
     } else {
       this.enemyTimer += this.fps;
     }
-
-    // this.spawnEnemys();
 
     this.enemies.forEach((enemy) => {
       enemy.update(this.currentLevel);
