@@ -1,6 +1,10 @@
 {
   "background": "#",
   "overlay": "#",
-  "enemyTypes": ["opossum"],
+  "enemyTypes": [
+    { "type": "opossum", "spawnChance": 0 },
+    { "type": "bat", "spawnChance": 80 },
+    { "type": "bear", "spawnChance": 20 }
+  ],
   "tileMap": []
 }
