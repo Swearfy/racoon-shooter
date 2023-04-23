@@ -109,3 +109,19 @@ h2 {
   height: 30px;
   background-color: black;
 }
+
+#GameOverScreen {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  width: 250px;
+}
+
+#pauseScreen {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  width: 250px;
+}

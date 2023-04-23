@@ -20,6 +20,8 @@ export class Game {
     this.bullets = [];
     this.enemies = [];
 
+    this.gameState = "running";
+
     this.score = 0;
 
     this.maxEnemy = 40;
@@ -61,10 +63,21 @@ export class Game {
   clearEnemyArray() {}
   spawnEnemys() {
     let type = this.gameObjects[this.getSpawnChance()];
-
     let x = Math.random() * 900;
     let y = Math.random() * 900;
 
+    const disX = this.player.x - x;
+    const disY = this.player.y - y;
+    const distnace = Math.sqrt(disX * disX + disY * disY);
+
+    if (this.isBlocked(x, y, type) || distnace < 150) {
+      x = Math.random() * 900;
+      y = Math.random() * 900;
+    }
+
+    this.enemies.push(new Enemy(type, this, x, y));
+  }
+  isBlocked(x, y, type) {
     const tileInRange = this.currentLevel.searchTilesInRange(
       x,
       x + type.width,
@@ -72,18 +85,6 @@ export class Game {
       y + type.height
     );
 
-    const disX = this.player.x - x;
-    const disY = this.player.y - y;
-    const distnace = Math.sqrt(disX * disX + disY * disY);
-
-    if (this.isBlocked(tileInRange) || distnace < 150) {
-      x = Math.random() * 900;
-      y = Math.random() * 900;
-    }
-
-    this.enemies.push(new Enemy(type, this, x, y));
-  }
-  isBlocked(tileInRange) {
     for (let i = 0; i < tileInRange.length; i++) {
       const tile = tileInRange[i];
       if (!tile.walkable) {
@@ -92,7 +93,6 @@ export class Game {
     }
     return false;
   }
-
   getSpawnChance() {
     const randomNumber = Math.random() * 100;
     let probability = 0;
@@ -112,9 +112,17 @@ export class Game {
     this.input.inputControl(this.input.player1Keys);
     // this.startCountdown();
   }
+  init2Players() {
+    this.player = new Player(this.gameObjects.player, this, 300, 300);
+    this.player2 = new Player(this.gameObjects.player, this, 600, 300);
+  }
   update() {
     this.currentLevel.update(this.gameLevels[this.level]);
     this.player.update(this.currentLevel, this.input.player1Keys);
+
+    if (this.player2) {
+      this.player2.update(this.currentLevel, this.input.player1Keys);
+    }
 
     if (this.enemyTimer > this.spawnInterval) {
       this.spawnEnemys();
@@ -149,6 +157,9 @@ export class Game {
     this.currentLevel.draw(ctx);
 
     this.player.draw(ctx);
+    if (this.player2) {
+      this.player2.draw(ctx);
+    }
     this.bullets.forEach((bullet) => {
       bullet.draw(ctx);
     });

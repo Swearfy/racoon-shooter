@@ -56,6 +56,14 @@ promise().then((assets) => {
     requestAnimationFrame(animate);
   });
 
+  document.getElementById("duoPlay").addEventListener("click", () => {
+    document.getElementById("playerSelector").style.display = "none";
+    document.getElementById("gameMenu").style.display = "none";
+    document.getElementById("game").style.display = "block";
+    game.init2Players();
+    requestAnimationFrame(animate);
+  });
+
   function animate(currentTime) {
     const frameTimeDelta = currentTime - previouseTime;
     previouseTime = currentTime;
@@ -65,6 +73,8 @@ promise().then((assets) => {
 
     game.update();
     game.draw(ctx);
-    requestAnimationFrame(animate);
+    if (game.gameState === "running") {
+      requestAnimationFrame(animate);
+    }
   }
 });
