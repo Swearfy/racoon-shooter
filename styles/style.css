@@ -100,3 +100,12 @@ h2 {
   height: 30px;
   background-color: black;
 }
+
+#scoreDisplay {
+  position: absolute;
+  top: 6%;
+  right: 0%;
+  width: 150px;
+  height: 30px;
+  background-color: black;
+}
