@@ -10,6 +10,7 @@ export class Enemy extends GameObject {
 
     this.findPath = type.pathFinding;
     this.collision = type.collision;
+    this.points = type.points;
     // animation stuff
     this.sprite = new Sprite(this, 30);
 

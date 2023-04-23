@@ -10,7 +10,8 @@
     "lives": 1,
     "image": "./assets/img/opossum.png",
     "pathFinding": false,
-    "collision": true
+    "collision": true,
+    "points": 2
   },
   "bat": {
     "width": 40,
@@ -23,7 +24,8 @@
     "lives": 1,
     "image": "./assets/img/bat.png",
     "pathFinding": false,
-    "collision": false
+    "collision": false,
+    "points": 1
   },
   "bear": {
     "width": 60,
@@ -36,7 +38,8 @@
     "lives": 1,
     "image": "./assets/img/bear.png",
     "pathFinding": false,
-    "collision": true
+    "collision": true,
+    "points": 4
   },
   "player": {
     "width": 30,

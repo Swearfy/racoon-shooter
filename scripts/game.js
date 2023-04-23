@@ -20,6 +20,8 @@ export class Game {
     this.bullets = [];
     this.enemies = [];
 
+    this.score = 0;
+
     this.spawnChance = this.maxEnemy = 40;
 
     this.enemyTimer = 0;
@@ -58,17 +60,16 @@ export class Game {
   }
   clearEnemyArray() {}
   spawnEnemys() {
-    console.log(this.randomSpawn());
     this.enemies.push(
       new Enemy(
-        this.gameObjects[this.randomSpawn()],
+        this.gameObjects[this.getSpawnChance()],
         this,
         Math.random() * 900,
         Math.random() * 900
       )
     );
   }
-  randomSpawn() {
+  getSpawnChance() {
     const randomNumber = Math.random() * 100;
     let probability = 0;
 
@@ -78,6 +79,9 @@ export class Game {
         return Object.keys(this.gameObjects)[i];
       }
     }
+  }
+  updateScore() {
+    document.getElementById("score").innerText = this.score;
   }
   init() {
     this.player = new Player(this.gameObjects.player, this, 300, 300);
@@ -99,6 +103,7 @@ export class Game {
       enemy.update(this.currentLevel);
       this.bullets.forEach((bullet) => {
         if (checkObjectCollision(bullet, enemy)) {
+          this.score += enemy.points;
           removeFromArray(this.enemies, enemy);
           removeFromArray(this.bullets, bullet);
         }
@@ -114,17 +119,19 @@ export class Game {
     });
 
     this.input.controllerInput(this.input.player1Keys);
+    this.updateScore();
   }
   draw(ctx) {
     this.currentLevel.draw(ctx);
 
-    this.enemies.forEach((enemy) => {
-      enemy.draw(ctx);
-    });
-
     this.player.draw(ctx);
     this.bullets.forEach((bullet) => {
       bullet.draw(ctx);
+    });
+
+    this.currentLevel.drawOverlay(ctx);
+    this.enemies.forEach((enemy) => {
+      enemy.draw(ctx);
     });
   }
 }

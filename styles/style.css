@@ -25,7 +25,7 @@ img {
 }
 
 #startMenu {
-  display: none;
+  display: flex;
 }
 
 #playerSelector {
@@ -68,7 +68,7 @@ h2 {
   position: absolute;
   max-width: 100%;
   max-height: 100%;
-  display: block;
+  display: none;
   border: black 5px solid;
 }
 

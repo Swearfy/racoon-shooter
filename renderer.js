@@ -32,10 +32,23 @@ async function promise() {
   return { gameObject, gameLevels: { 1: level1, 2: level2, 3: level3 } };
 }
 
+// start menu
+document.getElementById("startButton").addEventListener("click", () => {
+  document.getElementById("startMenu").style.display = "none";
+  document.getElementById("playerSelector").style.display = "flex";
+});
+
 promise().then((assets) => {
   const game = new Game(assets, canvas.width, canvas.height);
-  game.init();
-  requestAnimationFrame(animate);
+
+  // single play lunch
+  document.getElementById("singlePlayer").addEventListener("click", () => {
+    document.getElementById("playerSelector").style.display = "none";
+    document.getElementById("gameMenu").style.display = "none";
+    document.getElementById("game").style.display = "block";
+    game.init();
+    requestAnimationFrame(animate);
+  });
 
   function animate(currentTime) {
     const frameTimeDelta = currentTime - previouseTime;

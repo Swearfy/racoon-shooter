@@ -40,7 +40,6 @@ export class Grid {
   }
   draw(ctx) {
     this.background.src = this.level.background;
-    this.overlay.src = this.level.overlay;
 
     ctx.drawImage(this.background, 0, 0);
 
@@ -50,6 +49,10 @@ export class Grid {
         tile2.draw(ctx);
       });
     });
+  }
+  drawOverlay(ctx) {
+    this.overlay.src = this.level.overlay;
+
     ctx.drawImage(this.overlay, 0, 0);
   }
 }
