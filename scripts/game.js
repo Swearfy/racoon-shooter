@@ -56,6 +56,7 @@ export class Game {
       )
     );
   }
+  clearEnemyArray() {}
   spawnEnemys() {
     console.log(this.randomSpawn());
     this.enemies.push(
@@ -66,9 +67,6 @@ export class Game {
         Math.random() * 900
       )
     );
-    // this.gameLevels[this.level].enemyTypes.forEach((enemyType) => {
-
-    // });
   }
   randomSpawn() {
     const randomNumber = Math.random() * 100;
