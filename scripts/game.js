@@ -60,15 +60,39 @@ export class Game {
   }
   clearEnemyArray() {}
   spawnEnemys() {
-    this.enemies.push(
-      new Enemy(
-        this.gameObjects[this.getSpawnChance()],
-        this,
-        Math.random() * 900,
-        Math.random() * 900
-      )
+    let type = this.gameObjects[this.getSpawnChance()];
+
+    let x = Math.random() * 900;
+    let y = Math.random() * 900;
+
+    const tileInRange = this.currentLevel.searchTilesInRange(
+      x,
+      x + type.width,
+      y,
+      y + type.height
     );
+
+    const disX = this.player.x - x;
+    const disY = this.player.y - y;
+    const distnace = Math.sqrt(disX * disX + disY * disY);
+
+    if (this.isBlocked(tileInRange) || distnace < 150) {
+      x = Math.random() * 900;
+      y = Math.random() * 900;
+    }
+
+    this.enemies.push(new Enemy(type, this, x, y));
   }
+  isBlocked(tileInRange) {
+    for (let i = 0; i < tileInRange.length; i++) {
+      const tile = tileInRange[i];
+      if (!tile.walkable) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   getSpawnChance() {
     const randomNumber = Math.random() * 100;
     let probability = 0;
@@ -86,7 +110,7 @@ export class Game {
   init() {
     this.player = new Player(this.gameObjects.player, this, 300, 300);
     this.input.inputControl(this.input.player1Keys);
-    this.startCountdown();
+    // this.startCountdown();
   }
   update() {
     this.currentLevel.update(this.gameLevels[this.level]);
@@ -103,9 +127,9 @@ export class Game {
       enemy.update(this.currentLevel);
       this.bullets.forEach((bullet) => {
         if (checkObjectCollision(bullet, enemy)) {
-          this.score += enemy.points;
           removeFromArray(this.enemies, enemy);
           removeFromArray(this.bullets, bullet);
+          this.score += enemy.points;
         }
       });
     });
