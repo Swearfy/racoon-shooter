@@ -22,7 +22,7 @@ export class Game {
 
     this.score = 0;
 
-    this.spawnChance = this.maxEnemy = 40;
+    this.maxEnemy = 40;
 
     this.enemyTimer = 0;
     this.spawnInterval = 300;

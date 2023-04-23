@@ -38,6 +38,12 @@ document.getElementById("startButton").addEventListener("click", () => {
   document.getElementById("playerSelector").style.display = "flex";
 });
 
+// go back button
+document.getElementById("backButton").addEventListener("click", () => {
+  document.getElementById("startMenu").style.display = "flex";
+  document.getElementById("playerSelector").style.display = "none";
+});
+
 promise().then((assets) => {
   const game = new Game(assets, canvas.width, canvas.height);
 

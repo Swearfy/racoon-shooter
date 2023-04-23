@@ -85,7 +85,7 @@ h2 {
   background-color: red;
 }
 
-#lives {
+#livesDisplay {
   position: absolute;
   top: 4%;
   width: 150px;
