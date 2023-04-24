@@ -13,10 +13,9 @@ export class Game {
     this.gameLevels = assets.gameLevels;
     this.gameObjects = assets.gameObject;
     this.fps = 0;
-    this.level = 1;
+    this.level = 2;
     this.currentLevel = new Grid(this, this.gameLevels[this.level], 30);
     this.input = new Input();
-    this.gameState = "starting";
     this.bullets = [];
     this.enemies = [];
 
@@ -61,18 +60,19 @@ export class Game {
     );
   }
   clearEnemyArray() {}
-  spawnEnemys() {
+  spawnEnemies() {
     let type = this.gameObjects[this.getSpawnChance()];
     let x = Math.random() * 900;
     let y = Math.random() * 900;
 
     const disX = this.player.x - x;
     const disY = this.player.y - y;
-    const distnace = Math.sqrt(disX * disX + disY * disY);
+    const distance = Math.sqrt(disX * disX + disY * disY);
+    console.log(distance);
 
-    if (this.isBlocked(x, y, type) && distnace < 150) {
-      x = Math.random() * 900;
-      y = Math.random() * 900;
+    if (this.isBlocked(x, y, type) || Math.abs(distance) < 150) {
+      this.spawnEnemies();
+      return;
     }
 
     this.enemies.push(new Enemy(type, this, x, y));
@@ -106,6 +106,7 @@ export class Game {
   }
   updateScore() {
     document.getElementById("score").innerText = this.score;
+    document.getElementById("endScore").innerText = this.score;
     document.getElementById("lives").innerText = this.player.lives;
   }
   init() {
@@ -122,19 +123,27 @@ export class Game {
   }
   update() {
     this.currentLevel.update(this.gameLevels[this.level]);
-    this.player.update(this.currentLevel, this.input.player1Keys);
 
+    //player update and stuff
+    this.player.update(this.currentLevel, this.input.player1Keys);
     if (this.player2) {
       this.player2.update(this.currentLevel, this.input.player2Keys);
     }
 
+    this.input.controllerInput(this.input.player1Keys);
+    if (this.player2) {
+      this.input.controllerInput(this.input.player2Keys);
+    }
+
+    // enemy spawn timer
     if (this.enemyTimer > this.spawnInterval) {
-      this.spawnEnemys();
+      this.spawnEnemies();
       this.enemyTimer = 0;
     } else {
       this.enemyTimer += this.fps;
     }
 
+    // enemy check collision and more
     this.enemies.forEach((enemy) => {
       enemy.update(this.currentLevel);
       if (checkObjectCollision(enemy, this.player)) {
@@ -144,19 +153,22 @@ export class Game {
           this.gameState = "lost";
           document.getElementById("game").style.display = "none";
           document.getElementById("gameMenu").style.display = "flex";
-
           document.getElementById("GameOverScreen").style.display = "flex";
         }
       }
       this.bullets.forEach((bullet) => {
         if (checkObjectCollision(bullet, enemy)) {
-          removeFromArray(this.enemies, enemy);
+          enemy.lives--;
+          if (enemy.lives === 0) {
+            removeFromArray(this.enemies, enemy);
+            this.score += enemy.points;
+          }
           removeFromArray(this.bullets, bullet);
-          this.score += enemy.points;
         }
       });
     });
 
+    // bullet update
     this.bullets.forEach((bullet) => {
       bullet.update(this.currentLevel);
       if (bullet.collide === true) {
@@ -165,10 +177,7 @@ export class Game {
       }
     });
 
-    this.input.controllerInput(this.input.player1Keys);
-    if (this.player2) {
-      this.input.controllerInput(this.input.player2Keys);
-    }
+    // update score
     this.updateScore();
   }
   draw(ctx) {

@@ -29,48 +29,48 @@ export class Tile {
     return new Tile(this.x, this.y, this.tileSize, this.walkable);
   }
   getNeighbors(grid) {
-    const neigbours = [];
+    const neighbors = [];
     // ←
     if (getTileAtIndex(grid, this.x - 1, this.y).walkable) {
-      neigbours.push(getTileAtIndex(grid, this.x - 1, this.y));
+      neighbors.push(getTileAtIndex(grid, this.x - 1, this.y));
     }
 
     // ↑
     if (getTileAtIndex(grid, this.x, this.y - 1).walkable) {
-      neigbours.push(getTileAtIndex(grid, this.x, this.y - 1));
+      neighbors.push(getTileAtIndex(grid, this.x, this.y - 1));
     }
 
     // →
     if (getTileAtIndex(grid, this.x + 1, this.y).walkable) {
-      neigbours.push(getTileAtIndex(grid, this.x + 1, this.y));
+      neighbors.push(getTileAtIndex(grid, this.x + 1, this.y));
     }
 
     // ↓
     if (getTileAtIndex(grid, this.x, this.y + 1).walkable) {
-      neigbours.push(getTileAtIndex(grid, this.x, this.y + 1));
+      neighbors.push(getTileAtIndex(grid, this.x, this.y + 1));
     }
 
     // ↖
     if (getTileAtIndex(grid, this.x - 1, this.y - 1).walkable) {
-      neigbours.push(getTileAtIndex(grid, this.x - 1, this.y - 1));
+      neighbors.push(getTileAtIndex(grid, this.x - 1, this.y - 1));
     }
 
     // ↗
     if (getTileAtIndex(grid, this.x + 1, this.y - 1).walkable) {
-      neigbours.push(getTileAtIndex(grid, this.x + 1, this.y - 1));
+      neighbors.push(getTileAtIndex(grid, this.x + 1, this.y - 1));
     }
 
     // ↘
     if (getTileAtIndex(grid, this.x + 1, this.y + 1).walkable) {
-      neigbours.push(getTileAtIndex(grid, this.x + 1, this.y + 1));
+      neighbors.push(getTileAtIndex(grid, this.x + 1, this.y + 1));
     }
 
     // ↙
     if (getTileAtIndex(grid, this.x - 1, this.y + 1).walkable) {
-      neigbours.push(getTileAtIndex(grid, this.x - 1, this.y + 1));
+      neighbors.push(getTileAtIndex(grid, this.x - 1, this.y + 1));
     }
 
-    return neigbours;
+    return neighbors;
   }
   equals(tile) {
     return this.x === tile.x && this.y === tile.y;

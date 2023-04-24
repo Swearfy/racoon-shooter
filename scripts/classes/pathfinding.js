@@ -54,21 +54,21 @@ export class Pathfinding {
         return this.backtrackPath(current);
       }
 
-      let neigbours = current.getNeighbors(this.clonedGrid);
+      let neighbors = current.getNeighbors(this.clonedGrid);
 
-      for (let i = 0; i < neigbours.length; i++) {
-        let neigbor = neigbours[i];
+      for (let i = 0; i < neighbors.length; i++) {
+        let neighbor = neighbors[i];
 
-        if (neigbor.closed || !neigbor.walkable) {
+        if (neighbor.closed || !neighbor.walkable) {
           continue;
         }
 
         let possibleG = current.g;
 
-        if (neigbor.x !== current.x && neigbor.y !== current.y) {
+        if (neighbor.x !== current.x && neighbor.y !== current.y) {
           if (
-            this.clonedGrid[current.y][neigbor.x].walkable &&
-            this.clonedGrid[neigbor.y][current.x].walkable
+            this.clonedGrid[current.y][neighbor.x].walkable &&
+            this.clonedGrid[neighbor.y][current.x].walkable
           ) {
             possibleG += 1.5;
           } else {
@@ -78,13 +78,13 @@ export class Pathfinding {
           possibleG += 1;
         }
 
-        if (!this.openSet.includes(neigbor) || possibleG < neigbor.g) {
-          neigbor.g = possibleG;
-          neigbor.h = calculateH(neigbor, this.end);
-          neigbor.f = neigbor.g + neigbor.h;
-          neigbor.parent = current;
-          if (!this.openSet.includes(neigbor)) {
-            this.openSet.push(neigbor);
+        if (!this.openSet.includes(neighbor) || possibleG < neighbor.g) {
+          neighbor.g = possibleG;
+          neighbor.h = calculateH(neighbor, this.end);
+          neighbor.f = neighbor.g + neighbor.h;
+          neighbor.parent = current;
+          if (!this.openSet.includes(neighbor)) {
+            this.openSet.push(neighbor);
           }
         }
       }

@@ -16,7 +16,7 @@ const powerUps = document.getElementById("powerUps");
 
 canvas.width = 900;
 canvas.height = 900;
-let previouseTime = null;
+let previousTime = null;
 const gameSpeed = 0.2;
 
 async function promise() {
@@ -65,8 +65,8 @@ promise().then((assets) => {
   });
 
   function animate(currentTime) {
-    const frameTimeDelta = currentTime - previouseTime;
-    previouseTime = currentTime;
+    const frameTimeDelta = currentTime - previousTime;
+    previousTime = currentTime;
     game.fps = gameSpeed * frameTimeDelta;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);

@@ -4,7 +4,7 @@ Final year project for university.
 
 ## The game is inspired from the likes of:
 
-> - Stardrew Valley: The Jourmey of the pirat king
+> - Stardrew Valley: The Journey of the pirate king
 > - Enter the gungeon
 > - The Binding of Isaac
 
@@ -12,7 +12,7 @@ Final year project for university.
 
 The main character had his trash house stolen by the mafia now he is trying to get it back but he has to deal with them first.
 
-## Game Controlls:
+## Game Controls:
 
 Player 1:
 
@@ -28,7 +28,7 @@ Player 2:
 - Tile/Grid Maps
 - Tile Collision
 - Janky A\* Pathfinding using octile distance
-- GameObjets
+- GameObjects
 - Animations/Sprites
 - Ps 5 controller support
 

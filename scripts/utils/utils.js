@@ -63,7 +63,7 @@ export function calculateH(gameObject1, gameObject2) {
 /**
  *  Clones the given grid.
  * @param grid
- * @returns cloed grid
+ * @returns closed grid
  */
 export function cloneGrid(grid) {
   let clone = [];

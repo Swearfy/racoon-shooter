@@ -1,3 +1,14 @@
 {
-    "liveServer.settings.port": 5501
+  "liveServer.settings.port": 5501,
+  "cSpell.words": [
+    "gamepadconnected",
+    "gamepaddisconnected",
+    "gungeon",
+    "Janky",
+    "menubackground",
+    "Octile",
+    "Pathfinding",
+    "Stardrew",
+    "velx"
+  ]
 }

@@ -24,11 +24,11 @@ export class Input {
 
     window.addEventListener("gamepadconnected", (e) => {
       this.controllerIndex = e.gamepad.index;
-      console.log("conected");
+      console.log("connected");
     });
     window.addEventListener("gamepaddisconnected", (e) => {
       this.controllerIndex = null;
-      console.log("discon");
+      console.log("disconnected");
     });
   }
 
