@@ -106,6 +106,7 @@ export class Game {
   }
   updateScore() {
     document.getElementById("score").innerText = this.score;
+    document.getElementById("lives").innerText = this.player.lives;
   }
   init() {
     this.player = new Player(this.gameObjects.player, this, 300, 300);
@@ -114,14 +115,17 @@ export class Game {
   }
   init2Players() {
     this.player = new Player(this.gameObjects.player, this, 300, 300);
+    this.input.inputControl(this.input.player1Keys);
+
     this.player2 = new Player(this.gameObjects.player, this, 600, 300);
+    this.input.inputControl(this.input.player2Keys);
   }
   update() {
     this.currentLevel.update(this.gameLevels[this.level]);
     this.player.update(this.currentLevel, this.input.player1Keys);
 
     if (this.player2) {
-      this.player2.update(this.currentLevel, this.input.player1Keys);
+      this.player2.update(this.currentLevel, this.input.player2Keys);
     }
 
     if (this.enemyTimer > this.spawnInterval) {
@@ -133,6 +137,13 @@ export class Game {
 
     this.enemies.forEach((enemy) => {
       enemy.update(this.currentLevel);
+      if (checkObjectCollision(enemy, this.player)) {
+        removeFromArray(this.enemies, enemy);
+        this.player.lives--;
+        if (this.player.lives === 0) {
+          this.gameState = "lost";
+        }
+      }
       this.bullets.forEach((bullet) => {
         if (checkObjectCollision(bullet, enemy)) {
           removeFromArray(this.enemies, enemy);
@@ -151,6 +162,9 @@ export class Game {
     });
 
     this.input.controllerInput(this.input.player1Keys);
+    if (this.player2) {
+      this.input.controllerInput(this.input.player2Keys);
+    }
     this.updateScore();
   }
   draw(ctx) {
