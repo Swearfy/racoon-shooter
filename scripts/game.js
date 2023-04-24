@@ -142,6 +142,10 @@ export class Game {
         this.player.lives--;
         if (this.player.lives === 0) {
           this.gameState = "lost";
+          document.getElementById("game").style.display = "none";
+          document.getElementById("gameMenu").style.display = "flex";
+
+          document.getElementById("GameOverScreen").style.display = "flex";
         }
       }
       this.bullets.forEach((bullet) => {
