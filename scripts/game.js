@@ -70,7 +70,7 @@ export class Game {
     const disY = this.player.y - y;
     const distnace = Math.sqrt(disX * disX + disY * disY);
 
-    if (this.isBlocked(x, y, type) || distnace < 150) {
+    if (this.isBlocked(x, y, type) && distnace < 150) {
       x = Math.random() * 900;
       y = Math.random() * 900;
     }
