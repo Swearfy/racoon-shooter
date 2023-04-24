@@ -70,7 +70,7 @@ export class Game {
     const distance = Math.sqrt(disX * disX + disY * disY);
     console.log(distance);
 
-    if (this.isBlocked(x, y, type) || Math.abs(distance) < 150) {
+    if (this.isBlocked(x, y, type) || Math.abs(distance) < 200) {
       this.spawnEnemies();
       return;
     }

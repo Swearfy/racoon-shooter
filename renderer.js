@@ -44,16 +44,25 @@ document.getElementById("backButton").addEventListener("click", () => {
   document.getElementById("playerSelector").style.display = "none";
 });
 
+document.getElementById("mainMenuButton").addEventListener("click", () => {
+  document.getElementById("startMenu").style.display = "flex";
+  document.getElementById("gameMenu").style.display = "flex";
+  document.getElementById("GameOverScreen").style.display = "none";
+});
+
 promise().then((assets) => {
   const game = new Game(assets, canvas.width, canvas.height);
 
+  let gameMode = "single";
   // single play lunch
   document.getElementById("singlePlayer").addEventListener("click", () => {
     document.getElementById("playerSelector").style.display = "none";
     document.getElementById("gameMenu").style.display = "none";
     document.getElementById("game").style.display = "block";
     game.init();
+    game.gameState = "running";
     requestAnimationFrame(animate);
+    gameMode = "single";
   });
 
   document.getElementById("duoPlay").addEventListener("click", () => {
@@ -61,7 +70,30 @@ promise().then((assets) => {
     document.getElementById("gameMenu").style.display = "none";
     document.getElementById("game").style.display = "block";
     game.init2Players();
+    game.gameState = "running";
+
     requestAnimationFrame(animate);
+    gameMode = "duo";
+  });
+
+  document.getElementById("restartGame").addEventListener("click", () => {
+    if (gameMode === "single") {
+      document.getElementById("playerSelector").style.display = "none";
+      document.getElementById("gameMenu").style.display = "none";
+      document.getElementById("game").style.display = "block";
+      game.init();
+      game.gameState = "running";
+
+      requestAnimationFrame(animate);
+    } else if (gameMode === "duo") {
+      document.getElementById("playerSelector").style.display = "none";
+      document.getElementById("gameMenu").style.display = "none";
+      document.getElementById("game").style.display = "block";
+      game.init2Players();
+      game.gameState = "running";
+
+      requestAnimationFrame(animate);
+    }
   });
 
   function animate(currentTime) {
