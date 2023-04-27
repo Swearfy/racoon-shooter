@@ -10,7 +10,7 @@ Final year project for university.
 
 ## Game story:
 
-The main character had his trash house stolen by the mafia now he is trying to get it back but he has to deal with them first.
+Once a happy and carefree raccoon, he found himself in a dire situation when his cozy dumpster home was taken over by the mafia. The small dumpster next to the restaurant had been his home for years, and he had grown fond of it. The mafia, however, had other plans for the area, and they saw his home as an eyesore that needed to be eliminated. Despite his protests and attempts to reason with the men, they refused to listen and instead threatened him with violence if he didn't leave. He had no choice but to flee and abandon his beloved home. However, The raccoon's heart is filled with fury as he contemplates the injustice of his situation. With a fierce snarl, he picks up a rusty handgun he found on the street and sets out to take revenge on the mafia that dared to steal his home. Nothing will stand in his way as he charges towards their hideout, ready to unleash his wrath upon them.
 
 ## Game Controls:
 
