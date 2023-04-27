@@ -1,7 +1,5 @@
-import { Bullet } from "./bullet.js";
 import { checkTileCollision } from "../utils/checkTileCollision.js";
 import { GameObject } from "./gameObject.js";
-import { removeFromArray, toIndex } from "../utils/utils.js";
 import { Sprite } from "./sprite.js";
 
 export class Player extends GameObject {
