@@ -1,5 +1,5 @@
 import { checkTileCollision } from "../utils/checkTileCollision.js";
-import { Input } from "../utils/input.js";
+import { Input } from "./input.js";
 import { GameObject } from "./gameObject.js";
 import { Sprite } from "./sprite.js";
 
