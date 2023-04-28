@@ -1,13 +1,11 @@
-import { Input } from "./utils/input.js";
 import { Player } from "./classes/player.js";
 import { Enemy } from "./classes/enemy.js";
 import { Grid } from "./classes/grid.js";
-import { EventEmitter } from "./utils/eventEmitter.js";
 import { Bullet } from "./classes/bullet.js";
 import { removeFromArray } from "./utils/utils.js";
 import { checkObjectCollision } from "./utils/checkEntityCollision.js";
 export class Game {
-  constructor(assets, width, height) {
+  constructor(assets, width, height, numberOfPlayers) {
     this.width = width;
     this.height = height;
     this.gameLevels = assets.gameLevels;
@@ -15,7 +13,15 @@ export class Game {
     this.fps = 0;
     this.level = 2;
     this.currentLevel = new Grid(this, this.gameLevels[this.level], 30);
-    this.input = new Input();
+
+    this.player = new Player(this.gameObjects.player, this, 300, 300, 1);
+
+    if (numberOfPlayers === 2) {
+      this.player2 = new Player(this.gameObjects.player, this, 600, 300, 2);
+    } else {
+      this.player2 = null;
+    }
+
     this.bullets = [];
     this.enemies = [];
 
@@ -23,11 +29,10 @@ export class Game {
 
     this.score = 0;
 
-    this.maxEnemy = 40;
-
     this.enemyTimer = 0;
     this.spawnInterval = 300;
   }
+
   startCountdown() {
     const countdownDisplay = document.getElementById("timer");
     let seconds = 10;
@@ -46,6 +51,7 @@ export class Game {
       }
     }, 1000);
   }
+
   shootBullet(gameObject, velX, velY) {
     this.bullets.push(
       new Bullet(
@@ -59,7 +65,7 @@ export class Game {
       )
     );
   }
-  clearEnemyArray() {}
+
   spawnEnemies() {
     let type = this.gameObjects[this.getSpawnChance()];
     let x = Math.random() * 900;
@@ -68,7 +74,6 @@ export class Game {
     const disX = this.player.x - x;
     const disY = this.player.y - y;
     const distance = Math.sqrt(disX * disX + disY * disY);
-    console.log(distance);
 
     if (this.isBlocked(x, y, type) || Math.abs(distance) < 200) {
       this.spawnEnemies();
@@ -77,6 +82,7 @@ export class Game {
 
     this.enemies.push(new Enemy(type, this, x, y));
   }
+
   isBlocked(x, y, type) {
     const tileInRange = this.currentLevel.searchTilesInRange(
       x,
@@ -93,6 +99,7 @@ export class Game {
     }
     return false;
   }
+
   getSpawnChance() {
     const randomNumber = Math.random() * 100;
     let probability = 0;
@@ -104,25 +111,13 @@ export class Game {
       }
     }
   }
+
   updateScore() {
     document.getElementById("score").innerText = this.score;
     document.getElementById("endScore").innerText = this.score;
     document.getElementById("lives").innerText = this.player.lives;
   }
-  init() {
-    this.score = 0;
-    this.enemies = [];
-    this.player = new Player(this.gameObjects.player, this, 300, 300, 1);
-    this.player2 = null;
-    // this.startCountdown();
-  }
-  init2Players() {
-    this.score = 0;
-    this.enemies = [];
 
-    this.player = new Player(this.gameObjects.player, this, 300, 300, 1);
-    this.player2 = new Player(this.gameObjects.player, this, 600, 300, 2);
-  }
   update() {
     this.currentLevel.update(this.gameLevels[this.level]);
 
@@ -177,6 +172,7 @@ export class Game {
     // update score
     this.updateScore();
   }
+
   draw(ctx) {
     this.currentLevel.draw(ctx);
 
