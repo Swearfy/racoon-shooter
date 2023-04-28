@@ -8,17 +8,6 @@ import { Game } from "./scripts/game.js";
  * to expose Node.js functionality from the main process.
  */
 
-const canvas = document.querySelector("canvas");
-const ctx = canvas.getContext("2d");
-
-const lives = document.getElementById("lives");
-const powerUps = document.getElementById("powerUps");
-
-canvas.width = 900;
-canvas.height = 900;
-let previousTime = null;
-const gameSpeed = 0.2;
-
 async function promise() {
   const level1Data = await fetch("./assets/levels/level1.json");
   const level2Data = await fetch("./assets/levels/level2.json");
@@ -32,33 +21,41 @@ async function promise() {
   return { gameObject, gameLevels: { 1: level1, 2: level2, 3: level3 } };
 }
 
-// start menu
-document.getElementById("startButton").addEventListener("click", () => {
-  document.getElementById("startMenu").style.display = "none";
-  document.getElementById("playerSelector").style.display = "flex";
-});
-
-// go back button
-document.getElementById("backButton").addEventListener("click", () => {
-  document.getElementById("startMenu").style.display = "flex";
-  document.getElementById("playerSelector").style.display = "none";
-});
-
-document.getElementById("mainMenuButton").addEventListener("click", () => {
-  document.getElementById("startMenu").style.display = "flex";
-  document.getElementById("gameMenu").style.display = "flex";
-  document.getElementById("GameOverScreen").style.display = "none";
-});
-
 promise().then((assets) => {
+  const canvas = document.querySelector("canvas");
+  const ctx = canvas.getContext("2d");
+
+  const lives = document.getElementById("lives");
+  const powerUps = document.getElementById("powerUps");
+
+  canvas.width = 900;
+  canvas.height = 900;
+  let previousTime = null;
+  const gameSpeed = 0.2;
+
+  // start menu
+  document.getElementById("startButton").addEventListener("click", () => {
+    document.getElementById("startMenu").style.display = "none";
+    document.getElementById("playerSelector").style.display = "flex";
+  });
+
+  // go back button
+  document.getElementById("backButton").addEventListener("click", () => {
+    document.getElementById("startMenu").style.display = "flex";
+    document.getElementById("playerSelector").style.display = "none";
+  });
+
+  document.getElementById("mainMenuButton").addEventListener("click", () => {
+    document.getElementById("startMenu").style.display = "flex";
+    document.getElementById("gameMenu").style.display = "flex";
+    document.getElementById("GameOverScreen").style.display = "none";
+  });
   const game = new Game(assets, canvas.width, canvas.height);
 
   let gameMode = "single";
   // single play lunch
   document.getElementById("singlePlayer").addEventListener("click", () => {
-    document.getElementById("playerSelector").style.display = "none";
-    document.getElementById("gameMenu").style.display = "none";
-    document.getElementById("game").style.display = "block";
+    turnOffMenu();
     game.init();
     game.gameState = "running";
     requestAnimationFrame(animate);
@@ -66,9 +63,7 @@ promise().then((assets) => {
   });
 
   document.getElementById("duoPlay").addEventListener("click", () => {
-    document.getElementById("playerSelector").style.display = "none";
-    document.getElementById("gameMenu").style.display = "none";
-    document.getElementById("game").style.display = "block";
+    turnOffMenu();
     game.init2Players();
     game.gameState = "running";
 
@@ -78,17 +73,13 @@ promise().then((assets) => {
 
   document.getElementById("restartGame").addEventListener("click", () => {
     if (gameMode === "single") {
-      document.getElementById("playerSelector").style.display = "none";
-      document.getElementById("gameMenu").style.display = "none";
-      document.getElementById("game").style.display = "block";
+      turnOffMenu();
       game.init();
       game.gameState = "running";
 
       requestAnimationFrame(animate);
     } else if (gameMode === "duo") {
-      document.getElementById("playerSelector").style.display = "none";
-      document.getElementById("gameMenu").style.display = "none";
-      document.getElementById("game").style.display = "block";
+      turnOffMenu();
       game.init2Players();
       game.gameState = "running";
 
@@ -110,3 +101,9 @@ promise().then((assets) => {
     }
   }
 });
+
+function turnOffMenu() {
+  document.getElementById("playerSelector").style.display = "none";
+  document.getElementById("gameMenu").style.display = "none";
+  document.getElementById("game").style.display = "block";
+}

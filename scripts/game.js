@@ -110,29 +110,26 @@ export class Game {
     document.getElementById("lives").innerText = this.player.lives;
   }
   init() {
-    this.player = new Player(this.gameObjects.player, this, 300, 300);
-    this.input.inputControl(this.input.player1Keys);
+    this.score = 0;
+    this.enemies = [];
+    this.player = new Player(this.gameObjects.player, this, 300, 300, 1);
+    this.player2 = null;
     // this.startCountdown();
   }
   init2Players() {
-    this.player = new Player(this.gameObjects.player, this, 300, 300);
-    this.input.inputControl(this.input.player1Keys);
+    this.score = 0;
+    this.enemies = [];
 
-    this.player2 = new Player(this.gameObjects.player, this, 600, 300);
-    this.input.inputControl(this.input.player2Keys);
+    this.player = new Player(this.gameObjects.player, this, 300, 300, 1);
+    this.player2 = new Player(this.gameObjects.player, this, 600, 300, 2);
   }
   update() {
     this.currentLevel.update(this.gameLevels[this.level]);
 
     //player update and stuff
-    this.player.update(this.currentLevel, this.input.player1Keys);
+    this.player.update(this.currentLevel);
     if (this.player2) {
-      this.player2.update(this.currentLevel, this.input.player2Keys);
-    }
-
-    this.input.controllerInput(this.input.player1Keys);
-    if (this.player2) {
-      this.input.controllerInput(this.input.player2Keys);
+      this.player2.update(this.currentLevel);
     }
 
     // enemy spawn timer

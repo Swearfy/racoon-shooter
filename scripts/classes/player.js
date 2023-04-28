@@ -1,25 +1,29 @@
 import { checkTileCollision } from "../utils/checkTileCollision.js";
+import { Input } from "../utils/input.js";
 import { GameObject } from "./gameObject.js";
 import { Sprite } from "./sprite.js";
 
 export class Player extends GameObject {
-  constructor(type, game, x, y) {
+  constructor(type, game, x, y, playerIndex) {
     super(type, game, x, y, 0, 0);
 
     this.actionLock = 0;
     this.shootSpeed = 3;
     this.bulletSpeed = 4;
+    this.input = new Input(playerIndex);
+    this.keys = this.input.playerControls[playerIndex];
 
     // stuff for animation
     this.sprite = new Sprite(this, 20);
   }
-  update(level, input) {
-    this.handleInput(input);
+  update(level) {
+    this.input.controllerInput();
+    this.handleInput(this.keys);
     checkTileCollision(this, level);
     this.move();
 
     this.sprite.setAnimation();
-    this.shoot(input);
+    this.shoot(this.keys);
 
     // if (this.velocityX !== 0 || this.velocityY !== 0) {
     //   this.ee.emit("test");

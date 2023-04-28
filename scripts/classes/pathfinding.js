@@ -7,29 +7,29 @@ import {
 
 export class Pathfinding {
   constructor() {
-    this.openSet = [];
     this.start;
-    this.end;
-    this.clonedGrid = [];
-    this.path = [];
+    this.target;
+    this.openSet = [];
     this.closedSet = [];
+    this.path = [];
+    this.clonedGrid = [];
   }
-  updateStartAndEnd(start, end) {
+  updateStartAndTarget(start, target) {
     let startY = toIndex(start.y);
     let startX = toIndex(start.x);
-    let endY = toIndex(end.y);
-    let endX = toIndex(end.x);
-    if (this.clonedGrid[startY] && this.clonedGrid[endY]) {
+    let targetY = toIndex(target.y);
+    let targetX = toIndex(target.x);
+    if (this.clonedGrid[startY] && this.clonedGrid[targetY]) {
       this.start = this.clonedGrid[startY][startX];
-      this.end = this.clonedGrid[endY][endX];
+      this.target = this.clonedGrid[targetY][targetX];
     }
   }
-  findPath(grid, start, end) {
+  findPath(grid, start, target) {
     this.clonedGrid = cloneGrid(grid);
 
-    this.updateStartAndEnd(start, end);
+    this.updateStartAndTarget(start, target);
 
-    if (this.start === undefined || this.end === undefined) {
+    if (this.start === undefined || this.target === undefined) {
       return;
     }
     this.start.g = 0;
@@ -40,7 +40,7 @@ export class Pathfinding {
     this.path = [];
     this.openSet.push(this.start);
 
-    if (!this.end.walkable) return;
+    if (!this.target.walkable) return;
 
     while (this.openSet.length > 0) {
       let current = this.getLowestF(this.openSet);
@@ -49,7 +49,7 @@ export class Pathfinding {
       current.closed = true;
 
       // Backtrack the path to the current path.
-      if (current.x === this.end.x && current.y === this.end.y) {
+      if (current.x === this.target.x && current.y === this.target.y) {
         this.path.push(this.backtrackPath(current));
         return this.backtrackPath(current);
       }
@@ -80,7 +80,7 @@ export class Pathfinding {
 
         if (!this.openSet.includes(neighbor) || possibleG < neighbor.g) {
           neighbor.g = possibleG;
-          neighbor.h = calculateH(neighbor, this.end);
+          neighbor.h = calculateH(neighbor, this.target);
           neighbor.f = neighbor.g + neighbor.h;
           neighbor.parent = current;
           if (!this.openSet.includes(neighbor)) {
