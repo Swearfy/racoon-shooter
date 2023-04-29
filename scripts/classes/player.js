@@ -30,13 +30,6 @@ export class Player extends GameObject {
     // }
   }
   handleInput(keys) {
-    // if (
-    //   (keys.up.pressed || keys.down.pressed) &&
-    //   (keys.left.pressed || keys.right.pressed)
-    // ) {
-    //   this.maxSpeed = this.maxSpeed * 0.71;
-    // }
-
     let velx = keys.left.pressed
       ? -this.maxSpeed
       : keys.right.pressed
@@ -48,16 +41,15 @@ export class Player extends GameObject {
       ? this.maxSpeed
       : 0;
 
+    // normalize diagonal velocity
+    if (velx !== 0 && velY !== 0) {
+      velx /= Math.sqrt(this.maxSpeed);
+      velY /= Math.sqrt(this.maxSpeed);
+    }
+
     this.setVelocity(velx, velY);
   }
   shoot(keys) {
-    // if (
-    //   (keys.shootUp.pressed || keys.shootDown.pressed) &&
-    //   (keys.shootLeft.pressed || keys.shootRight.pressed)
-    // ) {
-    //   bulletSpeed = bulletSpeed * 0.71;
-    // }
-
     let velX = keys.shootLeft.pressed
       ? -this.bulletSpeed
       : keys.shootRight.pressed
@@ -94,6 +86,13 @@ export class Player extends GameObject {
     if (keys.shootDown.pressed && this.state !== "moveDown") {
       this.setState("shootDown");
     }
+
+    console.log("before", velX, velY);
+    if (velX !== 0 && velY !== 0) {
+      velX /= Math.sqrt(this.bulletSpeed);
+      velY /= Math.sqrt(this.bulletSpeed);
+    }
+    console.log(velX, velY);
 
     if ((velX != 0 || velY != 0) && Date.now() > this.actionLock) {
       this.actionLock = Date.now() + 1000 / this.shootSpeed;
