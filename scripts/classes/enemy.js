@@ -19,7 +19,7 @@ export class Enemy extends GameObject {
   }
   findPlayer() {
     this.pathToFollow = this.pathfinding.findPath(
-      this.game.currentLevel.grid,
+      this.game.currentLevel.matrix,
       this,
       this.game.player
     );

@@ -1,9 +1,12 @@
 import { Player } from "./classes/player.js";
 import { Enemy } from "./classes/enemy.js";
-import { Grid } from "./classes/grid.js";
+import { Matrix } from "./classes/matrix.js";
 import { Bullet } from "./classes/bullet.js";
-import { removeFromArray } from "./utils/utils.js";
+import { isBlocked, removeFromArray } from "./utils/utils.js";
 import { checkObjectCollision } from "./utils/checkEntityCollision.js";
+
+const countdownDisplay = document.getElementById("timer");
+
 export class Game {
   constructor(assets, width, height, numberOfPlayers) {
     this.width = width;
@@ -11,8 +14,8 @@ export class Game {
     this.gameLevels = assets.gameLevels;
     this.gameObjects = assets.gameObject;
     this.fps = 0;
-    this.level = 2;
-    this.currentLevel = new Grid(this, this.gameLevels[this.level], 30);
+    this.level = 1;
+    this.currentLevel = new Matrix(this, this.gameLevels[this.level], 30);
 
     this.player = new Player(this.gameObjects.player, this, 300, 300, 1);
 
@@ -31,10 +34,10 @@ export class Game {
 
     this.enemyTimer = 0;
     this.spawnInterval = 300;
+    this.startCountdown();
   }
 
   startCountdown() {
-    const countdownDisplay = document.getElementById("timer");
     let seconds = 10;
     let initialWidth = countdownDisplay.offsetWidth; // get initial width of countdownDisplay element
     const stepDiameter = initialWidth / seconds;
@@ -44,7 +47,8 @@ export class Game {
       if (seconds === 0) {
         clearInterval(interval);
         countdownDisplay.style.width = 0 + "px";
-        this.level++; // change level
+        this.gameState = "ending";
+        setTimeout(() => (this.gameState = "change-level"), 1000);
       } else {
         initialWidth -= stepDiameter;
         countdownDisplay.style.width = initialWidth + "px";
@@ -66,38 +70,31 @@ export class Game {
     );
   }
 
-  spawnEnemies() {
-    let type = this.gameObjects[this.getSpawnChance()];
-    let x = Math.random() * 900;
-    let y = Math.random() * 900;
+  createEnemy() {
+    const type = this.gameObjects[this.getSpawnChance()];
+    const x = Math.random() * 900;
+    const y = Math.random() * 900;
 
     const disX = this.player.x - x;
     const disY = this.player.y - y;
     const distance = Math.sqrt(disX * disX + disY * disY);
 
-    if (this.isBlocked(x, y, type) || Math.abs(distance) < 200) {
-      this.spawnEnemies();
+    if (isBlocked(x, y, type, this.currentLevel) || Math.abs(distance) < 200) {
+      this.createEnemy();
       return;
     }
 
     this.enemies.push(new Enemy(type, this, x, y));
   }
 
-  isBlocked(x, y, type) {
-    const tileInRange = this.currentLevel.searchTilesInRange(
-      x,
-      x + type.width,
-      y,
-      y + type.height
-    );
-
-    for (let i = 0; i < tileInRange.length; i++) {
-      const tile = tileInRange[i];
-      if (!tile.walkable) {
-        return true;
-      }
+  spawnEnemy() {
+    // enemy spawn timer
+    if (this.enemyTimer > this.spawnInterval) {
+      this.createEnemy();
+      this.enemyTimer = 0;
+    } else {
+      this.enemyTimer += this.fps;
     }
-    return false;
   }
 
   getSpawnChance() {
@@ -127,13 +124,10 @@ export class Game {
       this.player2.update(this.currentLevel);
     }
 
-    // enemy spawn timer
-    if (this.enemyTimer > this.spawnInterval) {
-      this.spawnEnemies();
-      this.enemyTimer = 0;
-    } else {
-      this.enemyTimer += this.fps;
+    if (this.gameState === "running") {
+      this.spawnEnemy();
     }
+    console.log(this.gameState);
 
     // enemy check collision and more
     this.enemies.forEach((enemy) => {

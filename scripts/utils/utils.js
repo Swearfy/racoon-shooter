@@ -34,14 +34,14 @@ export function toIndexRange(pos1, pos2, tileSize) {
 /**
  * Gets the tile at the x y position. If there is no tile at that position a empty tile is returned
  *
- * @param grid - The grid to search in
+ * @param matrix - The matrix to search in
  * @param x - The x position of the tile to search in
  * @param y - The y position of the tile to search in
  *
  * @return The tile at the position or a new tile if none is found at that position
  */
-export function getTileAtIndex(grid, x, y) {
-  let tile = grid[y]?.[x];
+export function getTileAtIndex(matrix, x, y) {
+  let tile = matrix[y]?.[x];
   if (tile) {
     return tile;
   }
@@ -61,17 +61,17 @@ export function calculateH(gameObject1, gameObject2) {
 }
 
 /**
- *  Clones the given grid.
- * @param grid
- * @returns closed grid
+ *  Clones the given matrix.
+ * @param matrix
+ * @returns closed matrix
  */
-export function cloneGrid(grid) {
+export function cloneMatrix(matrix) {
   let clone = [];
-  // Creates a clone of the grid.
-  for (let row = 0; row < grid.length; row++) {
+  // Creates a clone of the matrix.
+  for (let row = 0; row < matrix.length; row++) {
     clone[row] = [];
-    for (let col = 0; col < grid[row].length; col++) {
-      const tile = grid[row][col];
+    for (let col = 0; col < matrix[row].length; col++) {
+      const tile = matrix[row][col];
       if (tile) {
         clone[row][col] = tile.clone();
       }
@@ -83,4 +83,29 @@ export function cloneGrid(grid) {
 export function removeFromArray(arr, elm) {
   let i = arr.indexOf(elm);
   return arr.splice(i, 1);
+}
+
+/**
+ *
+ * @param {*} x
+ * @param {*} y
+ * @param {*} type
+ * @returns if tile is blocked
+ */
+
+export function isBlocked(x, y, gameObject, level) {
+  const tileInRange = level.searchTilesInRange(
+    x,
+    x + gameObject.width,
+    y,
+    y + gameObject.height
+  );
+
+  for (let i = 0; i < tileInRange.length; i++) {
+    const tile = tileInRange[i];
+    if (!tile.walkable) {
+      return true;
+    }
+  }
+  return false;
 }

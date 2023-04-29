@@ -80,9 +80,7 @@ function startGame(assets, gameMode) {
 
     game.update();
     game.draw(ctx);
-    if (game.gameState === "running") {
-      requestAnimationFrame(animate);
-    }
+    requestAnimationFrame(animate);
   }
 
   requestAnimationFrame(animate);

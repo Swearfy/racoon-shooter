@@ -8,10 +8,10 @@ export class Tile {
     this.walkable = !!walkable;
   }
   get centerX() {
-    return this.x * 30 + this.tileSize / 2;
+    return this.x * this.tileSize + this.tileSize / 2;
   }
   get centerY() {
-    return this.y * 30 + this.tileSize / 2;
+    return this.y * this.tileSize + this.tileSize / 2;
   }
   get top() {
     return this.y * this.tileSize;
@@ -28,46 +28,46 @@ export class Tile {
   clone() {
     return new Tile(this.x, this.y, this.tileSize, this.walkable);
   }
-  getNeighbors(grid) {
+  getNeighbors(matrix) {
     const neighbors = [];
     // ←
-    if (getTileAtIndex(grid, this.x - 1, this.y).walkable) {
-      neighbors.push(getTileAtIndex(grid, this.x - 1, this.y));
+    if (getTileAtIndex(matrix, this.x - 1, this.y).walkable) {
+      neighbors.push(getTileAtIndex(matrix, this.x - 1, this.y));
     }
 
     // ↑
-    if (getTileAtIndex(grid, this.x, this.y - 1).walkable) {
-      neighbors.push(getTileAtIndex(grid, this.x, this.y - 1));
+    if (getTileAtIndex(matrix, this.x, this.y - 1).walkable) {
+      neighbors.push(getTileAtIndex(matrix, this.x, this.y - 1));
     }
 
     // →
-    if (getTileAtIndex(grid, this.x + 1, this.y).walkable) {
-      neighbors.push(getTileAtIndex(grid, this.x + 1, this.y));
+    if (getTileAtIndex(matrix, this.x + 1, this.y).walkable) {
+      neighbors.push(getTileAtIndex(matrix, this.x + 1, this.y));
     }
 
     // ↓
-    if (getTileAtIndex(grid, this.x, this.y + 1).walkable) {
-      neighbors.push(getTileAtIndex(grid, this.x, this.y + 1));
+    if (getTileAtIndex(matrix, this.x, this.y + 1).walkable) {
+      neighbors.push(getTileAtIndex(matrix, this.x, this.y + 1));
     }
 
     // ↖
-    if (getTileAtIndex(grid, this.x - 1, this.y - 1).walkable) {
-      neighbors.push(getTileAtIndex(grid, this.x - 1, this.y - 1));
+    if (getTileAtIndex(matrix, this.x - 1, this.y - 1).walkable) {
+      neighbors.push(getTileAtIndex(matrix, this.x - 1, this.y - 1));
     }
 
     // ↗
-    if (getTileAtIndex(grid, this.x + 1, this.y - 1).walkable) {
-      neighbors.push(getTileAtIndex(grid, this.x + 1, this.y - 1));
+    if (getTileAtIndex(matrix, this.x + 1, this.y - 1).walkable) {
+      neighbors.push(getTileAtIndex(matrix, this.x + 1, this.y - 1));
     }
 
     // ↘
-    if (getTileAtIndex(grid, this.x + 1, this.y + 1).walkable) {
-      neighbors.push(getTileAtIndex(grid, this.x + 1, this.y + 1));
+    if (getTileAtIndex(matrix, this.x + 1, this.y + 1).walkable) {
+      neighbors.push(getTileAtIndex(matrix, this.x + 1, this.y + 1));
     }
 
     // ↙
-    if (getTileAtIndex(grid, this.x - 1, this.y + 1).walkable) {
-      neighbors.push(getTileAtIndex(grid, this.x - 1, this.y + 1));
+    if (getTileAtIndex(matrix, this.x - 1, this.y + 1).walkable) {
+      neighbors.push(getTileAtIndex(matrix, this.x - 1, this.y + 1));
     }
 
     return neighbors;

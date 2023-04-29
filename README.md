@@ -25,7 +25,7 @@ Player 2:
 
 ## Current Features:
 
-- Tile/Grid Maps
+- Tile/Matrix Maps
 - Tile Collision
 - Janky A\* Pathfinding using octile distance
 - GameObjects

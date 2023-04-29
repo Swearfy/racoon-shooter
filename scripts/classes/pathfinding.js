@@ -1,6 +1,6 @@
 import {
   calculateH,
-  cloneGrid,
+  cloneMatrix,
   removeFromArray,
   toIndex,
 } from "../utils/utils.js";
@@ -12,20 +12,20 @@ export class Pathfinding {
     this.openSet = [];
     this.closedSet = [];
     this.path = [];
-    this.clonedGrid = [];
+    this.clonedMatrix = [];
   }
   updateStartAndTarget(start, target) {
     let startY = toIndex(start.y);
     let startX = toIndex(start.x);
     let targetY = toIndex(target.y);
     let targetX = toIndex(target.x);
-    if (this.clonedGrid[startY] && this.clonedGrid[targetY]) {
-      this.start = this.clonedGrid[startY][startX];
-      this.target = this.clonedGrid[targetY][targetX];
+    if (this.clonedMatrix[startY] && this.clonedMatrix[targetY]) {
+      this.start = this.clonedMatrix[startY][startX];
+      this.target = this.clonedMatrix[targetY][targetX];
     }
   }
-  findPath(grid, start, target) {
-    this.clonedGrid = cloneGrid(grid);
+  findPath(matrix, start, target) {
+    this.clonedMatrix = cloneMatrix(matrix);
 
     this.updateStartAndTarget(start, target);
 
@@ -54,7 +54,7 @@ export class Pathfinding {
         return this.backtrackPath(current);
       }
 
-      let neighbors = current.getNeighbors(this.clonedGrid);
+      let neighbors = current.getNeighbors(this.clonedMatrix);
 
       for (let i = 0; i < neighbors.length; i++) {
         let neighbor = neighbors[i];
@@ -67,8 +67,8 @@ export class Pathfinding {
 
         if (neighbor.x !== current.x && neighbor.y !== current.y) {
           if (
-            this.clonedGrid[current.y][neighbor.x].walkable &&
-            this.clonedGrid[neighbor.y][current.x].walkable
+            this.clonedMatrix[current.y][neighbor.x].walkable &&
+            this.clonedMatrix[neighbor.y][current.x].walkable
           ) {
             possibleG += 1.5;
           } else {

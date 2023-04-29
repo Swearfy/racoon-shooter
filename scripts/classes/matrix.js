@@ -1,21 +1,21 @@
 import { Tile } from "./tile.js";
 import { getTileAtIndex, toIndexRange } from "../utils/utils.js";
 
-export class Grid {
+export class Matrix {
   constructor(game, level, tileSize) {
     this.game = game;
     this.level = level;
-    this.grid = [];
+    this.matrix = [];
     this.tileSize = tileSize;
     this.background = new Image();
     this.overlay = new Image();
   }
-  makeGrid() {
+  arrayToMatrix() {
     for (let row = 0; row < this.tileSize; row++) {
-      this.grid[row] = [];
+      this.matrix[row] = [];
       for (let column = 0; column < this.tileSize; column++) {
         const tileMask = this.level.tileMap[row * this.tileSize + column];
-        this.grid[row][column] = new Tile(
+        this.matrix[row][column] = new Tile(
           column,
           row,
           this.tileSize,
@@ -28,7 +28,7 @@ export class Grid {
     return toIndexRange(y1, y2, this.tileSize)
       .flatMap((y) =>
         toIndexRange(x1, x2, this.tileSize).map((x) =>
-          getTileAtIndex(this.grid, x, y)
+          getTileAtIndex(this.matrix, x, y)
         )
       )
       .filter((tile) => tile !== undefined);
@@ -36,19 +36,19 @@ export class Grid {
 
   update(level) {
     this.level = level;
-    this.makeGrid();
+    this.arrayToMatrix();
   }
   draw(ctx) {
     this.background.src = this.level.background;
 
     ctx.drawImage(this.background, 0, 0);
 
-    this.grid.forEach((tile) => {
-      tile.forEach((tile2) => {
-        ctx.fillStyle = tile2.walkable ? "rgba(255,255,255,0.3)" : "red";
-        tile2.draw(ctx);
-      });
-    });
+    // this.matrix.forEach((tile) => {
+    //   tile.forEach((tile2) => {
+    //     ctx.fillStyle = tile2.walkable ? "rgba(255,255,255,0.3)" : "red";
+    //     tile2.draw(ctx);
+    //   });
+    // });
   }
   drawOverlay(ctx) {
     this.overlay.src = this.level.overlay;

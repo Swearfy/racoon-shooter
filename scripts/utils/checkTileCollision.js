@@ -1,5 +1,5 @@
-export function checkTileCollision(gameObject, grid) {
-  const tileHalf = grid.tileSize / 2;
+export function checkTileCollision(gameObject, matrix) {
+  const tileHalf = matrix.tileSize / 2;
 
   // Check X-axis collision
   if (gameObject.velocityX !== 0) {
@@ -10,7 +10,7 @@ export function checkTileCollision(gameObject, grid) {
       x = gameObject.left;
     }
 
-    const tiles = grid.searchTilesInRange(
+    const tiles = matrix.searchTilesInRange(
       x - tileHalf,
       x + tileHalf,
       gameObject.top,
@@ -51,7 +51,7 @@ export function checkTileCollision(gameObject, grid) {
       y = gameObject.top;
     }
 
-    const tiles = grid.searchTilesInRange(
+    const tiles = matrix.searchTilesInRange(
       gameObject.left,
       gameObject.right,
       y - tileHalf,
