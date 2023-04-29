@@ -16,6 +16,7 @@ export class Player extends GameObject {
     // stuff for animation
     this.sprite = new Sprite(this, 20);
   }
+
   update(level) {
     this.input.controllerInput();
     this.handleInput(this.keys);
@@ -23,12 +24,10 @@ export class Player extends GameObject {
     this.move();
 
     this.sprite.setAnimation();
+    this.handleShootAnim(this.keys);
     this.shoot(this.keys);
-
-    // if (this.velocityX !== 0 || this.velocityY !== 0) {
-    //   this.ee.emit("test");
-    // }
   }
+
   handleInput(keys) {
     let velx = keys.left.pressed
       ? -this.maxSpeed
@@ -49,6 +48,7 @@ export class Player extends GameObject {
 
     this.setVelocity(velx, velY);
   }
+
   shoot(keys) {
     let velX = keys.shootLeft.pressed
       ? -this.bulletSpeed
@@ -61,6 +61,17 @@ export class Player extends GameObject {
       ? this.bulletSpeed
       : 0;
 
+    if (velX !== 0 && velY !== 0) {
+      velX /= Math.sqrt(this.bulletSpeed);
+      velY /= Math.sqrt(this.bulletSpeed);
+    }
+
+    if ((velX !== 0 || velY !== 0) && Date.now() > this.actionLock) {
+      this.actionLock = Date.now() + 1000 / this.shootSpeed;
+      this.game.shootBullet(this, velX, velY);
+    }
+  }
+  handleShootAnim(keys) {
     // handle shooting animations
     if (keys.shootLeft.pressed && this.state === "moveRight") {
       this.setState("moveLeft");
@@ -85,18 +96,6 @@ export class Player extends GameObject {
     }
     if (keys.shootDown.pressed && this.state !== "moveDown") {
       this.setState("shootDown");
-    }
-
-    console.log("before", velX, velY);
-    if (velX !== 0 && velY !== 0) {
-      velX /= Math.sqrt(this.bulletSpeed);
-      velY /= Math.sqrt(this.bulletSpeed);
-    }
-    console.log(velX, velY);
-
-    if ((velX != 0 || velY != 0) && Date.now() > this.actionLock) {
-      this.actionLock = Date.now() + 1000 / this.shootSpeed;
-      this.game.shootBullet(this, velX, velY);
     }
   }
   draw(ctx) {
