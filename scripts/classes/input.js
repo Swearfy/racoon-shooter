@@ -50,7 +50,7 @@ export class Input {
   controllerInput() {
     const gamepad = navigator.getGamepads()[this.controllerIndex];
     const keys = this.playerControls[this.playerIndex];
-    if (gamepad !== undefined) {
+    if (gamepad) {
       const stickDeadZone = 0.4;
       const axisX = gamepad.axes[0];
       const axisY = gamepad.axes[1];
