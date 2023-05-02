@@ -9,7 +9,7 @@
     "maxSpeed": 1,
     "lives": 2,
     "image": "./assets/img/opossum.png",
-    "pathFinding": false,
+    "pathFinding": true,
     "collision": true,
     "points": 2
   },
@@ -20,7 +20,7 @@
     "spriteHeight": 102,
     "offsetX": 45,
     "offsetY": 30,
-    "maxSpeed": 1,
+    "maxSpeed": 1.3,
     "lives": 1,
     "image": "./assets/img/bat.png",
     "pathFinding": false,
@@ -34,7 +34,7 @@
     "spriteHeight": 130,
     "offsetX": 30,
     "offsetY": 10,
-    "maxSpeed": 1,
+    "maxSpeed": 0.8,
     "lives": 4,
     "image": "./assets/img/bear.png",
     "pathFinding": false,
@@ -49,7 +49,7 @@
     "offsetX": 15,
     "offsetY": 25,
     "maxSpeed": 2,
-    "lives": 999999999,
+    "lives": 3,
     "image": "./assets/img/racoon.png"
   },
   "bullet": {

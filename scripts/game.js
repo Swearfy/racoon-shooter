@@ -4,6 +4,8 @@ import { Matrix } from "./classes/matrix.js";
 import { Bullet } from "./classes/bullet.js";
 import { isBlocked, removeFromArray } from "./utils/utils.js";
 import { checkObjectCollision } from "./utils/checkEntityCollision.js";
+import { GameObject } from "./classes/gameObject.js";
+import { Door } from "./classes/door.js";
 
 const countdownDisplay = document.getElementById("timer");
 
@@ -14,7 +16,8 @@ export class Game {
     this.gameLevels = assets.gameLevels;
     this.gameObjects = assets.gameObject;
     this.fps = 0;
-    this.level = 1;
+    this.level = 2;
+
     this.currentLevel = new Matrix(this, this.gameLevels[this.level], 30);
 
     this.player = new Player(this.gameObjects.player, this, 300, 300, 1);
@@ -33,12 +36,12 @@ export class Game {
     this.score = 0;
 
     this.enemyTimer = 0;
-    this.spawnInterval = 300;
+    this.spawnInterval = 200;
     this.startCountdown();
   }
 
   startCountdown() {
-    let seconds = 10;
+    let seconds = 120;
     let initialWidth = countdownDisplay.offsetWidth; // get initial width of countdownDisplay element
     const stepDiameter = initialWidth / seconds;
 
@@ -49,6 +52,7 @@ export class Game {
         countdownDisplay.style.width = 0 + "px";
         this.gameState = "ending";
         setTimeout(() => (this.gameState = "change-level"), 1000);
+        countdownDisplay.style.width = this.width + "px";
       } else {
         initialWidth -= stepDiameter;
         countdownDisplay.style.width = initialWidth + "px";
@@ -116,7 +120,12 @@ export class Game {
   }
 
   update() {
-    this.currentLevel.update(this.gameLevels[this.level]);
+    if (!this.gameLevels[this.level]) {
+      this.gameState === "finished";
+    } else if (this.gameState === "running") {
+      this.currentLevel.update(this.gameLevels[this.level]);
+      this.spawnEnemy();
+    }
 
     //player update and stuff
     this.player.update(this.currentLevel);
@@ -124,10 +133,17 @@ export class Game {
       this.player2.update(this.currentLevel);
     }
 
-    if (this.gameState === "running") {
-      this.spawnEnemy();
+    if (this.gameState === "change-level") {
+      this.door = new Door(this, 800, 300, 100, 100);
+
+      if (checkObjectCollision(this.player, this.door)) {
+        this.level++;
+        this.gameState = "running";
+        this.startCountdown();
+        this.player.x = 100;
+        this.player.y = 300;
+      }
     }
-    console.log(this.gameState);
 
     // enemy check collision and more
     this.enemies.forEach((enemy) => {
@@ -169,6 +185,10 @@ export class Game {
 
   draw(ctx) {
     this.currentLevel.draw(ctx);
+
+    if (this.door) {
+      this.door.draw(ctx);
+    }
 
     this.player.draw(ctx);
     if (this.player2) {
