@@ -4,7 +4,6 @@ import { Matrix } from "./classes/matrix.js";
 import { Bullet } from "./classes/bullet.js";
 import { isBlocked, removeFromArray } from "./utils/utils.js";
 import { checkObjectCollision } from "./utils/checkEntityCollision.js";
-import { GameObject } from "./classes/gameObject.js";
 import { Door } from "./classes/door.js";
 
 const countdownDisplay = document.getElementById("timer");
@@ -16,11 +15,20 @@ export class Game {
     this.gameLevels = assets.gameLevels;
     this.gameObjects = assets.gameObject;
     this.fps = 0;
-    this.level = 2;
+    this.level = 1;
 
     this.currentLevel = new Matrix(this, this.gameLevels[this.level], 30);
 
-    this.player = new Player(this.gameObjects.player, this, 300, 300, 1);
+    const playerX = this.gameLevels[this.level].playerPos.x;
+    const playerY = this.gameLevels[this.level].playerPos.y;
+
+    this.player = new Player(
+      this.gameObjects.player,
+      this,
+      playerX,
+      playerY,
+      1
+    );
 
     if (numberOfPlayers === 2) {
       this.player2 = new Player(this.gameObjects.player, this, 600, 300, 2);
@@ -37,22 +45,45 @@ export class Game {
 
     this.enemyTimer = 0;
     this.spawnInterval = 200;
+    countdownDisplay.style.width = this.width + "px";
     this.startCountdown();
+
+    window.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        if (this.gameState === "Paused") {
+          this.gameState = "running";
+        } else {
+          this.gameState = "Paused";
+        }
+      }
+    });
   }
 
   startCountdown() {
-    let seconds = 120;
     let initialWidth = countdownDisplay.offsetWidth; // get initial width of countdownDisplay element
+    let seconds = 5;
     const stepDiameter = initialWidth / seconds;
 
     const interval = setInterval(() => {
       seconds--;
+
+      if (this.gameState === "lost" || this.gameState === "finished") {
+        clearInterval(interval);
+        return;
+      }
+
+      if (this.gameState === "Paused") {
+        clearInterval(interval);
+      }
+
       if (seconds === 0) {
         clearInterval(interval);
         countdownDisplay.style.width = 0 + "px";
         this.gameState = "ending";
-        setTimeout(() => (this.gameState = "change-level"), 1000);
-        countdownDisplay.style.width = this.width + "px";
+
+        if (this.gameState !== "Paused") {
+          setTimeout(() => (this.gameState = "change-level"), 1000);
+        }
       } else {
         initialWidth -= stepDiameter;
         countdownDisplay.style.width = initialWidth + "px";
@@ -120,9 +151,11 @@ export class Game {
   }
 
   update() {
-    if (!this.gameLevels[this.level]) {
-      this.gameState === "finished";
-    } else if (this.gameState === "running") {
+    if (this.gameState === "Paused" || this.gameState === "lost") {
+      return;
+    }
+
+    if (this.gameState === "running") {
       this.currentLevel.update(this.gameLevels[this.level]);
       this.spawnEnemy();
     }
@@ -134,14 +167,26 @@ export class Game {
     }
 
     if (this.gameState === "change-level") {
-      this.door = new Door(this, 800, 300, 100, 100);
+      if (!this.gameLevels[this.level + 1]) {
+        this.gameState = "finished";
+        return;
+      }
+
+      const doorX = this.gameLevels[this.level].doorPos.x;
+      const doorY = this.gameLevels[this.level].doorPos.y;
+      const playerX = this.gameLevels[this.level].playerPos.x;
+      const playerY = this.gameLevels[this.level].playerPos.y;
+
+      this.door = new Door(this, doorX, doorY, 100, 100);
 
       if (checkObjectCollision(this.player, this.door)) {
         this.level++;
         this.gameState = "running";
+        countdownDisplay.style.width = this.width + "px";
+
         this.startCountdown();
-        this.player.x = 100;
-        this.player.y = 300;
+        this.player.x = playerX;
+        this.player.y = playerY;
       }
     }
 
@@ -181,10 +226,12 @@ export class Game {
 
     // update score
     this.updateScore();
+    console.log(this.gameState);
   }
 
   draw(ctx) {
     this.currentLevel.draw(ctx);
+    this.currentLevel.drawOverlay(ctx);
 
     if (this.door) {
       this.door.draw(ctx);
@@ -198,7 +245,6 @@ export class Game {
       bullet.draw(ctx);
     });
 
-    this.currentLevel.drawOverlay(ctx);
     this.enemies.forEach((enemy) => {
       enemy.draw(ctx);
     });

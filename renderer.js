@@ -55,7 +55,6 @@ function startGame(assets, gameMode) {
   const canvas = document.querySelector("canvas");
   const ctx = canvas.getContext("2d");
 
-  const lives = document.getElementById("lives");
   const powerUps = document.getElementById("powerUps");
 
   canvas.width = 900;
@@ -80,6 +79,7 @@ function startGame(assets, gameMode) {
 
     game.update();
     game.draw(ctx);
+
     requestAnimationFrame(animate);
   }
 

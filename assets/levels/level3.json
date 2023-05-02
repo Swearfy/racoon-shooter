@@ -6,5 +6,8 @@
     { "type": "bat", "spawnChance": 80 },
     { "type": "bear", "spawnChance": 20 }
   ],
+  "doorPos": { "x": 600, "y": 300 },
+  "player1Pos": { "x": 100, "y": 300 },
+  "player2Pos": { "x": 100, "y": 300 },
   "tileMap": []
 }
