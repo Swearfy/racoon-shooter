@@ -14,13 +14,12 @@ export class Game {
     this.height = height;
     this.gameLevels = assets.gameLevels;
     this.gameObjects = assets.gameObject;
-    this.fps = 0;
+    this.dt = 0;
     this.level = 1;
 
     this.currentLevel = new Matrix(this, this.gameLevels[this.level], 30);
 
-    const playerX = this.gameLevels[this.level].playerPos.x;
-    const playerY = this.gameLevels[this.level].playerPos.y;
+    const { x: playerX, y: playerY } = this.gameLevels[this.level].playerPos;
 
     this.player = new Player(
       this.gameObjects.player,
@@ -44,19 +43,26 @@ export class Game {
     this.score = 0;
 
     this.enemyTimer = 0;
-    this.spawnInterval = 200;
+    this.spawnInterval = 1;
     countdownDisplay.style.width = this.width + "px";
     this.startCountdown();
 
-    window.addEventListener("keydown", (e) => {
-      if (e.key === "Escape") {
-        if (this.gameState === "Paused") {
-          this.gameState = "running";
-        } else {
-          this.gameState = "Paused";
-        }
-      }
-    });
+    // window.addEventListener("keydown", (e) => {
+    //   if (e.key === "Escape") {
+    //     let change = false;
+    //     if (this.gameState === "change-level") {
+    //       change = true;
+    //     }
+
+    //     if (change === true && this.gameState === "Paused") {
+    //       this.gameState = "change-level";
+    //     } else if (this.gameState === "Paused") {
+    //       this.gameState = "running";
+    //     } else {
+    //       this.gameState = "Paused";
+    //     }
+    //   }
+    // });
   }
 
   startCountdown() {
@@ -79,11 +85,7 @@ export class Game {
       if (seconds === 0) {
         clearInterval(interval);
         countdownDisplay.style.width = 0 + "px";
-        this.gameState = "ending";
-
-        if (this.gameState !== "Paused") {
-          setTimeout(() => (this.gameState = "change-level"), 1000);
-        }
+        this.gameState = "change-level";
       } else {
         initialWidth -= stepDiameter;
         countdownDisplay.style.width = initialWidth + "px";
@@ -110,25 +112,23 @@ export class Game {
     const x = Math.random() * 900;
     const y = Math.random() * 900;
 
-    const disX = this.player.x - x;
-    const disY = this.player.y - y;
-    const distance = Math.sqrt(disX * disX + disY * disY);
+    const disX1 = this.player.x - x;
+    const disY1 = this.player.y - y;
+    const distance1 = Math.sqrt(disX1 * disX1 + disY1 * disY1);
 
-    if (isBlocked(x, y, type, this.currentLevel) || Math.abs(distance) < 200) {
+    if (isBlocked(x, y, type, this.currentLevel) || distance1 < 100) {
       this.createEnemy();
       return;
     }
 
-    this.enemies.push(new Enemy(type, this, x, y));
+    // Target the closest player
+    this.enemies.push(new Enemy(type, this, x, y, this.player));
   }
 
   spawnEnemy() {
-    // enemy spawn timer
-    if (this.enemyTimer > this.spawnInterval) {
+    if (Date.now() > this.enemyTimer) {
+      this.enemyTimer = Date.now() + 1000 / this.spawnInterval;
       this.createEnemy();
-      this.enemyTimer = 0;
-    } else {
-      this.enemyTimer += this.fps;
     }
   }
 
@@ -166,16 +166,15 @@ export class Game {
       this.player2.update(this.currentLevel);
     }
 
-    if (this.gameState === "change-level") {
+    if (this.gameState === "change-level" && this.enemies.length === 0) {
       if (!this.gameLevels[this.level + 1]) {
         this.gameState = "finished";
         return;
       }
 
-      const doorX = this.gameLevels[this.level].doorPos.x;
-      const doorY = this.gameLevels[this.level].doorPos.y;
-      const playerX = this.gameLevels[this.level].playerPos.x;
-      const playerY = this.gameLevels[this.level].playerPos.y;
+      const { x: doorX, y: doorY } = this.gameLevels[this.level].doorPos;
+
+      const { x: playerX, y: playerY } = this.gameLevels[this.level].playerPos;
 
       this.door = new Door(this, doorX, doorY, 100, 100);
 

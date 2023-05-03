@@ -39,8 +39,8 @@ export class GameObject {
     return this.x;
   }
   setVelocity(speedX, speedY) {
-    this.velocityX = speedX * this.game.fps;
-    this.velocityY = speedY * this.game.fps;
+    this.velocityX = speedX * this.game.dt;
+    this.velocityY = speedY * this.game.dt;
   }
   move() {
     this.x += this.velocityX;

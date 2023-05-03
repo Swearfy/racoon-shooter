@@ -30,8 +30,10 @@ export class Enemy extends GameObject {
       this.findPlayer();
       // We want to skip the first point in the path, because that's the current position.
 
-      const currentPoint = this.pathToFollow.shift();
-      target = this.pathToFollow[0];
+      if (this.pathToFollow) {
+        const currentPoint = this.pathToFollow.shift();
+        target = this.pathToFollow[0];
+      }
     } else {
       target = this.game.player;
     }
@@ -70,7 +72,7 @@ export class Enemy extends GameObject {
     this.sprite.setAnimation();
   }
   draw(ctx) {
-    this.pathfinding.drawPath(ctx);
+    // this.pathfinding.drawPath(ctx);
     this.sprite.draw(ctx);
 
     // ctx.fillStyle = "blue";

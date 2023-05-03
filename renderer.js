@@ -60,8 +60,8 @@ function startGame(assets, gameMode) {
   canvas.width = 900;
   canvas.height = 900;
 
-  let previousTime = null;
-  const gameSpeed = 0.2;
+  let previousTime;
+  const step = 1 / 60;
 
   let game;
   if (gameMode === "single") {
@@ -71,13 +71,19 @@ function startGame(assets, gameMode) {
   }
 
   function animate(currentTime) {
-    const frameTimeDelta = currentTime - previousTime;
-    previousTime = currentTime;
-    game.fps = gameSpeed * frameTimeDelta;
+    if (previousTime === undefined) {
+      previousTime = currentTime;
+    }
+
+    let deltaTime = (currentTime - previousTime) / 1000;
+    while (deltaTime >= step) {
+      game.update();
+      game.dt = deltaTime;
+      deltaTime -= step;
+    }
+    previousTime = currentTime - deltaTime * 1000;
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    game.update();
     game.draw(ctx);
 
     requestAnimationFrame(animate);

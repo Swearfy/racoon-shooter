@@ -8,8 +8,8 @@ export class Player extends GameObject {
     super(type, game, x, y, 0, 0);
 
     this.actionLock = 0;
-    this.shootSpeed = 3;
-    this.bulletSpeed = 4;
+    this.rateOfFire = 3;
+    this.bulletSpeed = 400;
     this.input = new Input(playerIndex);
     this.keys = this.input.playerControls[playerIndex];
 
@@ -42,9 +42,10 @@ export class Player extends GameObject {
 
     // normalize diagonal velocity
     if (velx !== 0 && velY !== 0) {
-      velx /= Math.sqrt(this.maxSpeed);
-      velY /= Math.sqrt(this.maxSpeed);
+      velx /= Math.sqrt(2);
+      velY /= Math.sqrt(2);
     }
+    console.log(velY, velx);
 
     this.setVelocity(velx, velY);
   }
@@ -62,12 +63,12 @@ export class Player extends GameObject {
       : 0;
 
     if (velX !== 0 && velY !== 0) {
-      velX /= Math.sqrt(this.bulletSpeed);
-      velY /= Math.sqrt(this.bulletSpeed);
+      velX /= Math.sqrt(2);
+      velY /= Math.sqrt(2);
     }
 
     if ((velX !== 0 || velY !== 0) && Date.now() > this.actionLock) {
-      this.actionLock = Date.now() + 1000 / this.shootSpeed;
+      this.actionLock = Date.now() + 1000 / this.rateOfFire;
       this.game.shootBullet(this, velX, velY);
     }
   }
