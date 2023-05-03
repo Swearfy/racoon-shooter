@@ -4,7 +4,7 @@ import { GameObject } from "./gameObject.js";
 import { Pathfinding } from "./pathfinding.js";
 import { Sprite } from "./sprite.js";
 export class Enemy extends GameObject {
-  constructor(type, game, x, y) {
+  constructor(type, game, x, y, player) {
     super(type, game, x, y, 0, 0);
     this.type = type;
 
@@ -16,12 +16,13 @@ export class Enemy extends GameObject {
 
     this.pathfinding = new Pathfinding();
     this.pathToFollow = [];
+    this.player = player;
   }
   findPlayer() {
     this.pathToFollow = this.pathfinding.findPath(
       this.game.currentLevel.matrix,
       this,
-      this.game.player
+      this.player
     );
   }
   moveToTarget() {

@@ -112,19 +112,38 @@ export class Game {
     const x = Math.random() * 900;
     const y = Math.random() * 900;
 
-    const disX1 = this.player.x - x;
-    const disY1 = this.player.y - y;
-    const distance1 = Math.sqrt(disX1 * disX1 + disY1 * disY1);
+    const player1DistX = this.player.x - x;
+    const player1DistY = this.player.y - y;
+    const player1Distance = Math.sqrt(
+      player1DistX * player1DistX + player1DistY * player1DistY
+    );
 
-    if (isBlocked(x, y, type, this.currentLevel) || distance1 < 100) {
+    let closestPlayer = this.player;
+    let closestDistance = player1Distance;
+
+    if (this.player2) {
+      const player2DistX = this.player2.x - x;
+      const player2DistY = this.player2.y - y;
+      const player2Distance = Math.sqrt(
+        player2DistX * player2DistX + player2DistY * player2DistY
+      );
+
+      if (player2Distance < closestDistance) {
+        closestPlayer = this.player2;
+        closestDistance = player2Distance;
+      }
+    }
+
+    if (
+      isBlocked(x, y, type, this.currentLevel) ||
+      Math.abs(closestDistance) < 200
+    ) {
       this.createEnemy();
       return;
     }
 
-    // Target the closest player
-    this.enemies.push(new Enemy(type, this, x, y, this.player));
+    this.enemies.push(new Enemy(type, this, x, y, closestPlayer));
   }
-
   spawnEnemy() {
     if (Date.now() > this.enemyTimer) {
       this.enemyTimer = Date.now() + 1000 / this.spawnInterval;
@@ -148,6 +167,10 @@ export class Game {
     document.getElementById("score").innerText = this.score;
     document.getElementById("endScore").innerText = this.score;
     document.getElementById("lives").innerText = this.player.lives;
+    if (this.player2) {
+      document.getElementById("livesDisplay2").style.display = "block";
+      document.getElementById("lives2").innerText = this.player2.lives;
+    }
   }
 
   update() {
@@ -195,13 +218,27 @@ export class Game {
       if (checkObjectCollision(enemy, this.player)) {
         removeFromArray(this.enemies, enemy);
         this.player.lives--;
-        if (this.player.lives === 0) {
+      }
+      if (this.player.lives === 0) {
+        this.gameState = "lost";
+        document.getElementById("game").style.display = "none";
+        document.getElementById("gameMenu").style.display = "flex";
+        document.getElementById("GameOverScreen").style.display = "flex";
+      }
+
+      if (this.player2) {
+        if (checkObjectCollision(enemy, this.player2)) {
+          removeFromArray(this.enemies, enemy);
+          this.player2.lives--;
+        }
+        if (this.player2.lives === 0) {
           this.gameState = "lost";
           document.getElementById("game").style.display = "none";
           document.getElementById("gameMenu").style.display = "flex";
           document.getElementById("GameOverScreen").style.display = "flex";
         }
       }
+
       this.bullets.forEach((bullet) => {
         if (checkObjectCollision(bullet, enemy)) {
           enemy.lives--;
@@ -225,7 +262,6 @@ export class Game {
 
     // update score
     this.updateScore();
-    console.log(this.gameState);
   }
 
   draw(ctx) {

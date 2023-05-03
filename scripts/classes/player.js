@@ -45,7 +45,6 @@ export class Player extends GameObject {
       velx /= Math.sqrt(2);
       velY /= Math.sqrt(2);
     }
-    console.log(velY, velx);
 
     this.setVelocity(velx, velY);
   }
