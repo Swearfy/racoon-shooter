@@ -18,12 +18,12 @@ export class Game {
     this.dt = 0;
     this.level = 1;
 
-    this.bulletSound = new Audio("../assets/audio/bulletsound.mp3");
-    this.enemyHit = new Audio("../assets/audio/Hitdamage.wav");
+    this.bulletSound = new Audio("./assets/audio/bulletsound.mp3");
+    this.enemyHit = new Audio("./assets/audio/Hitdamage.wav");
 
-    this.playerHit = new Audio("../assets/audio/playerHit.wav");
-    this.gameOverSound = new Audio("../assets/audio/gameover.mp3");
-    this.powerUpSound = new Audio("../assets/audio/pickPowerSound.wav");
+    this.playerHit = new Audio("./assets/audio/playerHit.wav");
+    this.gameOverSound = new Audio("./assets/audio/gameover.mp3");
+    this.powerUpSound = new Audio("./assets/audio/pickPowerSound.wav");
 
     this.bulletSound.volume = 0.2;
     this.enemyHit.volume = 0.2;
@@ -255,18 +255,21 @@ export class Game {
         }
         this.door = null;
       }
-      if (this.player2 && checkObjectCollision(this.player2, this.door)) {
-        this.level++;
-        this.gameState = "running";
-        countdownDisplay.style.width = this.width + "px";
-        this.powerUps = [];
 
-        this.startCountdown();
-        this.player.x = playerX;
-        this.player.y = playerY;
-        this.player2.x = playerX2;
-        this.player2.y = playerY2;
-        this.door = null;
+      if (this.player2 && this.door) {
+        if (checkObjectCollision(this.player2, this.door)) {
+          this.level++;
+          this.gameState = "running";
+          countdownDisplay.style.width = this.width + "px";
+          this.powerUps = [];
+
+          this.startCountdown();
+          this.player.x = playerX;
+          this.player.y = playerY;
+          this.player2.x = playerX2;
+          this.player2.y = playerY2;
+          this.door = null;
+        }
       }
     }
 
@@ -326,7 +329,6 @@ export class Game {
 
       if (this.player2 && checkObjectCollision(powerUp, this.player2)) {
         this.powerUpSound.play();
-        this.powerUpSound.volume = 10;
         powerUp.applyEffect(this.player2);
         removeFromArray(this.powerUps, powerUp);
       }

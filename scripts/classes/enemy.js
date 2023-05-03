@@ -36,7 +36,7 @@ export class Enemy extends GameObject {
         target = this.pathToFollow[0];
       }
     } else {
-      target = this.game.player;
+      target = this.player;
     }
 
     // Calculate the direction vector.

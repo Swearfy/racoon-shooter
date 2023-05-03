@@ -9,7 +9,7 @@
     "maxSpeed": 100,
     "lives": 2,
     "image": "./assets/img/opossum.png",
-    "pathFinding": true,
+    "pathFinding": false,
     "collision": true,
     "points": 2
   },
