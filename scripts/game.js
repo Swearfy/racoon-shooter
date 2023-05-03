@@ -18,6 +18,19 @@ export class Game {
     this.dt = 0;
     this.level = 1;
 
+    this.bulletSound = new Audio("../assets/audio/bulletsound.mp3");
+    this.enemyHit = new Audio("../assets/audio/Hitdamage.wav");
+
+    this.playerHit = new Audio("../assets/audio/playerHit.wav");
+    this.gameOverSound = new Audio("../assets/audio/gameover.mp3");
+    this.powerUpSound = new Audio("../assets/audio/pickPowerSound.wav");
+
+    this.bulletSound.volume = 0.2;
+    this.enemyHit.volume = 0.2;
+    this.playerHit.volume = 0.2;
+    this.gameOverSound.volume = 0.2;
+    this.powerUpSound.volume = 0.1;
+
     this.currentLevel = new Matrix(this, this.gameLevels[this.level], 30);
 
     const { x: playerX, y: playerY } = this.gameLevels[this.level].player1Pos;
@@ -105,6 +118,7 @@ export class Game {
   }
 
   shootBullet(gameObject, velX, velY, dmg) {
+    this.bulletSound.play();
     this.bullets.push(
       new Bullet(
         this.gameObjects.bullet,
@@ -261,26 +275,33 @@ export class Game {
       enemy.update(this.currentLevel);
       if (checkObjectCollision(enemy, this.player)) {
         removeFromArray(this.enemies, enemy);
+        this.playerHit.play();
+
         this.player.lives--;
         if (this.player.lives === 0) {
           this.gameState = "lost";
+          this.gameOverSound.play();
           gameOverScreen(this.gameState);
         }
       }
 
       //player 2 lives
-
       if (this.player2 && checkObjectCollision(enemy, this.player2)) {
         removeFromArray(this.enemies, enemy);
+        this.playerHit.play();
+
         this.player2.lives--;
         if (this.player2.lives === 0) {
           this.gameState = "lost";
+          this.gameOverSound.play();
+
           gameOverScreen(this.gameState);
         }
       }
 
       this.bullets.forEach((bullet) => {
         if (checkObjectCollision(bullet, enemy)) {
+          this.enemyHit.play();
           enemy.lives--;
           if (enemy.lives === 0) {
             removeFromArray(this.enemies, enemy);
@@ -296,12 +317,16 @@ export class Game {
 
     this.powerUps.forEach((powerUp) => {
       if (checkObjectCollision(powerUp, this.player)) {
+        this.powerUpSound.play();
+
         powerUp.applyEffect(this.player);
         console.log(powerUp);
         removeFromArray(this.powerUps, powerUp);
       }
 
       if (this.player2 && checkObjectCollision(powerUp, this.player2)) {
+        this.powerUpSound.play();
+        this.powerUpSound.volume = 10;
         powerUp.applyEffect(this.player2);
         removeFromArray(this.powerUps, powerUp);
       }
