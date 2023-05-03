@@ -19,7 +19,7 @@ export class Game {
 
     this.currentLevel = new Matrix(this, this.gameLevels[this.level], 30);
 
-    const { x: playerX, y: playerY } = this.gameLevels[this.level].playerPos;
+    const { x: playerX, y: playerY } = this.gameLevels[this.level].player1Pos;
 
     this.player = new Player(
       this.gameObjects.player,
@@ -30,7 +30,16 @@ export class Game {
     );
 
     if (numberOfPlayers === 2) {
-      this.player2 = new Player(this.gameObjects.player, this, 600, 300, 2);
+      const { x: playerX2, y: playerY2 } =
+        this.gameLevels[this.level].player2Pos;
+
+      this.player2 = new Player(
+        this.gameObjects.player,
+        this,
+        playerX2,
+        playerY2,
+        2
+      );
     } else {
       this.player2 = null;
     }
@@ -198,9 +207,14 @@ export class Game {
 
       const { x: doorX, y: doorY } = this.gameLevels[this.level].doorPos;
 
-      const { x: playerX, y: playerY } = this.gameLevels[this.level].playerPos;
-
       this.door = new Door(this, doorX, doorY, 100, 100);
+
+      const { x: playerX, y: playerY } =
+        this.gameLevels[this.level + 1].player1Pos;
+      const { x: playerX2, y: playerY2 } =
+        this.gameLevels[this.level + 1].player2Pos;
+
+      console.log(playerX, playerY);
 
       if (checkObjectCollision(this.player, this.door)) {
         this.level++;
@@ -210,6 +224,24 @@ export class Game {
         this.startCountdown();
         this.player.x = playerX;
         this.player.y = playerY;
+
+        if (this.player2) {
+          this.player2.x = playerX2;
+          this.player2.y = playerY2;
+        }
+      }
+      if (this.player2) {
+        if (checkObjectCollision(this.player2, this.door)) {
+          this.level++;
+          this.gameState = "running";
+          countdownDisplay.style.width = this.width + "px";
+
+          this.startCountdown();
+          this.player.x = playerX;
+          this.player.y = playerY;
+          this.player2.x = playerX2;
+          this.player2.y = playerY2;
+        }
       }
     }
 
