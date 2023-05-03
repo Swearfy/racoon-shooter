@@ -67,17 +67,22 @@ h2 {
   top: 50%;
   transform: translate(-50%, -50%);
   position: absolute;
-  max-width: 100%;
-  max-height: 100%;
+  max-width: 900px;
+  max-height: 900px;
   display: none;
   border: black 5px solid;
+}
+
+canvas {
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .timerBox {
   position: absolute;
   top: 0%;
-  width: 900px;
-  height: 30px;
+  width: 100%;
+  height: 3%;
   background-color: black;
 }
 #timer {
@@ -89,8 +94,8 @@ h2 {
 #livesDisplay {
   position: absolute;
   top: 4%;
-  width: 150px;
-  height: 30px;
+  width: 10%;
+  height: 3%;
   background-color: black;
 }
 #livesDisplay2 {
@@ -98,16 +103,16 @@ h2 {
   display: none;
   top: 4%;
   right: 0;
-  width: 150px;
-  height: 30px;
+  width: 10%;
+  height: 3%;
   background-color: black;
 }
 
 #powerUps {
   position: absolute;
   top: 8%;
-  width: 150px;
-  height: 30px;
+  width: 10%;
+  height: 3%;
   background-color: black;
 }
 
@@ -115,8 +120,8 @@ h2 {
   position: absolute;
   top: 8%;
   right: 0%;
-  width: 150px;
-  height: 30px;
+  width: 10%;
+  height: 3%;
   background-color: black;
 }
 

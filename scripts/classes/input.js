@@ -26,8 +26,14 @@ export class Input {
       },
     };
 
-    window.addEventListener("keydown", (e) => this.setPressedKey(e, true));
-    window.addEventListener("keyup", (e) => this.setPressedKey(e, false));
+    window.addEventListener("keydown", (e) => {
+      e.preventDefault();
+      this.setPressedKey(e, true);
+    });
+    window.addEventListener("keyup", (e) => {
+      e.preventDefault();
+      this.setPressedKey(e, false);
+    });
 
     window.addEventListener("gamepadconnected", (e) => {
       console.log("connected");
