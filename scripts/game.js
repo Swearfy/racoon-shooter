@@ -5,6 +5,7 @@ import { Bullet } from "./classes/bullet.js";
 import { isBlocked, removeFromArray } from "./utils/utils.js";
 import { checkObjectCollision } from "./utils/checkEntityCollision.js";
 import { Door } from "./classes/door.js";
+import { PowerUp } from "./classes/powerUp.js";
 
 const countdownDisplay = document.getElementById("timer");
 
@@ -46,6 +47,7 @@ export class Game {
 
     this.bullets = [];
     this.enemies = [];
+    this.powerUps = [];
 
     this.gameState = "running";
 
@@ -102,7 +104,7 @@ export class Game {
     }, 1000);
   }
 
-  shootBullet(gameObject, velX, velY) {
+  shootBullet(gameObject, velX, velY, dmg) {
     this.bullets.push(
       new Bullet(
         this.gameObjects.bullet,
@@ -111,7 +113,7 @@ export class Game {
         gameObject.top + gameObject.height / 2.3,
         velX,
         velY,
-        1
+        dmg
       )
     );
   }
@@ -172,7 +174,7 @@ export class Game {
     }
   }
 
-  updateScore() {
+  updateUI() {
     document.getElementById("score").innerText = this.score;
     document.getElementById("endScore").innerText = this.score;
     document.getElementById("lives").innerText = this.player.lives;
@@ -192,12 +194,18 @@ export class Game {
       this.spawnEnemy();
     }
 
+    // update ui
+    if (this.gameState === "change-level" || this.gameState === "running") {
+      this.updateUI();
+    }
+
     //player update and stuff
     this.player.update(this.currentLevel);
     if (this.player2) {
       this.player2.update(this.currentLevel);
     }
 
+    // changing  level
     if (this.gameState === "change-level" && this.enemies.length === 0) {
       if (!this.gameLevels[this.level + 1]) {
         this.gameState = "won";
@@ -207,19 +215,21 @@ export class Game {
 
       const { x: doorX, y: doorY } = this.gameLevels[this.level].doorPos;
 
-      this.door = new Door(this, doorX, doorY, 100, 100);
+      // creating door
+      this.door = new Door(this.gameObjects.door, this, doorX, doorY);
 
+      // getting player positions of next level
       const { x: playerX, y: playerY } =
         this.gameLevels[this.level + 1].player1Pos;
       const { x: playerX2, y: playerY2 } =
         this.gameLevels[this.level + 1].player2Pos;
 
-      console.log(playerX, playerY);
-
+      // check collision with door
       if (checkObjectCollision(this.player, this.door)) {
         this.level++;
         this.gameState = "running";
         countdownDisplay.style.width = this.width + "px";
+        this.powerUps = [];
 
         this.startCountdown();
         this.player.x = playerX;
@@ -229,19 +239,20 @@ export class Game {
           this.player2.x = playerX2;
           this.player2.y = playerY2;
         }
+        this.door = null;
       }
-      if (this.player2) {
-        if (checkObjectCollision(this.player2, this.door)) {
-          this.level++;
-          this.gameState = "running";
-          countdownDisplay.style.width = this.width + "px";
+      if (this.player2 && checkObjectCollision(this.player2, this.door)) {
+        this.level++;
+        this.gameState = "running";
+        countdownDisplay.style.width = this.width + "px";
+        this.powerUps = [];
 
-          this.startCountdown();
-          this.player.x = playerX;
-          this.player.y = playerY;
-          this.player2.x = playerX2;
-          this.player2.y = playerY2;
-        }
+        this.startCountdown();
+        this.player.x = playerX;
+        this.player.y = playerY;
+        this.player2.x = playerX2;
+        this.player2.y = playerY2;
+        this.door = null;
       }
     }
 
@@ -251,30 +262,31 @@ export class Game {
       if (checkObjectCollision(enemy, this.player)) {
         removeFromArray(this.enemies, enemy);
         this.player.lives--;
-      }
-      if (this.player.lives === 0) {
-        this.gameState = "lost";
-        gameOverScreen(this.gameState);
+        if (this.player.lives === 0) {
+          this.gameState = "lost";
+          gameOverScreen(this.gameState);
+        }
       }
 
-      if (this.player2) {
-        if (checkObjectCollision(enemy, this.player2)) {
-          removeFromArray(this.enemies, enemy);
-          this.player2.lives--;
-        }
+      //player 2 lives
+
+      if (this.player2 && checkObjectCollision(enemy, this.player2)) {
+        removeFromArray(this.enemies, enemy);
+        this.player2.lives--;
         if (this.player2.lives === 0) {
           this.gameState = "lost";
           gameOverScreen(this.gameState);
         }
       }
 
-      console.log(this.gameState);
-
       this.bullets.forEach((bullet) => {
         if (checkObjectCollision(bullet, enemy)) {
           enemy.lives--;
           if (enemy.lives === 0) {
             removeFromArray(this.enemies, enemy);
+            this.powerUps.push(
+              new PowerUp(this.gameObjects.life, this, enemy.x, enemy.y)
+            );
             this.score += enemy.points;
           }
           removeFromArray(this.bullets, bullet);
@@ -282,37 +294,59 @@ export class Game {
       });
     });
 
+    this.powerUps.forEach((powerUp) => {
+      if (checkObjectCollision(powerUp, this.player)) {
+        powerUp.applyEffect(this.player);
+        console.log(powerUp);
+        removeFromArray(this.powerUps, powerUp);
+      }
+
+      if (this.player2 && checkObjectCollision(powerUp, this.player2)) {
+        powerUp.applyEffect(this.player2);
+        removeFromArray(this.powerUps, powerUp);
+      }
+    });
+
     // bullet update
     this.bullets.forEach((bullet) => {
       bullet.update(this.currentLevel);
       if (bullet.collide === true) {
-        // Removes the bullet from the bullet list.
+        // Removes the bullet from the bullet list if it hits wall
         removeFromArray(this.bullets, bullet);
       }
     });
-
-    // update score
-    this.updateScore();
   }
 
   draw(ctx) {
+    // draw background of map
     this.currentLevel.draw(ctx);
+    // draw overlay of map
     this.currentLevel.drawOverlay(ctx);
 
+    // if the door exists draw it
     if (this.door) {
       this.door.draw(ctx);
     }
 
+    // player 1 draw
     this.player.draw(ctx);
+    // player 2 draw if exist
     if (this.player2) {
       this.player2.draw(ctx);
     }
+
+    // draw bullets
     this.bullets.forEach((bullet) => {
       bullet.draw(ctx);
     });
 
+    // draw enemies
     this.enemies.forEach((enemy) => {
       enemy.draw(ctx);
+    });
+
+    this.powerUps.forEach((power) => {
+      power.draw(ctx);
     });
   }
 }

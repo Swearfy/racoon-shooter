@@ -62,5 +62,76 @@
     "maxSpeed": 200,
     "lives": 3,
     "image": "#"
+  },
+  "door": {
+    "width": 100,
+    "height": 100,
+    "spriteWidth": 0,
+    "spriteHeight": 0,
+    "offsetX": 0,
+    "offsetY": 0,
+    "maxSpeed": 0,
+    "lives": 0,
+    "image": "#"
+  },
+  "life": {
+    "width": 10,
+    "height": 10,
+    "spriteWidth": 0,
+    "spriteHeight": 0,
+    "offsetX": 0,
+    "offsetY": 0,
+    "maxSpeed": 0,
+    "lives": 1,
+    "image": "#",
+    "powerUp": "life"
+  },
+  "speed": {
+    "width": 10,
+    "height": 10,
+    "spriteWidth": 0,
+    "spriteHeight": 0,
+    "offsetX": 0,
+    "offsetY": 0,
+    "maxSpeed": 100,
+    "lives": 0,
+    "image": "#",
+    "powerUp": "speed"
+  },
+  "fireRate": {
+    "width": 10,
+    "height": 10,
+    "spriteWidth": 0,
+    "spriteHeight": 0,
+    "offsetX": 0,
+    "offsetY": 0,
+    "maxSpeed": 100,
+    "lives": 0,
+    "image": "#",
+    "powerUp": "fireRate"
+  },
+  "dmgBoost": {
+    "width": 10,
+    "height": 10,
+    "spriteWidth": 0,
+    "spriteHeight": 0,
+    "offsetX": 0,
+    "offsetY": 0,
+    "maxSpeed": 100,
+    "lives": 1,
+    "image": "#",
+    "powerUp": "dmgBoot"
+  },
+  "multiShoot": {
+    "width": 10,
+    "height": 10,
+    "spriteWidth": 0,
+    "spriteHeight": 0,
+    "offsetX": 0,
+    "offsetY": 0,
+    "maxSpeed": 0,
+    "lives": 1,
+    "image": "#",
+    "powerUp": "multiShoot"
   }
 }
