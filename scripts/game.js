@@ -73,7 +73,7 @@ export class Game {
     const interval = setInterval(() => {
       seconds--;
 
-      if (this.gameState === "lost" || this.gameState === "finished") {
+      if (this.gameState === "lost" || this.gameState === "won") {
         clearInterval(interval);
         return;
       }
@@ -191,7 +191,8 @@ export class Game {
 
     if (this.gameState === "change-level" && this.enemies.length === 0) {
       if (!this.gameLevels[this.level + 1]) {
-        this.gameState = "finished";
+        this.gameState = "won";
+        gameOverScreen(this.gameState);
         return;
       }
 
@@ -221,9 +222,7 @@ export class Game {
       }
       if (this.player.lives === 0) {
         this.gameState = "lost";
-        document.getElementById("game").style.display = "none";
-        document.getElementById("gameMenu").style.display = "flex";
-        document.getElementById("GameOverScreen").style.display = "flex";
+        gameOverScreen(this.gameState);
       }
 
       if (this.player2) {
@@ -233,11 +232,11 @@ export class Game {
         }
         if (this.player2.lives === 0) {
           this.gameState = "lost";
-          document.getElementById("game").style.display = "none";
-          document.getElementById("gameMenu").style.display = "flex";
-          document.getElementById("GameOverScreen").style.display = "flex";
+          gameOverScreen(this.gameState);
         }
       }
+
+      console.log(this.gameState);
 
       this.bullets.forEach((bullet) => {
         if (checkObjectCollision(bullet, enemy)) {
@@ -284,4 +283,11 @@ export class Game {
       enemy.draw(ctx);
     });
   }
+}
+
+function gameOverScreen(outcome) {
+  document.getElementById("game").style.display = "none";
+  document.getElementById("gameMenu").style.display = "flex";
+  document.getElementById("GameOverScreen").style.display = "flex";
+  document.getElementById("outcome").innerText = `You ${outcome}!`;
 }
