@@ -1,7 +1,8 @@
 import { checkTileCollision } from "../utils/checkTileCollision.js";
-import { toIndex } from "../utils/utils.js";
+import { getSpawnChance, toIndex } from "../utils/utils.js";
 import { GameObject } from "./gameObject.js";
 import { Pathfinding } from "./pathfinding.js";
+import { PowerUp } from "./powerUp.js";
 import { Sprite } from "./sprite.js";
 export class Enemy extends GameObject {
   constructor(type, game, x, y, player) {
@@ -17,6 +18,14 @@ export class Enemy extends GameObject {
     this.pathfinding = new Pathfinding();
     this.pathToFollow = [];
     this.player = player;
+
+    this.powerUpChance = [
+      { type: "life", spawnChance: 5 },
+      { type: "speed", spawnChance: 10 },
+      { type: "fireRate", spawnChance: 10 },
+      { type: "dmgBoost", spawnChance: 10 },
+      { type: "multiShoot", spawnChance: 0 },
+    ];
   }
   findPlayer() {
     this.pathToFollow = this.pathfinding.findPath(
@@ -64,6 +73,15 @@ export class Enemy extends GameObject {
       this.setVelocity(velX, velY);
     }
   }
+
+  dropPowerUp() {
+    const type = getSpawnChance(this.powerUpChance, this.game);
+    console.log(type);
+    if (type !== undefined) {
+      this.game.powerUps.push(new PowerUp(type, this.game, this.x, this.y));
+    }
+  }
+
   update(level) {
     this.moveToTarget();
     if (this.collision) {

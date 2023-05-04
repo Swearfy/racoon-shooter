@@ -2,7 +2,7 @@ import { Player } from "./classes/player.js";
 import { Enemy } from "./classes/enemy.js";
 import { Matrix } from "./classes/matrix.js";
 import { Bullet } from "./classes/bullet.js";
-import { isBlocked, removeFromArray } from "./utils/utils.js";
+import { getSpawnChance, isBlocked, removeFromArray } from "./utils/utils.js";
 import { checkObjectCollision } from "./utils/checkEntityCollision.js";
 import { Door } from "./classes/door.js";
 import { PowerUp } from "./classes/powerUp.js";
@@ -133,7 +133,8 @@ export class Game {
   }
 
   createEnemy() {
-    const type = this.gameObjects[this.getSpawnChance()];
+    const type = getSpawnChance(this.gameLevels[this.level].enemyTypes, this);
+
     const x = Math.random() * 900;
     const y = Math.random() * 900;
 
@@ -169,22 +170,11 @@ export class Game {
 
     this.enemies.push(new Enemy(type, this, x, y, closestPlayer));
   }
+
   spawnEnemy() {
     if (Date.now() > this.enemyTimer) {
       this.enemyTimer = Date.now() + 1000 / this.spawnInterval;
       this.createEnemy();
-    }
-  }
-
-  getSpawnChance() {
-    const randomNumber = Math.random() * 100;
-    let probability = 0;
-
-    for (let i = 0; i < this.gameLevels[this.level].enemyTypes.length; i++) {
-      probability += this.gameLevels[this.level].enemyTypes[i].spawnChance;
-      if (randomNumber <= probability) {
-        return Object.keys(this.gameObjects)[i];
-      }
     }
   }
 
@@ -224,6 +214,8 @@ export class Game {
       if (!this.gameLevels[this.level + 1]) {
         this.gameState = "won";
         gameOverScreen(this.gameState);
+        saveRun(this.score, this.level, this.gameState);
+
         return;
       }
 
@@ -244,6 +236,7 @@ export class Game {
         this.gameState = "running";
         countdownDisplay.style.width = this.width + "px";
         this.powerUps = [];
+        this.bullets = [];
 
         this.startCountdown();
         this.player.x = playerX;
@@ -262,6 +255,7 @@ export class Game {
           this.gameState = "running";
           countdownDisplay.style.width = this.width + "px";
           this.powerUps = [];
+          this.bullets = [];
 
           this.startCountdown();
           this.player.x = playerX;
@@ -284,7 +278,9 @@ export class Game {
         if (this.player.lives === 0) {
           this.gameState = "lost";
           this.gameOverSound.play();
+
           gameOverScreen(this.gameState);
+          saveRun(this.score, this.level, this.gameState);
         }
       }
 
@@ -299,18 +295,21 @@ export class Game {
           this.gameOverSound.play();
 
           gameOverScreen(this.gameState);
+          saveRun(this.score, this.level, this.gameState);
         }
       }
 
+      // enemy hit by bullets
       this.bullets.forEach((bullet) => {
         if (checkObjectCollision(bullet, enemy)) {
           this.enemyHit.play();
-          enemy.lives--;
-          if (enemy.lives === 0) {
+          enemy.lives -= bullet.dmg;
+          if (enemy.lives <= 0) {
+            if (this.gameState === "running") {
+              enemy.dropPowerUp();
+              console.log("dsa");
+            }
             removeFromArray(this.enemies, enemy);
-            this.powerUps.push(
-              new PowerUp(this.gameObjects.life, this, enemy.x, enemy.y)
-            );
             this.score += enemy.points;
           }
           removeFromArray(this.bullets, bullet);
@@ -321,9 +320,7 @@ export class Game {
     this.powerUps.forEach((powerUp) => {
       if (checkObjectCollision(powerUp, this.player)) {
         this.powerUpSound.play();
-
         powerUp.applyEffect(this.player);
-        console.log(powerUp);
         removeFromArray(this.powerUps, powerUp);
       }
 
@@ -344,6 +341,7 @@ export class Game {
     });
   }
 
+  // DRAW
   draw(ctx) {
     // draw background of map
     this.currentLevel.draw(ctx);
@@ -383,4 +381,33 @@ function gameOverScreen(outcome) {
   document.getElementById("gameMenu").style.display = "flex";
   document.getElementById("GameOverScreen").style.display = "flex";
   document.getElementById("outcome").innerText = `You ${outcome}!`;
+}
+
+function saveRun(score, level, outcome) {
+  const textInput = document.getElementById("saveName").value;
+
+  let name;
+  if (textInput === "") {
+    name = "Save";
+  } else {
+    name = textInput;
+  }
+  const currentScore = {
+    runName: name,
+    score: score,
+    level: level,
+    outcome: outcome,
+  };
+
+  let storedScore = JSON.parse(localStorage.getItem("score"));
+
+  if (storedScore === null) {
+    storedScore = [];
+    storedScore.push(currentScore);
+  } else {
+    storedScore.push(currentScore);
+  }
+
+  localStorage.setItem("score", JSON.stringify(storedScore));
+  document.getElementById("saveName").value = "";
 }

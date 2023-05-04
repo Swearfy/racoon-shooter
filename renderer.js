@@ -13,9 +13,21 @@ async function promise() {
   return { gameObject, gameLevels: { 1: level1, 2: level2, 3: level3 } };
 }
 
+const story = new Audio("./assets/audio/story.wav");
+// const introSong = new Audio(
+//   "./assets/audio/backgroundMusic/Juhani-Junkala-[Retro-Game-Music-Pack]-Title-Screen.wav"
+// );
+// introSong.loop = true;
+
+// const stage1Song = new Audio(
+//   "./assets/audio/backgroundMusic/Juhani-Junkala-[Retro-Game-Music-Pack]-Level-1.wav"
+// );
+
 promise().then((assets) => {
   // start menu
   document.getElementById("startButton").addEventListener("click", () => {
+    story.pause();
+
     document.getElementById("startMenu").style.display = "none";
     document.getElementById("playerSelector").style.display = "flex";
   });
@@ -96,4 +108,67 @@ function turnOffMenu() {
   document.getElementById("playerSelector").style.display = "none";
   document.getElementById("gameMenu").style.display = "none";
   document.getElementById("game").style.display = "block";
+}
+
+document.getElementById("leaderBoard-button").addEventListener("click", () => {
+  document.getElementById("startMenu").style.display = "none";
+  document.getElementById("leaderBoard").style.display = "flex";
+  loadRuns();
+});
+
+// go back button
+document
+  .getElementById("leaderBoard-back-btn")
+  .addEventListener("click", () => {
+    document.getElementById("startMenu").style.display = "flex";
+    document.getElementById("leaderBoard").style.display = "none";
+  });
+
+document.getElementById("storyButton").addEventListener("click", () => {
+  story.play();
+});
+
+const container = document.getElementById("scoresContainers");
+function loadRuns() {
+  let storedScore = JSON.parse(localStorage.getItem("score"));
+
+  container.innerHTML = "";
+
+  if (storedScore) {
+    storedScore.forEach((elem) => {
+      createContainer(elem.runName, elem.outcome, elem.score, elem.level);
+    });
+  }
+}
+
+function createContainer(name, outcome, score, level) {
+  const scoreClass = document.createElement("div");
+  scoreClass.classList.add("score");
+
+  const nameContainer = document.createElement("div");
+  const nameText = document.createElement("span");
+  nameText.innerText = name;
+  nameContainer.append(nameText);
+
+  const outcomeContainer = document.createElement("div");
+  const outcomeText = document.createElement("span");
+  outcomeText.innerText = outcome;
+  outcomeContainer.append(outcomeText);
+
+  const scoreContainer = document.createElement("div");
+  const scoreText = document.createElement("span");
+  scoreText.innerText = score;
+  scoreContainer.append(scoreText);
+
+  const levelContainer = document.createElement("div");
+  const levelText = document.createElement("span");
+  levelText.innerText = level;
+  levelContainer.append(levelText);
+
+  scoreClass.append(nameContainer);
+  scoreClass.append(outcomeContainer);
+  scoreClass.append(scoreContainer);
+  scoreClass.append(levelContainer);
+
+  container.append(scoreClass);
 }

@@ -109,3 +109,20 @@ export function isBlocked(x, y, gameObject, level) {
   }
   return false;
 }
+
+/**
+ * Probability chance of spawning/ dropping game object
+ * @param {*} array
+ * @returns gameObject
+ */
+export function getSpawnChance(arr, game) {
+  const randomNumber = Math.random() * 100;
+  let probability = 0;
+
+  for (let i = 0; i < arr.length; i++) {
+    probability += arr[i].spawnChance;
+    if (randomNumber <= probability) {
+      return game.gameObjects[arr[i].type];
+    }
+  }
+}

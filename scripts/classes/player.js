@@ -12,6 +12,7 @@ export class Player extends GameObject {
     this.bulletSpeed = 400;
     this.input = new Input(playerIndex);
     this.keys = this.input.playerControls[playerIndex];
+    this.dmg = 1;
 
     // stuff for animation
     this.sprite = new Sprite(this, 20);
@@ -68,7 +69,7 @@ export class Player extends GameObject {
 
     if ((velX !== 0 || velY !== 0) && Date.now() > this.actionLock) {
       this.actionLock = Date.now() + 1000 / this.rateOfFire;
-      this.game.shootBullet(this, velX, velY);
+      this.game.shootBullet(this, velX, velY, this.dmg);
     }
   }
   handleShootAnim(keys) {

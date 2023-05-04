@@ -13,18 +13,31 @@ export class PowerUp extends GameObject {
   applyEffect(player) {
     switch (this.type.powerUp) {
       case "life":
-        player.lives += this.type.lives;
+        if (player.lives < 3) {
+          player.lives += this.type.lives;
+        }
         break;
-      case "damageBoost":
-        player.dmg + 1;
+      case "dmgBoost":
+        if (player.dmg < 2) {
+          player.dmg += this.type.dmgBoost;
+        } else {
+          player.dmg += this.type.dmgBoost;
+          setTimeout(() => {
+            player.dmg -= this.type.dmgBoost;
+          }, 2000);
+        }
         break;
-
       case "speed":
-        player.maxSpeed += 200;
+        player.maxSpeed += this.type.maxSpeed;
+        setTimeout(() => {
+          player.maxSpeed -= this.type.maxSpeed;
+        }, 2000);
         break;
-
       case "fireRate":
-        player.rateOfFire + 1;
+        player.rateOfFire += this.type.fireRate;
+        setTimeout(() => {
+          player.rateOfFire -= this.type.fireRate;
+        }, 2000);
         break;
     }
   }

@@ -25,6 +25,9 @@ img {
   width: 200px;
 }
 
+#leaderBoard {
+  align-items: center;
+}
 #startMenu {
   display: flex;
 }
@@ -139,4 +142,25 @@ canvas {
   justify-content: center;
   gap: 20px;
   width: 250px;
+}
+
+.leaderBoardConatiner {
+  background-color: rgb(63, 63, 63);
+  width: auto;
+}
+
+#scoresContainers {
+  display: flex;
+  flex-direction: column;
+}
+
+.score {
+  display: flex;
+  flex-direction: row;
+}
+
+.score div {
+  border: #222 solid 1px;
+  padding: 20px;
+  width: 80px;
 }

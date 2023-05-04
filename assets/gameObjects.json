@@ -37,7 +37,7 @@
     "maxSpeed": 80,
     "lives": 4,
     "image": "./assets/img/bear.png",
-    "pathFinding": false,
+    "pathFinding": true,
     "collision": true,
     "points": 4
   },
@@ -108,7 +108,8 @@
     "maxSpeed": 100,
     "lives": 0,
     "image": "#",
-    "powerUp": "fireRate"
+    "powerUp": "fireRate",
+    "fireRate": 1
   },
   "dmgBoost": {
     "width": 10,
@@ -120,7 +121,8 @@
     "maxSpeed": 100,
     "lives": 1,
     "image": "#",
-    "powerUp": "dmgBoot"
+    "powerUp": "dmgBoost",
+    "dmgBoost": 1
   },
   "multiShoot": {
     "width": 10,
