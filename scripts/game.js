@@ -346,7 +346,6 @@ export class Game {
     // draw background of map
     this.currentLevel.draw(ctx);
     // draw overlay of map
-    this.currentLevel.drawOverlay(ctx);
 
     // if the door exists draw it
     if (this.door) {
@@ -373,6 +372,7 @@ export class Game {
     this.powerUps.forEach((power) => {
       power.draw(ctx);
     });
+    this.currentLevel.drawOverlay(ctx);
   }
 }
 
@@ -409,5 +409,4 @@ function saveRun(score, level, outcome) {
   }
 
   localStorage.setItem("score", JSON.stringify(storedScore));
-  document.getElementById("saveName").value = "";
 }

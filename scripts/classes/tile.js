@@ -7,12 +7,6 @@ export class Tile {
     this.tileSize = tileSize;
     this.walkable = !!walkable;
   }
-  get centerX() {
-    return this.x * this.tileSize + this.tileSize / 2;
-  }
-  get centerY() {
-    return this.y * this.tileSize + this.tileSize / 2;
-  }
   get top() {
     return this.y * this.tileSize;
   }
@@ -82,18 +76,18 @@ export class Tile {
       this.tileSize,
       this.tileSize
     );
-    ctx.strokeRect(
-      this.x * this.tileSize,
-      this.y * this.tileSize,
-      this.tileSize,
-      this.tileSize
-    );
-    ctx.fillStyle = "white";
-    ctx.font = "10px Arial";
-    ctx.fillText(
-      `(${this.x},${this.y})`,
-      this.x * this.tileSize,
-      (this.y + 1) * this.tileSize - 2
-    );
+    // ctx.strokeRect(
+    //   this.x * this.tileSize,
+    //   this.y * this.tileSize,
+    //   this.tileSize,
+    //   this.tileSize
+    // );
+    // ctx.fillStyle = "white";
+    // ctx.font = "10px Arial";
+    // ctx.fillText(
+    //   `(${this.x},${this.y})`,
+    //   this.x * this.tileSize,
+    //   (this.y + 1) * this.tileSize - 2
+    // );
   }
 }

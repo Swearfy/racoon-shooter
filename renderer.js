@@ -4,13 +4,31 @@ async function promise() {
   const level1Data = await fetch("./assets/levels/level1.json");
   const level2Data = await fetch("./assets/levels/level2.json");
   const level3Data = await fetch("./assets/levels/level3.json");
+  const level4Data = await fetch("./assets/levels/level4.json");
+  const level5Data = await fetch("./assets/levels/level5.json");
+  const level6Data = await fetch("./assets/levels/level6.json");
+
   const response = await fetch("./assets/gameObjects.json");
   const gameObject = await response.json();
+
   const level1 = await level1Data.json();
   const level2 = await level2Data.json();
   const level3 = await level3Data.json();
+  const level4 = await level4Data.json();
+  const level5 = await level5Data.json();
+  const level6 = await level6Data.json();
 
-  return { gameObject, gameLevels: { 1: level1, 2: level2, 3: level3 } };
+  return {
+    gameObject,
+    gameLevels: {
+      1: level1,
+      2: level2,
+      3: level3,
+      4: level4,
+      5: level5,
+      6: level6,
+    },
+  };
 }
 
 const story = new Audio("./assets/audio/story.wav");
