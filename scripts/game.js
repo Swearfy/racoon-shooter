@@ -91,7 +91,7 @@ export class Game {
 
   startCountdown() {
     let initialWidth = countdownDisplay.offsetWidth; // get initial width of countdownDisplay element
-    let seconds = 5;
+    let seconds = 60;
     const stepDiameter = initialWidth / seconds;
 
     const interval = setInterval(() => {
